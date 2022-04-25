@@ -1,0 +1,23 @@
+[
+  {
+    "RestaurantName": "Hell\u0027s Kitchen",
+    "StarsTaste": 5,
+    "StarsMood": 5,
+    "StarsService": 4,
+    "StarsPrice": 3
+  },
+  {
+    "RestaurantName": "McDuck",
+    "StarsTaste": 3,
+    "StarsMood": 2,
+    "StarsService": 1,
+    "StarsPrice": 4
+  },
+  {
+    "RestaurantName": "Hell\u0027s Kitchen",
+    "StarsTaste": 5,
+    "StarsMood": 5,
+    "StarsService": 5,
+    "StarsPrice": 5
+  }
+]

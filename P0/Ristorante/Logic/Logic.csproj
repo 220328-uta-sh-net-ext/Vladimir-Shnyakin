@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ReviewModel\Models.csproj" />
     <ProjectReference Include="..\Reviews\RateAppDL.csproj" />
   </ItemGroup>
 
