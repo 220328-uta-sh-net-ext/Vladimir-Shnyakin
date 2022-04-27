@@ -14,12 +14,9 @@
         }
         public Review AddReview(string restaurantName)
         {
-            
-            //Repository repo = new Repository();
             Review newReview = new Review();
 
             Console.Write($"Please rate taste of food at \"{restaurantName}\" ");
-            //newReview.StarsTaste = Convert.ToInt32(Console.ReadLine());
             newReview.StarsTaste = ValidRating.FiveStars();
             Console.Write($"Please rate mood at \"{restaurantName}\" ");
             newReview.StarsMood = ValidRating.FiveStars();
@@ -28,8 +25,6 @@
             Console.Write($"Please rate price at \"{restaurantName}\" ");
             newReview.StarsPrice = ValidRating.FiveStars();
 
-
-            
             Console.WriteLine("\nReview saved!\n");
             return repo.AddReview(restaurantName, newReview);
         }
@@ -42,6 +37,7 @@
             var restaurants = allrestaurants.SeeAllRestaurants();
             foreach (var restaurant in restaurants)
             {
+                ValidRating.OverallRating(restaurant);
                 Console.WriteLine(restaurant.ToString());
                 //Console.WriteLine(restaurant.RestaurantName);
             }
@@ -50,11 +46,6 @@
         {
             var restaurants = allrestaurants.SeeAllRestaurants();
             return restaurants[index].RestaurantName;
-        }
-        public static Restaurant SeeAllRestaurants2(int index)
-        {
-            var restaurants = allrestaurants.SeeAllRestaurants();
-            return restaurants[index];
         }
     }
 }

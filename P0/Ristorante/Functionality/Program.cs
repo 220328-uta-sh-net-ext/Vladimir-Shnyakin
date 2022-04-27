@@ -39,7 +39,7 @@ while (repeat)
 
     switch (ans)
     {
-        case "SearchPokemon":
+        case "SearchRestaurant":
             //call SearchPokemon method
             Console.WriteLine("SearchPokemon() Method implementation is in progress....");
             break;

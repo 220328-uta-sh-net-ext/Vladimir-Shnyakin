@@ -26,26 +26,24 @@
         }
         public static void OverallRating(Restaurant toBeRated)
         {
-            Repository allreviews = new Repository();
-            toBeRated.RestaurantName = RestaurantOperations.SeeAllRestaurants(0); //HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            var reviews = allreviews.SeeAllReviews();
-            var restaurants = allreviews.SeeAllRestaurants();
-            int count = 1;
+            int reviewCount = 0;
             double averageTaste = 0;
             double averageMood = 0;
             double averageService = 0;
             double averagePrice = 0;
-            for (int i = 0; i < restaurants.Count; i++)
-            {
 
-                averageTaste += reviews[i].StarsTaste;
-                averageMood += reviews[i].StarsMood;
-                averageService += reviews[i].StarsService;
-                averagePrice += reviews[i].StarsPrice;
-                count++;
+            for (int i = 0; i < toBeRated.Reviews.Count; i++)
+            {
+                averageTaste += toBeRated.Reviews[i].StarsTaste;
+                averageMood += toBeRated.Reviews[i].StarsMood;
+                averageService += toBeRated.Reviews[i].StarsService;
+                averagePrice += toBeRated.Reviews[i].StarsPrice;
+                reviewCount++;
             }
                 
-            toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / count, 1);
+            toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (reviewCount*4));
+            if (toBeRated.OverallRating == 0)
+                toBeRated.OverallRating = 1;
         }
     }
 }

@@ -24,7 +24,7 @@
                 case "1":
                     return "AddReview";
                 case "2":
-                    return "SearchPokemon";
+                    return "SearchRestaurant";
                 case "3":
                     return "SeeAllReviews";//move inside SeeAllRestaurants
                 case "4":

@@ -7,13 +7,12 @@
         public Review AddReview(string restaurantName, Review newReview)
         {
             var restaurants = SeeAllRestaurants();
-            //var reviews = SeeAllReviews();
+
             foreach (var restaurant in restaurants)
             {
                 if (restaurant.RestaurantName == restaurantName)
                 {
                     restaurant.Reviews.Add(newReview);
-
                     break;
                 }
             }
