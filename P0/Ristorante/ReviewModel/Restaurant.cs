@@ -1,40 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Models
+﻿namespace Models
 {
     public class Restaurant
     {
         public string RestaurantName { get; set; }
-        public double AverageTaste { get; set; }
-        public double AverageMood { get; set; }
-        public double AverageService { get; set; }
-        public double AveragePrice { get; set; }
-        private List<Review> _reviews;
-        public List<Review> Reviews
-        {
-            get { return _reviews; }
-            set { _reviews = value; }
-        }
-
+        public string Cuisine { get; set; }
+        public double OverallRating { get; set; }
+        public List <Review> Reviews { get; set; }
         public Restaurant()
         {
-            RestaurantName = "???";
-            AverageTaste = 0;//ValidRating.AverageRating();
-            AverageMood = 0;
-            AverageService = 0;
-            AveragePrice = 0;
-            _reviews = new List<Review>()
+            Reviews = new List<Review>()
             {
                 new Review()
             };
         }
+        public Restaurant(string name)
+        {
+            RestaurantName = name;
+            Reviews = new List<Review>()
+            {
+                new Review()
+            };
+        }
+        public Restaurant(DataRow row)
+        {
+            RestaurantName = row["RestaurantName"].ToString() ?? "";
+            Cuisine = row["Cuisine"].ToString() ?? "";
+        }
         public override string ToString()
         {
-            return $"Name: {RestaurantName}\nTaste: {AverageTaste}\nMood: {AverageMood}\nService: {AverageService}\nPrice: {AveragePrice}";
+            return $"Name: {RestaurantName}\nCuisine: {Cuisine}\n";
         }
     }
 }

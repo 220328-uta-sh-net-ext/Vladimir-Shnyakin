@@ -1,14 +1,45 @@
-﻿using System.Text.Json;
-using Models;
-namespace RateAppDL
+﻿namespace RateAppDL
 {
     public class Repository : IRepository
     {
-        private string filePath = "/Users/shado/Desktop/Ristorante/Reviews/Database/";
+        private string filePath = "../../../../Reviews/Database/";
         private string jsonString;
-        public Review AddReview(Review newReview)
+        public Review AddReview(string restaurantName, Review newReview)
+        {
+            var restaurants = SeeAllRestaurants();
+            //var reviews = SeeAllReviews();
+            foreach (var restaurant in restaurants)
+            {
+                if (restaurant.RestaurantName == restaurantName)
+                {
+                    restaurant.Reviews.Add(newReview);
+
+                    break;
+                }
+            }
+            var reviewString = JsonSerializer.Serialize<List<Restaurant>>(restaurants, new JsonSerializerOptions { WriteIndented = true });
+            try
+            {
+                File.WriteAllText(filePath + "Restaurants.json", reviewString);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Console.WriteLine("Please check the path, " + ex.Message);
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine("Please check the file name, " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return newReview;
+        }
+        /*public Review AddReview(Review newReview)
         {
             var reviews = SeeAllReviews();
+            
             reviews.Add(newReview);
             var reviewString = JsonSerializer.Serialize<List<Review>>(reviews, new JsonSerializerOptions { WriteIndented = true });
             try
@@ -28,7 +59,7 @@ namespace RateAppDL
                 Console.WriteLine(ex.Message);
             }
             return newReview;
-        }
+        }*/
         public List<Review> SeeAllReviews()
         {
             try

@@ -1,9 +1,4 @@
-﻿using RateApp;
-using RateAppDL;
-using UI;
-using Logic;
-using Models;
-//Console.WriteLine("Welcome! Please enter your email address");
+﻿//Console.WriteLine("Welcome! Please enter your email address");
 //var email = Console.ReadLine();
 //Console.WriteLine($"Please enter your password: ");
 //var password = Console.ReadLine();
@@ -58,10 +53,6 @@ while (repeat)
         case "SeeAllRestaurants":
             Console.WriteLine("\n--------------List of all restaurants---------------");
             RestaurantOperations.SeeAllRestaurants();
-            //var allResto = new Repository();
-            //Console.WriteLine(allResto.SeeAllRestaurants());
-            //Console.WriteLine(ReviewOperations.AvgRating());
-            //Console.WriteLine(ValidRating.CalculateRating());
             Console.WriteLine("------------End of list------------\n");
             break;
         case "MainMenu":

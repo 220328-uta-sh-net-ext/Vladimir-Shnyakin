@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RateAppDL;
-using Models;
-using Logic;
-
-namespace UI
+﻿namespace UI
 {
     internal class AddReviewMenu : IMenu
     {
         private static Review newReview = new Review();
-        private IRepository _repository = new Repository();
+        private ILogic _repository = new ReviewOperations();
 
         public void Display()
         {
@@ -31,7 +22,7 @@ namespace UI
             Console.WriteLine("Choose a restaurant to review from the above list\n");
             Console.WriteLine("<1> " + RestaurantOperations.SeeAllRestaurants(0));
             Console.WriteLine("<2> " + RestaurantOperations.SeeAllRestaurants(1));
-            //Console.WriteLine("<3> " + RestaurantOperations.SeeAllRestaurants(2));
+            Console.WriteLine("<3> " + RestaurantOperations.SeeAllRestaurants(2));
             Console.WriteLine("<0> Go Back");
         }
 
@@ -43,10 +34,13 @@ namespace UI
                 case "0":
                     return "MainMenu";
                 case "1":
-                    ReviewOperations.AddReview();
+                    _repository.AddReview("Hell's Kitchen");
                     return "AddReview";
                 case "2":
-                    ReviewOperations.AddReview();
+                    _repository.AddReview(RestaurantOperations.SeeAllRestaurants(1));
+                    return "AddReview";
+                case "3":
+                    _repository.AddReview(RestaurantOperations.SeeAllRestaurants(2));
                     return "AddReview";
                 default:
                     Console.WriteLine("Please input a valid response");
@@ -83,7 +77,7 @@ namespace UI
                 case "1":
                     return "AddReview";
                 case "2":
-                    _repository.AddReview(newReview);
+                    //_repository.AddReview(newReview);
                     Console.WriteLine("Review saved");
                     return "MainMenu";
                 case "3":

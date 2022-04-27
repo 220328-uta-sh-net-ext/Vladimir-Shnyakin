@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Logic;
-using Models;
-namespace UI
+﻿namespace UI
 {
     class MainMenu : IMenu
     {
@@ -14,7 +7,7 @@ namespace UI
             Console.WriteLine("Welcome to RateApp");
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("Press <4> See all restaurants");
-            Console.WriteLine("Press <3> See all reviews");
+            Console.WriteLine("Press <3> See all reviews");//move inside SeeAllRestaurants
             Console.WriteLine("Press <2> Search reviews");
             Console.WriteLine("Press <1> Review a restaurant");
             Console.WriteLine("Press <0> Exit");
@@ -33,7 +26,7 @@ namespace UI
                 case "2":
                     return "SearchPokemon";
                 case "3":
-                    return "SeeAllReviews";
+                    return "SeeAllReviews";//move inside SeeAllRestaurants
                 case "4":
                     return "SeeAllRestaurants";
                 default:
@@ -44,10 +37,4 @@ namespace UI
             }
         }
     }
-    // private List<Review> allReviews = new List<Review>();
-    //public class Restaurant
-    //{
-    //    string restaurantName = "Hell's Kitchen";
-    //    public string Name { get; set; }
-    //}
 }

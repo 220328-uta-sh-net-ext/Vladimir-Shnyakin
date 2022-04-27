@@ -1,60 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using RateAppDL;
-using Models;
-
-namespace Logic
+﻿namespace Logic
 {
-    public class ReviewOperations
+    public class ReviewOperations : ILogic
     {
-        static Repository allreviews = new Repository();
+        IRepository repo = new Repository();
         public static void SeeAllReviews()
         {
-            var reviews = allreviews.SeeAllReviews();
+            IRepository repo = new Repository();
+            var reviews = repo.SeeAllReviews();
             foreach (var review in reviews)
             {
                 Console.WriteLine(review.ToString());
             }
         }
-
-        public static void AddReview()
+        public Review AddReview(string restaurantName)
         {
-            Repository reviews = new Repository();
             
-
-
+            //Repository repo = new Repository();
             Review newReview = new Review();
-            //Restaurant restaurant = new Restaurant();
-          
-         
-           
-            //IRepository _repository = new Repository();
-            
 
-            //newReview.RestaurantName = RestaurantOperations.SeeAllRestaurants(name);
-
-            Console.Write($"Please rate taste of food at \"{RestaurantOperations.SeeAllRestaurants(0)}\" ");
+            Console.Write($"Please rate taste of food at \"{restaurantName}\" ");
             //newReview.StarsTaste = Convert.ToInt32(Console.ReadLine());
             newReview.StarsTaste = ValidRating.FiveStars();
-            Console.Write($"Please rate taste mood at \"{RestaurantOperations.SeeAllRestaurants(0)}\" ");
+            Console.Write($"Please rate mood at \"{restaurantName}\" ");
             newReview.StarsMood = ValidRating.FiveStars();
-            Console.Write($"Please rate quality of service at \"{RestaurantOperations.SeeAllRestaurants(0)}\" ");
+            Console.Write($"Please rate quality of service at \"{restaurantName}\" ");
             newReview.StarsService = ValidRating.FiveStars();
-            Console.Write($"Please rate price at \"{RestaurantOperations.SeeAllRestaurants(0)}\" ");
+            Console.Write($"Please rate price at \"{restaurantName}\" ");
             newReview.StarsPrice = ValidRating.FiveStars();
-            
-            //reviews.AddRatedRestaurant(restaurant);
-            reviews.AddReview(newReview);
-            
-            //restaurant_repo.AddRatedRestaurant(restaurant);
-            //Restaurant rated = ValidRating.AvgRating();
-            //rated.RestaurantName = RestaurantOperations.SeeAllRestaurants(name);
-            //restaurant_repo.AddRatedRestaurant(rated);
+
+
             
             Console.WriteLine("\nReview saved!\n");
+            return repo.AddReview(restaurantName, newReview);
         }
     }
     public class RestaurantOperations

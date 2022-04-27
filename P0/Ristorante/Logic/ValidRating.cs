@@ -1,6 +1,4 @@
-﻿using RateAppDL;
-using Models;
-namespace Logic
+﻿namespace Logic
 {
     public class ValidRating
     {
@@ -26,11 +24,10 @@ namespace Logic
                     Console.WriteLine("Did you hit wrong button? Please rate from 1 to 5");
             }
         }
-        public static Restaurant AvgRating()
+        public static void OverallRating(Restaurant toBeRated)
         {
             Repository allreviews = new Repository();
-            Restaurant rated = new Restaurant();
-            rated.RestaurantName = RestaurantOperations.SeeAllRestaurants(0); //HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            toBeRated.RestaurantName = RestaurantOperations.SeeAllRestaurants(0); //HERE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             var reviews = allreviews.SeeAllReviews();
             var restaurants = allreviews.SeeAllRestaurants();
             int count = 1;
@@ -48,48 +45,7 @@ namespace Logic
                 count++;
             }
                 
-            rated.AverageTaste= Math.Round(averageTaste / count, 1);
-            rated.AverageMood= Math.Round(averageMood / count, 1);
-            rated.AverageService = Math.Round(averageService / count, 1);
-            rated.AveragePrice = Math.Round(averagePrice / count, 1);
-            return rated;
+            toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / count, 1);
         }
-        /*public static List<Restaurant> CalculateRating()
-        {
-            Restaurant avg = new Restaurant();
-            Repository allrestaurants = new Repository();
-            Repository allreviews = new Repository();
-
-            double averageTaste = 0;
-            double averageMood = 0;
-            double averageService = 0;
-            double averagePrice = 0;
-            var reviews = allreviews.SeeAllReviews();
-            var restaurants = allrestaurants.SeeAllRestaurants();
-            foreach (var review in reviews)
-            {
-                foreach (var restaurant in restaurants)
-                {
-                    if (review.RestaurantName == restaurant.RestaurantName)
-                    {
-                        averageTaste += review.StarsTaste;
-                        averageMood += review.StarsMood;
-                        averageService += review.StarsService;
-                        averagePrice += review.StarsPrice;
-                        avg.RestaurantName = review.RestaurantName;
-                        restaurants.Add(avg);
-                    }
-                }
-            }
-            avg.AverageTaste = Math.Round(averageTaste / reviews.Count(), 1);
-            avg.AverageMood = Math.Round(averageMood / reviews.Count(), 1);
-            avg.AverageService = Math.Round(averageService / reviews.Count(), 1);
-            avg.AveragePrice = Math.Round(averagePrice / reviews.Count(), 1);
-            return restaurants;
-        }*/
-    }
-    public class CalculateRating
-    {
-        
     }
 }

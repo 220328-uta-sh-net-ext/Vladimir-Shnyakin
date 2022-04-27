@@ -1,23 +1,29 @@
 [
   {
+    "StarsTaste": 0,
+    "StarsMood": 0,
+    "StarsService": 0,
+    "StarsPrice": 0,
+    "Note": null,
     "RestaurantName": "Hell\u0027s Kitchen",
-    "StarsTaste": 5,
-    "StarsMood": 5,
-    "StarsService": 4,
-    "StarsPrice": 3
+    "ReviewId": null
   },
   {
+    "StarsTaste": 0,
+    "StarsMood": 0,
+    "StarsService": 0,
+    "StarsPrice": 0,
+    "Note": null,
     "RestaurantName": "McDuck",
-    "StarsTaste": 3,
-    "StarsMood": 2,
-    "StarsService": 1,
-    "StarsPrice": 4
+    "ReviewId": null
   },
   {
-    "RestaurantName": "Hell\u0027s Kitchen",
-    "StarsTaste": 5,
-    "StarsMood": 5,
-    "StarsService": 5,
-    "StarsPrice": 5
+    "StarsTaste": 0,
+    "StarsMood": 0,
+    "StarsService": 0,
+    "StarsPrice": 0,
+    "Note": null,
+    "RestaurantName": "Chicken House",
+    "ReviewId": null
   }
 ]
