@@ -3,7 +3,7 @@
     internal class AddReviewMenu : IMenu
     {
         private static Review newReview = new Review();
-        private ILogic _repository = new ReviewOperations();
+        private ILogic _repository = new Operations();
 
         public void Display()
         {
@@ -17,12 +17,12 @@
 
             Console.WriteLine("Pick a restaurant to review");
             Console.WriteLine("\n--------------List of all restaurants---------------");
-            RestaurantOperations.SeeAllRestaurants();
+            Operations.SeeAllRestaurants();
             Console.WriteLine("------------End of list------------\n");
             Console.WriteLine("Choose a restaurant to review from the above list\n");
-            Console.WriteLine("<1> " + RestaurantOperations.SeeAllRestaurants(0));
-            Console.WriteLine("<2> " + RestaurantOperations.SeeAllRestaurants(1));
-            Console.WriteLine("<3> " + RestaurantOperations.SeeAllRestaurants(2));
+            Console.WriteLine("<1> " + Operations.SeeAllRestaurants(0));
+            Console.WriteLine("<2> " + Operations.SeeAllRestaurants(1));
+            Console.WriteLine("<3> " + Operations.SeeAllRestaurants(2));
             Console.WriteLine("<0> Go Back");
         }
 
@@ -37,10 +37,10 @@
                     _repository.AddReview("Hell's Kitchen");
                     return "AddReview";
                 case "2":
-                    _repository.AddReview(RestaurantOperations.SeeAllRestaurants(1));
+                    _repository.AddReview(Operations.SeeAllRestaurants(1));
                     return "AddReview";
                 case "3":
-                    _repository.AddReview(RestaurantOperations.SeeAllRestaurants(2));
+                    _repository.AddReview(Operations.SeeAllRestaurants(2));
                     return "AddReview";
                 default:
                     Console.WriteLine("Please input a valid response");

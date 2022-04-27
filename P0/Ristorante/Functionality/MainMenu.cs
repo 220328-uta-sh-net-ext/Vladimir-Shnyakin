@@ -8,7 +8,7 @@
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("Press <4> See all restaurants");
             Console.WriteLine("Press <3> See all reviews");//move inside SeeAllRestaurants
-            Console.WriteLine("Press <2> Search reviews");
+            Console.WriteLine("Press <2> Search restaurant");
             Console.WriteLine("Press <1> Review a restaurant");
             Console.WriteLine("Press <0> Exit");
         }

@@ -36,5 +36,10 @@
 
             return newReview;
         }
+
+        public List<Restaurant> SeeAllRestaurants()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

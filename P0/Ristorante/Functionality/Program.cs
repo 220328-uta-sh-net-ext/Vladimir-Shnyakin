@@ -40,19 +40,18 @@ while (repeat)
     switch (ans)
     {
         case "SearchRestaurant":
-            //call SearchPokemon method
-            Console.WriteLine("SearchPokemon() Method implementation is in progress....");
+            menu = new SearchRestaurantMenu();
             break;
         case "AddReview":
             menu = new AddReviewMenu();
             break;
         case "SeeAllReviews":
             Console.WriteLine("--------------Retreiving all reviews---------------");
-            ReviewOperations.SeeAllReviews();
+            Operations.SeeAllReviews();
             break;
         case "SeeAllRestaurants":
             Console.WriteLine("\n--------------List of all restaurants---------------");
-            RestaurantOperations.SeeAllRestaurants();
+            Operations.SeeAllRestaurants();
             Console.WriteLine("------------End of list------------\n");
             break;
         case "MainMenu":

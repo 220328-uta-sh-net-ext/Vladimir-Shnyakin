@@ -1,6 +1,6 @@
 ﻿namespace Logic
 {
-    public class ReviewOperations : ILogic
+    public class Operations : ILogic
     {
         IRepository repo = new Repository();
         public static void SeeAllReviews()
@@ -28,9 +28,6 @@
             Console.WriteLine("\nReview saved!\n");
             return repo.AddReview(restaurantName, newReview);
         }
-    }
-    public class RestaurantOperations
-    {
         static Repository allrestaurants = new Repository();
         public static void SeeAllRestaurants()
         {
@@ -46,6 +43,12 @@
         {
             var restaurants = allrestaurants.SeeAllRestaurants();
             return restaurants[index].RestaurantName;
+        }
+        public List<Restaurant> SearchRestaurant(string name)
+        {
+            var restaurants = allrestaurants.SeeAllRestaurants();
+            var filteredRestaurants = restaurants.Where(r => r.RestaurantName.ToLower().Contains(name)).ToList();
+            return filteredRestaurants;
         }
     }
 }

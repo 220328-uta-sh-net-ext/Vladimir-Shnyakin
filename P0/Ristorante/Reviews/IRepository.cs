@@ -11,5 +11,6 @@ namespace RateAppDL
     {
         List<Review> SeeAllReviews();
         Review AddReview(string restaurantName, Review newReview);
+        List<Restaurant> SeeAllRestaurants();
     }
 }

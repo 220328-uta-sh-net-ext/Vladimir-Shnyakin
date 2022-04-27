@@ -35,12 +35,20 @@
         "StarsPrice": 3,
         "Note": null,
         "ReviewId": null
+      },
+      {
+        "StarsTaste": 5,
+        "StarsMood": 4,
+        "StarsService": 3,
+        "StarsPrice": 5,
+        "Note": null,
+        "ReviewId": null
       }
     ]
   },
   {
     "RestaurantName": "McDuck",
-    "Cuisine": null,
+    "Cuisine": "American",
     "OverallRating": 0,
     "Reviews": [
       {
@@ -63,7 +71,7 @@
   },
   {
     "RestaurantName": "Chicken House",
-    "Cuisine": null,
+    "Cuisine": "American",
     "OverallRating": 0,
     "Reviews": [
       {
