@@ -3,7 +3,7 @@
     internal class AddReviewMenu : IMenu
     {
         private static Review newReview = new Review();
-        private ILogic _repository = new Operations();
+        private ILogic repo = new Operations();
 
         public void Display()
         {
@@ -34,13 +34,13 @@
                 case "0":
                     return "MainMenu";
                 case "1":
-                    _repository.AddReview("Hell's Kitchen");
+                    repo.AddReview("Hell's Kitchen");
                     return "AddReview";
                 case "2":
-                    _repository.AddReview(Operations.SeeAllRestaurants(1));
+                    repo.AddReview(Operations.SeeAllRestaurants(1));
                     return "AddReview";
                 case "3":
-                    _repository.AddReview(Operations.SeeAllRestaurants(2));
+                    repo.AddReview(Operations.SeeAllRestaurants(2));
                     return "AddReview";
                 default:
                     Console.WriteLine("Please input a valid response");
