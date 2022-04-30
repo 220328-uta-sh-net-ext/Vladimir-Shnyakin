@@ -4,5 +4,7 @@
     {
         Review AddReview(string restaurantName);
         List<Restaurant> SearchRestaurant(string name);
+        UserAccount AddUser();
+        string GetPassword();
     }
 }

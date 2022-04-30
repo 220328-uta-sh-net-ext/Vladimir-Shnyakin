@@ -50,5 +50,47 @@
             var filteredRestaurants = restaurants.Where(r => r.RestaurantName.ToLower().Contains(name)).ToList();
             return filteredRestaurants;
         }
+        public UserAccount AddUser()
+        {
+            UserAccount newUser = new UserAccount();
+            Console.WriteLine("Welcome! Please enter your new userId ");
+            newUser.UserName = Convert.ToString(Console.ReadLine());
+            Console.WriteLine($"Please enter your new password: ");
+            ILogic logic = new Operations();
+            newUser.Password = logic.GetPassword();
+            return repo.AddUser(newUser);
+        }
+        public string GetPassword()
+        {
+            StringBuilder input = new StringBuilder();
+            while (true)
+            {
+                int x = Console.CursorLeft;
+                int y = Console.CursorTop;
+                ConsoleKeyInfo key = Console.ReadKey(true);
+                if (key.Key == ConsoleKey.Enter)
+                {
+                    Console.WriteLine();
+                    break;
+                }
+                if (key.Key == ConsoleKey.Backspace && input.Length > 0)
+                {
+                    input.Remove(input.Length - 1, 1);
+                    Console.SetCursorPosition(x - 1, y);
+                    Console.Write(" ");
+                    Console.SetCursorPosition(x - 1, y);
+                }
+                else if (key.KeyChar < 32 || key.KeyChar > 126)
+                {
+                    Trace.WriteLine("Output suppressed: no key char"); //catch non-printable chars, e.g F1, CursorUp and so ...
+                }
+                else if (key.Key != ConsoleKey.Backspace)
+                {
+                    input.Append(key.KeyChar);
+                    Console.Write("*");
+                }
+            }
+            return input.ToString();
+        }
     }
 }

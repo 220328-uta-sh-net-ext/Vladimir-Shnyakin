@@ -62,7 +62,16 @@
 
         public UserAccount AddUser(UserAccount newUser)
         {
-            throw new NotImplementedException();
+            string commandString = "INSERT INTO Users (UserName, Password)" +
+                "VALUES (@UserName, @Password);";
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            command.Parameters.AddWithValue("@UserName", newUser.UserName);
+            command.Parameters.AddWithValue("@Password", newUser.Password);
+            connection.Open();
+            command.ExecuteNonQuery();
+
+            return newUser;
         }
 
         public List<UserAccount> SeeAllUsers()

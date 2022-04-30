@@ -33,7 +33,7 @@ Console.WriteLine($"Thanks! '{restaurant.RestaurantName}' was rated and now its 
 
 
 bool repeat = true;
-IMenu menu = new MainMenu();
+IMenu menu = new LoginMenu();
 
 while (repeat)
 {

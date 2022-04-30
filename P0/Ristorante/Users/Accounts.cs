@@ -4,14 +4,14 @@
     {
         //public string Email { get; set; }
         public string Password { get; set; }
-        public string UserId { get; set; }
-        public string userId;
+        public string UserName { get; set; }
+        public string userName;
         private string password;
         public UserAccount()
         {
             //Email = email;
             Password = password;
-            UserId = userId;
+            UserName = userName;
         }
     }
     public class AdminAccount

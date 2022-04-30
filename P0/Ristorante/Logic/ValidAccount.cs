@@ -2,7 +2,7 @@
 {
     public class ValidAccount
     {
-        IRepository repo = new Repository();
+        IRepository repo = new SqlRepository();
         /*public static bool IsValidEmail(string email)
         {
             if (!MailAddress.TryCreate(email, out var mailAddress))
@@ -13,7 +13,7 @@
         {
             UserAccount newUser = new UserAccount();
             Console.WriteLine("Welcome! Please enter your new userId ");
-            newUser.UserId = Convert.ToString(Console.ReadLine());
+            newUser.UserName = Convert.ToString(Console.ReadLine());
             Console.WriteLine($"Please enter your new password: ");
             newUser.Password = Convert.ToString(Console.ReadLine());
             repo.AddUser(newUser);

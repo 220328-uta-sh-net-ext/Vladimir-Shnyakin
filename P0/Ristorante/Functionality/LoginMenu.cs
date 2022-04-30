@@ -2,6 +2,7 @@
 {
     public class LoginMenu : IMenu
     {
+        ILogic repo = new Operations();
         void IMenu.Display()
         {
             Console.WriteLine("Welcome to APP!");
@@ -19,16 +20,16 @@
                 case "0":
                     return "Exit";
                 case "1":
-                    
-                    Console.Write("Please enter your UserName: ");
-                    Console.ReadLine();
-                    Console.Write("Please enter your password: ");
-                    Console.ReadLine();
-                    //var newUser = ValidAccount.AddUser()
-                    return "AddReview";
+                    //UserAccount newUser = new UserAccount();
+                    return "MainMenu";
                 case "2":
                     //repo.AddReview(Operations.SeeAllRestaurants(1));
-                    return "AddReview";
+                    //Console.Write("Please enter your UserName: ");
+                    //string userName = Console.ReadLine();
+                    //Console.Write("Please enter your password: ");
+                    //string password = Console.ReadLine();
+                    repo.AddUser();
+                    return "MainMenu";
                 default:
                     Console.WriteLine("Please input a valid response");
                     Console.WriteLine("Please press Enter to continue");
