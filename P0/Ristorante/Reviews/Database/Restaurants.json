@@ -1,6 +1,5 @@
 [
   {
-    "RestaurantId": 1,
     "RestaurantName": "Hell\u0027s Kitchen",
     "Cuisine": null,
     "OverallRating": 0,
@@ -68,11 +67,18 @@
         "StarsPrice": 5,
         "Note": null,
         "ReviewId": null
+      },
+      {
+        "StarsTaste": 5,
+        "StarsMood": 4,
+        "StarsService": 5,
+        "StarsPrice": 4,
+        "Note": null,
+        "ReviewId": null
       }
     ]
   },
   {
-    "RestaurantId": 2,
     "RestaurantName": "McDuck",
     "Cuisine": "American",
     "OverallRating": 0,
@@ -144,7 +150,6 @@
     ]
   },
   {
-    "RestaurantId": 3,
     "RestaurantName": "Chicken House",
     "Cuisine": "American",
     "OverallRating": 0,

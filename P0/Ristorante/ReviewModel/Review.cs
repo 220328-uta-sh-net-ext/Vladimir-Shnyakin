@@ -8,9 +8,10 @@
         public double StarsPrice { get; set; }
         public string Note { get; set; }
         //public string RestaurantName { get; set; } //to connect to the restaurant
-        public string ReviewId { get; set; } // to log in database
+        //public string ReviewId { get; set; } // to log in database
         //public bool VisitAgain { get; set; }
-
+        public string UserId { get; set; }
+        public string userId;
         public double starsTaste, starsMood, starsService, starsPrice;
         
         public Review()
@@ -19,6 +20,7 @@
             StarsMood = starsMood;
             StarsService = starsService;
             StarsPrice = starsPrice;
+            UserId = userId;
         }
         public Review(string note)
         {
@@ -27,6 +29,7 @@
             StarsMood = starsMood;
             StarsService = starsService;
             StarsPrice = starsPrice;
+            UserId = userId;
         }
         //public Review (int starsTaste, int starsMood, int starsService, int starsPrice)
         //{

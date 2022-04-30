@@ -2,15 +2,15 @@
 {
     public class Operations : ILogic
     {
-        IRepository repo = new Repository();
+        IRepository repo = new SqlRepository();
         public static void SeeAllReviews()
         {
-            IRepository repo = new Repository();
+           /* //IRepository repo = new Repository();
             var reviews = repo.SeeAllReviews();
             foreach (var review in reviews)
             {
                 Console.WriteLine(review.ToString());
-            }
+            }*/
         }
         public Review AddReview(string restaurantName)
         {

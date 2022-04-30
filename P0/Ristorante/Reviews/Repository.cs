@@ -35,30 +35,6 @@
             }
             return newReview;
         }
-        /*public Review AddReview(Review newReview)
-        {
-            var reviews = SeeAllReviews();
-            
-            reviews.Add(newReview);
-            var reviewString = JsonSerializer.Serialize<List<Review>>(reviews, new JsonSerializerOptions { WriteIndented = true });
-            try
-            {
-                File.WriteAllText(filePath + "Restaurants.json", reviewString);
-            }
-            catch (DirectoryNotFoundException ex)
-            {
-                Console.WriteLine("Please check the path, " + ex.Message);
-            }
-            catch (FileNotFoundException ex)
-            {
-                Console.WriteLine("Please check the file name, " + ex.Message);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-            return newReview;
-        }*/
         public List<Review> SeeAllReviews()
         {
             try
@@ -128,6 +104,53 @@
                 return JsonSerializer.Deserialize<List<Restaurant>>(jsonString);
             else
                 return null;
+        }
+        public List<UserAccount> SeeAllUsers()
+        {
+            try
+            {
+                jsonString = File.ReadAllText(filePath + "Restaurants.json");
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Console.WriteLine("Please check the path, " + ex.Message);
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine("Please check the file name, " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            if (!string.IsNullOrEmpty(jsonString))
+                return JsonSerializer.Deserialize<List<UserAccount>>(jsonString);
+            else
+                return null;
+        }
+        public UserAccount AddUser(UserAccount newUser)
+        {
+            var users = SeeAllUsers();
+            users.Add(newUser);
+
+            var reviewString = JsonSerializer.Serialize<List<UserAccount>>(users, new JsonSerializerOptions { WriteIndented = true });
+            try
+            {
+                File.WriteAllText(filePath + "Restaurants.json", reviewString);
+            }
+            catch (DirectoryNotFoundException ex)
+            {
+                Console.WriteLine("Please check the path, " + ex.Message);
+            }
+            catch (FileNotFoundException ex)
+            {
+                Console.WriteLine("Please check the file name, " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return newUser;
         }
     }
 }

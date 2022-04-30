@@ -1,27 +1,31 @@
-﻿namespace RateApp
+﻿namespace Accounts
 {
     public class UserAccount
     {
-        public string Email { get; set; }
+        //public string Email { get; set; }
         public string Password { get; set; }
-        public UserAccount(string email, string password)
+        public string UserId { get; set; }
+        public string userId;
+        private string password;
+        public UserAccount()
         {
-            this.Email = email;
-            this.Password = password;
+            //Email = email;
+            Password = password;
+            UserId = userId;
         }
     }
     public class AdminAccount
     {
-        string adminName = "admin", password = "123";
+        private string adminName = "admin", password = "123";
         private string AdminName { get; }
         private string Password { get; set; }
         private AdminAccount(string adminName, string password)
         {
-            this.AdminName = adminName;
-            this.Password = password;
+            AdminName = adminName;
+            Password = password;
         }
     }
-    public class Restaurant
+    /*public class Restaurant
     {
         public string RestaurantName { get; }
         public double Stars { get; set; }
@@ -46,5 +50,5 @@
             RestaurantName = restaurantName;
             this.Stars = stars;
         }
-    }
+    }*/
 }
