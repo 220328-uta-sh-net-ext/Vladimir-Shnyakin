@@ -34,6 +34,8 @@
                 case "5":
                     repo.AddUser();
                     return "AddReview";
+                case "admin":
+                    return "AdminMenu";
                 default:
                     Console.WriteLine("Please input a valid response");
                     Console.WriteLine("Please press <enter> to continue");

@@ -3,7 +3,6 @@
     public class Operations : ILogic
     {
         IRepository repo = new SqlRepository();
-        
         public static void SeeAllReviews()
         {
            /* //IRepository repo = new Repository();
@@ -68,6 +67,16 @@
             newUser.Password = logic.GetPassword();
             return repo.AddUser(newUser);
         }
+        public UserAccount AddUser(string userName)
+        {
+            UserAccount newUser = new UserAccount();
+            newUser.UserName = userName;
+            Console.WriteLine($"Please enter password: ");
+            ILogic logic = new Operations();
+            newUser.Password = logic.GetPassword();
+            Console.WriteLine($"{userName} is registered successfully!");
+            return repo.AddUser(newUser);
+        }
         public string GetPassword()
         {
             StringBuilder input = new StringBuilder();
@@ -129,7 +138,18 @@
                 return false;
             }
             else
+            {
                 Console.WriteLine($"{userName} is not registered.");
+                Console.WriteLine($"To register {userName} as new user enter <1>");
+                string answer = Console.ReadLine();
+                if (answer == "1")
+                {
+                    AddUser(userName);
+                    return true;
+                }
+                else
+                    return false;
+            } 
             return false;
 
             //foreach (var user in users)

@@ -10,7 +10,7 @@
         }
         public List<Review> SeeAllReviews(string restaurantName)
         {
-            string commandString = "SELECT * FROM Reviews"; //CHANGE THAT
+            string commandString = $"SELECT * FROM Reviews WHERE RestaurantName = '{restaurantName}'";
 
             using SqlConnection connection = new(connectionString);
             using SqlCommand command = new(commandString, connection);
@@ -30,6 +30,10 @@
                    StarsMood = (int)row["StarsMood"],
                    StarsService = (int)row["StarsService"],
                    StarsPrice = (int)row["StarsPrice"],
+                   Note = (string)row["Note"],
+                   UserName = (string)row["UserName"],
+                  // RestaurantName = (string)row["RestaurantName"],
+
                 });
             }
             return reviews;
@@ -45,7 +49,7 @@
             command.Parameters.AddWithValue("@StarsMood", newReview.StarsMood);
             command.Parameters.AddWithValue("@StarsService", newReview.StarsService);
             command.Parameters.AddWithValue("@StarsPrice", newReview.StarsPrice);
-            command.Parameters.AddWithValue("@Note", "");
+            command.Parameters.AddWithValue("@Note", newReview.Note);
             command.Parameters.AddWithValue("@UserName", userName);
             command.Parameters.AddWithValue("@RestaurantName", restaurantName);
             connection.Open();

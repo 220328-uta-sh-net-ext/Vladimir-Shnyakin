@@ -15,16 +15,16 @@
             //Console.WriteLine("<2> Taste - " + newReview.StarsTaste);
             //Console.WriteLine("<1> Save");
             //Console.WriteLine("<0> Go Back");
-
+            Console.WriteLine("ADD REVIEW MENU");
             Console.WriteLine("\nPick a restaurant to review");
             Console.WriteLine("\n--------------List of all restaurants---------------");
             //repo.SeeAllRestaurants();
-            var restaurants = repos.SeeAllRestaurants();
+            repo.SeeAllRestaurants();
             //foreach (var restaurant in restaurants)
-            for (int i = 0; i < restaurants.Count; i++)
-            {
-                Console.WriteLine($"{restaurants[i].RestaurantName}");
-            }
+      //      for (int i = 0; i < restaurants.Count; i++)
+      //      {
+      //          Console.WriteLine($"{restaurants[i].RestaurantName}");
+      //      }
             Console.WriteLine("------------End of list------------\n");
             //Console.WriteLine("Choose a restaurant to review from the above list\n");
             
@@ -43,7 +43,6 @@
                 case "0":
                     return "MainMenu";
                 case "1":
-                    
                     Console.Write("Please enter your username: ");
                     string username = Console.ReadLine();
                     username = username.Trim();
@@ -69,17 +68,17 @@
                             goto start;
                         }
                         if (results.Count() == 1)
-                                {
+                        {
                             Console.WriteLine(results[0].ToString());
                             Console.WriteLine("Press <1> if you like to review it");
                             Console.WriteLine("Press <Enter> to go back");
                             string answer = Console.ReadLine();
-                                    if (answer == "1")
-                                        repo.AddReview(results[0].RestaurantName, username);
-                                }
-                            
+                            if (answer == "1")
+                            {
+                                repo.AddReview(results[0].RestaurantName, username);
+                            }      
+                        }
                             //Console.WriteLine($"Press <1> if you like to review \"{results[0].RestaurantName}\"");
-               
                         else
                         {
                             Console.WriteLine($"No restaurant has {name} in it's name");
@@ -89,9 +88,9 @@
                     }
                     else
                     {
-                        Console.WriteLine("Press <enter> to continue");
-                        Console.ReadLine();
-                        //return "AddReview";
+                        Console.WriteLine($"{username} is not registered! Please register or login to leave a review.");
+                        //Console.ReadLine();
+                        return "AddReview";
                     }
                     return "AddReview";
                 case "2":

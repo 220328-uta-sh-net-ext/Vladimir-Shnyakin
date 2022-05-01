@@ -10,8 +10,9 @@
         //public string RestaurantName { get; set; } //to connect to the restaurant
         //public string ReviewId { get; set; } // to log in database
         //public bool VisitAgain { get; set; }
-        public string UserId { get; set; }
-        public string userId;
+        public string UserName { get; set; }
+        public string RestaurantName { get; set; }
+        public string userName, restaurantName;
         public double starsTaste, starsMood, starsService, starsPrice;
         
         public Review()
@@ -20,7 +21,8 @@
             StarsMood = starsMood;
             StarsService = starsService;
             StarsPrice = starsPrice;
-            UserId = userId;
+            UserName = userName;
+            RestaurantName = restaurantName;
         }
         public Review(string note)
         {
@@ -29,7 +31,7 @@
             StarsMood = starsMood;
             StarsService = starsService;
             StarsPrice = starsPrice;
-            UserId = userId;
+            UserName = userName;
         }
         //public Review (int starsTaste, int starsMood, int starsService, int starsPrice)
         //{
@@ -38,10 +40,10 @@
         //    StarsService = starsService;
         //    StarsPrice = starsPrice;
         //}
-        public override string ToString()
+     /*   public override string ToString()
         {
             return $"Taste: {StarsTaste}\nMood: {StarsMood}\nService: {StarsService}\nPrice: {StarsPrice}\tNote: {Note}";
-        }
+        }*/
     }
 }
 
