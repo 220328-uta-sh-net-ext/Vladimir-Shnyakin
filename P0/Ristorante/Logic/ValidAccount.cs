@@ -26,6 +26,17 @@
         {
             Console.Write("Please enter your UserName: ");
             string userId = Console.ReadLine();
+
+        }
+        public bool UserExists(string userName)
+        {
+            var users = repo.SeeAllUsers();
+            foreach (var user in users)
+            {
+                if (user.userName == userName)
+                    return true;
+            }
+            return false;
         }
     }
 }

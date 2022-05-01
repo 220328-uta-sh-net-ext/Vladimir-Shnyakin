@@ -33,7 +33,8 @@ Console.WriteLine($"Thanks! '{restaurant.RestaurantName}' was rated and now its 
 
 
 bool repeat = true;
-IMenu menu = new LoginMenu();
+IMenu menu = new MainMenu();
+ILogic repo = new Operations();
 
 while (repeat)
 {
@@ -54,7 +55,7 @@ while (repeat)
             break;
         case "SeeAllRestaurants":
             Console.WriteLine("\n--------------List of all restaurants---------------");
-            Operations.SeeAllRestaurants();
+            repo.SeeAllRestaurants();
             Console.WriteLine("------------End of list------------\n");
             break;
         case "MainMenu":

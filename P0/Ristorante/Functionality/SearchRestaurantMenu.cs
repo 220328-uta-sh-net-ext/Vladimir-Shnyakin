@@ -35,11 +35,11 @@
                             {
                                 Console.WriteLine("Press <1> if you like to review it");
                                 string answer = Console.ReadLine();
-                                if (answer == "1")
-                                    repo.AddReview(results[0].RestaurantName);
+                             //   if (answer == "1")
+                                //    repo.AddReview(results[0].RestaurantName);
                             }
                         }
-                        Console.WriteLine($"Press <1> if you like to review \"{results[0].RestaurantName}\"");
+                        //Console.WriteLine($"Press <1> if you like to review \"{results[0].RestaurantName}\"");
                     }
                     else
                     {

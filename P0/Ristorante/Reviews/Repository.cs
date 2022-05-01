@@ -4,7 +4,7 @@
     {
         private string filePath = "../../../../Reviews/Database/";
         private string jsonString;
-        public Review AddReview(string restaurantName, Review newReview)
+        public Review AddReview(string restaurantName, Review newReview, string userName)
         {
             var restaurants = SeeAllRestaurants();
 
@@ -35,7 +35,7 @@
             }
             return newReview;
         }
-        public List<Review> SeeAllReviews()
+        public List<Review> SeeAllReviews(string restaurantName)
         {
             try
             {

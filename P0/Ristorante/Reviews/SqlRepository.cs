@@ -8,9 +8,9 @@
         {
             connectionString = File.ReadAllText(connectionStringFilePath);
         }
-        public List<Review> SeeAllReviews()
+        public List<Review> SeeAllReviews(string restaurantName)
         {
-            string commandString = "SELECT FirstName FROM SalesLT.Customer"; //CHANGE THAT
+            string commandString = "SELECT * FROM Reviews"; //CHANGE THAT
 
             using SqlConnection connection = new(connectionString);
             using SqlCommand command = new(commandString, connection);
@@ -21,21 +21,20 @@
             connection.Close();
             //using IDataReader reader = command.ExecuteReader();
             var reviews = new List<Review>();
-            DataColumn levelColumn = dataSet.Tables[0].Columns[2];
+            //DataColumn levelColumn = dataSet.Tables[0].Columns[2];
             foreach (DataRow row in dataSet.Tables[0].Rows)
             {
                 reviews.Add(new Review
                 {
-                    //Name = (string)row[0],
-                    //Level = (int)row[levelColumn],
-                    //Attack = (int)row["Attack"],
-                    //Defense = (int)row[4],
-                    //Health = (int)row[5]
+                   StarsTaste = (int)row["StarsTaste"],
+                   StarsMood = (int)row["StarsMood"],
+                   StarsService = (int)row["StarsService"],
+                   StarsPrice = (int)row["StarsPrice"],
                 });
             }
             return reviews;
         }
-        public Review AddReview(string restaurantName, Review newReview)
+        public Review AddReview(string restaurantName, Review newReview, string userName)
         {
             string commandString = "INSERT INTO Reviews (StarsTaste, StarsMood, StarsService, StarsPrice, Note, UserName, RestaurantName) " +
                 "VALUES (@StarsTaste, @StarsMood, @StarsService, @StarsPrice, @Note, @UserName, @RestaurantName);"; //CHANGE
@@ -47,7 +46,7 @@
             command.Parameters.AddWithValue("@StarsService", newReview.StarsService);
             command.Parameters.AddWithValue("@StarsPrice", newReview.StarsPrice);
             command.Parameters.AddWithValue("@Note", "");
-            command.Parameters.AddWithValue("@UserName", "Petya");
+            command.Parameters.AddWithValue("@UserName", userName);
             command.Parameters.AddWithValue("@RestaurantName", restaurantName);
             connection.Open();
             command.ExecuteNonQuery();
@@ -57,7 +56,29 @@
 
         public List<Restaurant> SeeAllRestaurants()
         {
-            throw new NotImplementedException();
+            string commandString = "SELECT * FROM Restaurants;";
+
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            IDataAdapter adapter = new SqlDataAdapter(command);
+            DataSet dataSet = new();
+            connection.Open();
+            adapter.Fill(dataSet); // this sends the query. DataAdapter uses a DataReader to read.
+            connection.Close();
+
+            // TODO: leaving out the abilities for now
+            var restaurants = new List<Restaurant>();
+            //DataColumn levelColumn = dataSet.Tables[0].Columns[3];
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                restaurants.Add(new Restaurant
+                {
+                    RestaurantName = (string)row[0],
+                    Cuisine = (string)row["Cuisine"],
+                    OverallRating = (double)row["OverallRating"]
+                });
+            }
+            return restaurants;
         }
 
         public UserAccount AddUser(UserAccount newUser)
@@ -76,7 +97,28 @@
 
         public List<UserAccount> SeeAllUsers()
         {
-            throw new NotImplementedException();
+            string commandString = "SELECT * FROM Users;";
+
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            IDataAdapter adapter = new SqlDataAdapter(command);
+            DataSet dataSet = new();
+            connection.Open();
+            adapter.Fill(dataSet); // this sends the query. DataAdapter uses a DataReader to read.
+            connection.Close();
+
+            // TODO: leaving out the abilities for now
+            var users = new List<UserAccount>();
+            //DataColumn levelColumn = dataSet.Tables[0].Columns[3];
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                users.Add(new UserAccount
+                {
+                    UserName = (string)row[0],
+                    Password = (string)row[1]
+                });
+            }
+            return users;
         }
     }
 }

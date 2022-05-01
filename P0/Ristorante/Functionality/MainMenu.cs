@@ -2,15 +2,17 @@
 {
     class MainMenu : IMenu
     {
+        ILogic repo = new Operations();
         public void Display()
         {
-            Console.WriteLine("Welcome to RateApp");
+            Console.WriteLine($"Welcome to RateApp");
             Console.WriteLine("What would you like to do?");
-            Console.WriteLine("Press <4> See all restaurants");
-            Console.WriteLine("Press <3> See all reviews");//move inside SeeAllRestaurants
-            Console.WriteLine("Press <2> Search restaurant");
-            Console.WriteLine("Press <1> Review a restaurant");
-            Console.WriteLine("Press <0> Exit");
+            Console.WriteLine("Press <5> to register");
+           // Console.WriteLine("Press <4> See all restaurants");
+            Console.WriteLine("Press <3> to see all reviews");//move inside SeeAllRestaurants
+           // Console.WriteLine("Press <2> Search restaurant");
+            Console.WriteLine("Press <1> to review a restaurant");
+            Console.WriteLine("Press <0> to exit\n");
         }
 
         public string UserChoice()
@@ -29,6 +31,9 @@
                     return "SeeAllReviews";//move inside SeeAllRestaurants
                 case "4":
                     return "SeeAllRestaurants";
+                case "5":
+                    repo.AddUser();
+                    return "AddReview";
                 default:
                     Console.WriteLine("Please input a valid response");
                     Console.WriteLine("Please press <enter> to continue");

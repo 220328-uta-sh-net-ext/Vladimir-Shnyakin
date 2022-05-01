@@ -9,8 +9,8 @@ namespace RateAppDL
 {
     public interface IRepository
     {
-        List<Review> SeeAllReviews();
-        Review AddReview(string restaurantName, Review newReview);
+        List<Review> SeeAllReviews(string restaurantName);
+        Review AddReview(string restaurantName, Review newReview, string UserName);
         List<Restaurant> SeeAllRestaurants();
         UserAccount AddUser(UserAccount newUser);
         List<UserAccount> SeeAllUsers();

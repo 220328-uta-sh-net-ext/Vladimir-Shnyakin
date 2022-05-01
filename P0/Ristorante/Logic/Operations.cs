@@ -3,6 +3,7 @@
     public class Operations : ILogic
     {
         IRepository repo = new SqlRepository();
+        
         public static void SeeAllReviews()
         {
            /* //IRepository repo = new Repository();
@@ -12,26 +13,33 @@
                 Console.WriteLine(review.ToString());
             }*/
         }
-        public Review AddReview(string restaurantName)
+        public Review AddReview(string restaurantName, string userName)
         {
+            
             Review newReview = new Review();
+            
+            
+                Console.Write($"Please rate taste of food at \"{restaurantName}\" ");
+                newReview.StarsTaste = ValidRating.FiveStars();
+                Console.Write($"Please rate mood at \"{restaurantName}\" ");
+                newReview.StarsMood = ValidRating.FiveStars();
+                Console.Write($"Please rate quality of service at \"{restaurantName}\" ");
+                newReview.StarsService = ValidRating.FiveStars();
+                Console.Write($"Please rate price at \"{restaurantName}\" ");
+                newReview.StarsPrice = ValidRating.FiveStars();
 
-            Console.Write($"Please rate taste of food at \"{restaurantName}\" ");
-            newReview.StarsTaste = ValidRating.FiveStars();
-            Console.Write($"Please rate mood at \"{restaurantName}\" ");
-            newReview.StarsMood = ValidRating.FiveStars();
-            Console.Write($"Please rate quality of service at \"{restaurantName}\" ");
-            newReview.StarsService = ValidRating.FiveStars();
-            Console.Write($"Please rate price at \"{restaurantName}\" ");
-            newReview.StarsPrice = ValidRating.FiveStars();
+            Console.WriteLine("Enter <1> to add a note (no more than 140 characters)");
+            string answer = Console.ReadLine();
+            if (answer == "1")
+                newReview.Note = Console.ReadLine();
 
-            Console.WriteLine("\nReview saved!\n");
-            return repo.AddReview(restaurantName, newReview);
+                Console.WriteLine("\nReview saved!\n");
+                return repo.AddReview(restaurantName, newReview, userName);
         }
         static Repository allrestaurants = new Repository();
-        public static void SeeAllRestaurants()
+        public void SeeAllRestaurants()
         {
-            var restaurants = allrestaurants.SeeAllRestaurants();
+            var restaurants = repo.SeeAllRestaurants();
             foreach (var restaurant in restaurants)
             {
                 ValidRating.OverallRating(restaurant);
@@ -53,9 +61,9 @@
         public UserAccount AddUser()
         {
             UserAccount newUser = new UserAccount();
-            Console.WriteLine("Welcome! Please enter your new userId ");
+            Console.WriteLine("Welcome! Please enter name: ");
             newUser.UserName = Convert.ToString(Console.ReadLine());
-            Console.WriteLine($"Please enter your new password: ");
+            Console.WriteLine($"Please enter password: ");
             ILogic logic = new Operations();
             newUser.Password = logic.GetPassword();
             return repo.AddUser(newUser);
@@ -91,6 +99,45 @@
                 }
             }
             return input.ToString();
+        }
+        public void SeeAllUserss()
+        {
+            var users = repo.SeeAllUsers();
+            foreach (var user in users)
+            {
+                Console.WriteLine(user.userName);
+                //Console.WriteLine(restaurant.RestaurantName);
+            }
+        }
+        public bool UserExists(string userName)
+        {
+            ILogic logic = new Operations();
+            var users = repo.SeeAllUsers();
+
+            var foundUser = users.Where(r => r.UserName.Equals(userName)).ToList();
+            //Console.WriteLine(foundUser[0].Password);
+            if (foundUser.Any() == true)
+            {
+                string password = null;
+                Console.Write($"{userName} please enter your password: ");
+                password = logic.GetPassword();
+                //var matchPassword = users.Exists(r => r.Password.Equals(password));
+                if (foundUser[0].Password == password)
+                    return true;
+                else
+                    Console.WriteLine("Wrong password!");
+                return false;
+            }
+            else
+                Console.WriteLine($"{userName} is not registered.");
+            return false;
+
+            //foreach (var user in users)
+            //{
+            //    if (user.userName == userName)
+            //        return user;
+            //}
+            //return $"{userName} is not registered";
         }
     }
 }
