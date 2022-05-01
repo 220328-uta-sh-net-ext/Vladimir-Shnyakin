@@ -67,6 +67,9 @@ while (repeat)
         case "LoginMenu":
             menu = new LoginMenu();
             break;
+        case "AdminMenu":
+            menu = new AdminMenu();
+            break;
         case "Exit":
             repeat = false;
             break;

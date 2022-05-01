@@ -109,14 +109,20 @@
             }
             return input.ToString();
         }
-        public void SeeAllUserss()
+        public void SeeAllUsers()
         {
             var users = repo.SeeAllUsers();
             foreach (var user in users)
             {
-                Console.WriteLine(user.userName);
+                Console.WriteLine(user.UserName);
                 //Console.WriteLine(restaurant.RestaurantName);
             }
+        }
+        public List<UserAccount> SearchUser(string name)
+        {
+            var users = repo.SeeAllUsers();
+            var filteredUsers = users.Where(r => r.UserName.ToLower().Contains(name)).ToList();
+            return filteredUsers;
         }
         public bool UserExists(string userName)
         {
