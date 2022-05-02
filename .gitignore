@@ -606,3 +606,4 @@ obj/
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,csharp,visualstudio,visualstudiocode
+/P0/Ristorante/Reviews/user.txt

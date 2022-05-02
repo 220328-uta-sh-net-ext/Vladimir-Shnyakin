@@ -2,19 +2,10 @@
 {
     internal class AddReviewMenu : IMenu
     {
-        //private static Review newReview = new Review();
         private ILogic repo = new Operations();
         IRepository repos = new SqlRepository();
-
         public void Display()
         {
-            //Console.WriteLine("Rate THIS RESTAURANT from 1 to 5");
-            //Console.WriteLine("<5> Price - " + newReview.StarsPrice);
-            //Console.WriteLine("<4> Service - " + newReview.StarsService);
-            //Console.WriteLine("<3> Mood - " + newReview.StarsMood);
-            //Console.WriteLine("<2> Taste - " + newReview.StarsTaste);
-            //Console.WriteLine("<1> Save");
-            //Console.WriteLine("<0> Go Back");
             Console.WriteLine("ADD REVIEW MENU");
             Console.WriteLine("\nPick a restaurant to review");
             Console.WriteLine("\n--------------List of all restaurants---------------");
@@ -50,7 +41,7 @@
 
                     if (result == true)
                     {
-                        start:
+                    start:
                         Console.Write("Please enter the name of a restaurant to review: ");
                         string name = Console.ReadLine();
                         name = name.Trim();
@@ -62,42 +53,35 @@
                                 ValidRating.OverallRating(results[i]);
                                 Console.WriteLine("=================");
                                 Console.WriteLine(results[i].ToString());
-                                
+
                             }
                             Console.WriteLine("Please be more specific");
                             goto start;
                         }
                         if (results.Count() == 1)
                         {
+                            ValidRating.OverallRating(results[0]);
                             Console.WriteLine(results[0].ToString());
                             Console.WriteLine("Press <1> if you like to review it");
+                            Console.WriteLine("Enter <2> to see all reviews for this restaurant");
                             Console.WriteLine("Press <Enter> to go back");
                             string answer = Console.ReadLine();
                             if (answer == "1")
                             {
+                                Log.Information(name);
                                 repo.AddReview(results[0].RestaurantName, username);
-                            }      
+                            }
+                            if (answer == "2")
+                            {
+                                repo.SeeAllReviews(results[0].RestaurantName);
+                            }
                         }
-                            //Console.WriteLine($"Press <1> if you like to review \"{results[0].RestaurantName}\"");
+                        //Console.WriteLine($"Press <1> if you like to review \"{results[0].RestaurantName}\"");
                         else
                         {
                             Console.WriteLine($"No restaurant has {name} in it's name");
                         }
-                        //Console.WriteLine("Press <enter> to continue");
-                       // Console.ReadLine();
                     }
-                    else
-                    {
-                        Console.WriteLine($"{username} is not registered! Please register or login to leave a review.");
-                        //Console.ReadLine();
-                        return "AddReview";
-                    }
-                    return "AddReview";
-                case "2":
-                  //  repo.AddReview(Operations.SeeAllRestaurants(1));
-                    return "AddReview";
-                case "3":
-                  //  repo.AddReview(Operations.SeeAllRestaurants(2));
                     return "AddReview";
                 default:
                     Console.WriteLine("Please input a valid response");

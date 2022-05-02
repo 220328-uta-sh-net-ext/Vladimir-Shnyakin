@@ -52,7 +52,7 @@
                 n++;
             }*/
                 
-            toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (n*4));
+            toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (n*4),1);
             if (toBeRated.OverallRating == 0)
                 toBeRated.OverallRating = 1;
         }

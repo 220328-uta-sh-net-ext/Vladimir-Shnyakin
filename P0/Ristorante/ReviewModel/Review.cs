@@ -40,10 +40,10 @@
         //    StarsService = starsService;
         //    StarsPrice = starsPrice;
         //}
-     /*   public override string ToString()
+        public override string ToString()
         {
-            return $"Taste: {StarsTaste}\nMood: {StarsMood}\nService: {StarsService}\nPrice: {StarsPrice}\tNote: {Note}";
-        }*/
+            return $"Reviewed by {UserName}\nTaste: {StarsTaste}\nMood: {StarsMood}\nService: {StarsService}\nPrice: {StarsPrice}\tNote: {Note}";
+        }
     }
 }
 

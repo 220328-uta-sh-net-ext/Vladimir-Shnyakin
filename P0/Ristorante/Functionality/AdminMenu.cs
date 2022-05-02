@@ -10,7 +10,6 @@
             Console.WriteLine("<1> see all users!");
             Console.WriteLine("<2> find user by userName");
         }
-
         string IMenu.UserChoice()
         {
             string userInput = Console.ReadLine();

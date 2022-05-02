@@ -9,8 +9,8 @@
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("Press <5> to register");
            // Console.WriteLine("Press <4> See all restaurants");
-            Console.WriteLine("Press <3> to see all reviews");//move inside SeeAllRestaurants
-           // Console.WriteLine("Press <2> Search restaurant");
+            //Console.WriteLine("Press <3> to see all reviews");//move inside SeeAllRestaurants
+            Console.WriteLine("Press <2> to search restaurant and see it's reviews");
             Console.WriteLine("Press <1> to review a restaurant");
             Console.WriteLine("Press <0> to exit\n");
         }

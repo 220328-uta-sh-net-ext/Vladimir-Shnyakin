@@ -41,20 +41,27 @@
         public Review AddReview(string restaurantName, Review newReview, string userName)
         {
             string commandString = "INSERT INTO Reviews (StarsTaste, StarsMood, StarsService, StarsPrice, Note, UserName, RestaurantName) " +
-                "VALUES (@StarsTaste, @StarsMood, @StarsService, @StarsPrice, @Note, @UserName, @RestaurantName);"; //CHANGE
+                "VALUES (@StarsTaste, @StarsMood, @StarsService, @StarsPrice, @Note, @UserName, @RestaurantName);";
 
             using SqlConnection connection = new(connectionString);
             using SqlCommand command = new(commandString, connection);
-            command.Parameters.AddWithValue("@StarsTaste", newReview.StarsTaste);
-            command.Parameters.AddWithValue("@StarsMood", newReview.StarsMood);
-            command.Parameters.AddWithValue("@StarsService", newReview.StarsService);
-            command.Parameters.AddWithValue("@StarsPrice", newReview.StarsPrice);
-            command.Parameters.AddWithValue("@Note", newReview.Note);
-            command.Parameters.AddWithValue("@UserName", userName);
-            command.Parameters.AddWithValue("@RestaurantName", restaurantName);
-            connection.Open();
-            command.ExecuteNonQuery();
-
+            try
+            {
+                command.Parameters.AddWithValue("@StarsTaste", newReview.StarsTaste);
+                command.Parameters.AddWithValue("@StarsMood", newReview.StarsMood);
+                command.Parameters.AddWithValue("@StarsService", newReview.StarsService);
+                command.Parameters.AddWithValue("@StarsPrice", newReview.StarsPrice);
+                command.Parameters.AddWithValue("@Note", newReview.Note);
+                command.Parameters.AddWithValue("@UserName", userName);
+                command.Parameters.AddWithValue("@RestaurantName", restaurantName);
+                connection.Open();
+                command.ExecuteNonQuery();
+                Console.WriteLine("\nReview saved!\n");
+            }
+            catch (SqlException ex) 
+            {
+                Console.WriteLine($"{userName} cannot add another review to this restaurant.\n");
+            }
             return newReview;
         }
 
@@ -108,12 +115,11 @@
             IDataAdapter adapter = new SqlDataAdapter(command);
             DataSet dataSet = new();
             connection.Open();
-            adapter.Fill(dataSet); // this sends the query. DataAdapter uses a DataReader to read.
+            adapter.Fill(dataSet);
             connection.Close();
 
-            // TODO: leaving out the abilities for now
             var users = new List<UserAccount>();
-            //DataColumn levelColumn = dataSet.Tables[0].Columns[3];
+         
             foreach (DataRow row in dataSet.Tables[0].Rows)
             {
                 users.Add(new UserAccount

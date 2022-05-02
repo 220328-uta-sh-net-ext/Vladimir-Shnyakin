@@ -3,14 +3,14 @@
     public class Operations : ILogic
     {
         IRepository repo = new SqlRepository();
-        public static void SeeAllReviews()
+        public void SeeAllReviews(string restaurantName)
         {
-           /* //IRepository repo = new Repository();
-            var reviews = repo.SeeAllReviews();
+            var reviews = repo.SeeAllReviews(restaurantName);
             foreach (var review in reviews)
             {
                 Console.WriteLine(review.ToString());
-            }*/
+                Console.WriteLine("================");
+            }
         }
         public Review AddReview(string restaurantName, string userName)
         {
@@ -32,10 +32,9 @@
             if (answer == "1")
                 newReview.Note = Console.ReadLine();
 
-                Console.WriteLine("\nReview saved!\n");
+               // Console.WriteLine("\nReview saved!\n");
                 return repo.AddReview(restaurantName, newReview, userName);
         }
-        static Repository allrestaurants = new Repository();
         public void SeeAllRestaurants()
         {
             var restaurants = repo.SeeAllRestaurants();
@@ -46,15 +45,21 @@
                 //Console.WriteLine(restaurant.RestaurantName);
             }
         }
-        public static string SeeAllRestaurants(int index)
+        public string SeeAllRestaurants(int index)
         {
-            var restaurants = allrestaurants.SeeAllRestaurants();
+            var restaurants = repo.SeeAllRestaurants();
             return restaurants[index].RestaurantName;
         }
         public List<Restaurant> SearchRestaurant(string name)
         {
-            var restaurants = allrestaurants.SeeAllRestaurants();
-            var filteredRestaurants = restaurants.Where(r => r.RestaurantName.ToLower().Contains(name)).ToList();
+            var restaurants = repo.SeeAllRestaurants();
+            var filteredRestaurants = restaurants.Where(r => r.RestaurantName.ToLower().Contains(name.ToLower())).ToList();
+            return filteredRestaurants;
+        }
+        public List<Restaurant> SearchRestaurant2(string cuisine)
+        {
+            var restaurants = repo.SeeAllRestaurants();
+            var filteredRestaurants = restaurants.Where(r => r.Cuisine.ToLower().Contains(cuisine)).ToList();
             return filteredRestaurants;
         }
         public UserAccount AddUser()
@@ -157,13 +162,6 @@
                     return false;
             } 
             return false;
-
-            //foreach (var user in users)
-            //{
-            //    if (user.userName == userName)
-            //        return user;
-            //}
-            //return $"{userName} is not registered";
         }
     }
 }
