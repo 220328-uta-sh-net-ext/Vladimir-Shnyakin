@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RateAppDL", "Reviews\RateAp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accounts", "Users\Accounts.csproj", "{E74B0A13-3C67-4474-8AD9-792632372323}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Models", "ReviewModel\Models.csproj", "{6204FB11-5B53-4F66-85A8-B82553D5F3AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "ReviewModel\Models.csproj", "{6204FB11-5B53-4F66-85A8-B82553D5F3AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logic", "Logic\Logic.csproj", "{08533E58-2002-49DA-9E75-1776CAB678C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{08533E58-2002-49DA-9E75-1776CAB678C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{881D06B3-8465-48CD-8FBA-6EBE5DB76906}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{08533E58-2002-49DA-9E75-1776CAB678C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08533E58-2002-49DA-9E75-1776CAB678C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08533E58-2002-49DA-9E75-1776CAB678C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{881D06B3-8465-48CD-8FBA-6EBE5DB76906}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{881D06B3-8465-48CD-8FBA-6EBE5DB76906}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{881D06B3-8465-48CD-8FBA-6EBE5DB76906}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{881D06B3-8465-48CD-8FBA-6EBE5DB76906}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

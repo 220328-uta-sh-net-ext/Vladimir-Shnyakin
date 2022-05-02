@@ -5,3 +5,4 @@ global using Models;
 global using System.Text.Json;
 global using System.Data;
 global using Accounts;
+global using Serilog;

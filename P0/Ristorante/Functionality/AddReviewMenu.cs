@@ -35,7 +35,9 @@
                     return "MainMenu";
                 case "1":
                     Console.Write("Please enter your username: ");
+                    
                     string username = Console.ReadLine();
+                    Log.Information($"User name entered: {username}");
                     username = username.Trim();
                     var result = repo.UserExists(username);
 
@@ -44,6 +46,7 @@
                     start:
                         Console.Write("Please enter the name of a restaurant to review: ");
                         string name = Console.ReadLine();
+                        Log.Information($"String, entered by user to search restaurant by name: {name}");
                         name = name.Trim();
                         var results = repo.SearchRestaurant(name);
                         if (results.Count() > 1)
@@ -68,7 +71,6 @@
                             string answer = Console.ReadLine();
                             if (answer == "1")
                             {
-                                Log.Information(name);
                                 repo.AddReview(results[0].RestaurantName, username);
                             }
                             if (answer == "2")

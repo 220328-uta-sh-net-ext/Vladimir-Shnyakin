@@ -42,16 +42,7 @@
                 averageService += r.StarsService;
                 averagePrice += r.StarsPrice;
                 n++;
-            }
-            /*for (int i = 0; i < toBeRated.Reviews.Count(); i++)
-            {
-                averageTaste += toBeRated.Reviews[i].StarsTaste;
-                averageMood += toBeRated.Reviews[i].StarsMood;
-                averageService += toBeRated.Reviews[i].StarsService;
-                averagePrice += toBeRated.Reviews[i].StarsPrice;
-                n++;
-            }*/
-                
+            } 
             toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (n*4),1);
             if (toBeRated.OverallRating == 0)
                 toBeRated.OverallRating = 1;

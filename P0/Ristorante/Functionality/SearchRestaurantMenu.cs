@@ -1,5 +1,8 @@
 ﻿namespace UI
 {
+    /// <summary>
+    /// Provides two options to search: by Name and by Cuisine
+    /// </summary>
     internal class SearchRestaurantMenu : IMenu
     {
         ILogic repo = new Operations();
@@ -43,7 +46,7 @@
                 case "2":
                     Console.Write("Please enter the cuisine type: ");
                     string cuisine = Console.ReadLine().Trim();
-                    var cuisines = repo.SearchRestaurant2(cuisine);
+                    var cuisines = repo.SearchRestaurantType(cuisine);
                     if (cuisines.Count() > 0)
                     {
                         for (int i = 0; i < cuisines.Count(); i++)
