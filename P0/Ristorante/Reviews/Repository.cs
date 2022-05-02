@@ -152,5 +152,10 @@
             }
             return newUser;
         }
+
+        public Restaurant AddRestaurant(Restaurant newRestaurant)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

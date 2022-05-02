@@ -16,5 +16,6 @@
         void SeeAllUsers();
         void SeeAllReviews(string restaurantName);
         bool UserExists(string userName);
+        Restaurant AddRestaurant();
     }
 }

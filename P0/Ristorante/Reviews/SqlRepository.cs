@@ -21,7 +21,6 @@
             connection.Close();
             //using IDataReader reader = command.ExecuteReader();
             var reviews = new List<Review>();
-            //DataColumn levelColumn = dataSet.Tables[0].Columns[2];
             foreach (DataRow row in dataSet.Tables[0].Rows)
             {
                 reviews.Add(new Review
@@ -32,8 +31,6 @@
                    StarsPrice = (int)row["StarsPrice"],
                    Note = (string)row["Note"],
                    UserName = (string)row["UserName"],
-                  // RestaurantName = (string)row["RestaurantName"],
-
                 });
             }
             return reviews;
@@ -65,7 +62,6 @@
             }
             return newReview;
         }
-
         public List<Restaurant> SeeAllRestaurants()
         {
             string commandString = "SELECT * FROM Restaurants;";
@@ -78,9 +74,8 @@
             adapter.Fill(dataSet); // this sends the query. DataAdapter uses a DataReader to read.
             connection.Close();
 
-            // TODO: leaving out the abilities for now
             var restaurants = new List<Restaurant>();
-            //DataColumn levelColumn = dataSet.Tables[0].Columns[3];
+            
             foreach (DataRow row in dataSet.Tables[0].Rows)
             {
                 restaurants.Add(new Restaurant
@@ -92,7 +87,6 @@
             }
             return restaurants;
         }
-
         public UserAccount AddUser(UserAccount newUser)
         {
             string commandString = "INSERT INTO Users (UserName, Password)" +
@@ -106,7 +100,6 @@
 
             return newUser;
         }
-
         public List<UserAccount> SeeAllUsers()
         {
             string commandString = "SELECT * FROM Users;";
@@ -130,6 +123,20 @@
                 });
             }
             return users;
+        }
+
+        public Restaurant AddRestaurant(Restaurant newRestaurant)
+        {
+            string commandString = "INSERT INTO Restaurants (RestaurantName, Cuisine)" +
+                "VALUES (@RestaurantName, @Cuisine);";
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            command.Parameters.AddWithValue("@RestaurantName", newRestaurant.RestaurantName);
+            command.Parameters.AddWithValue("@Cuisine", newRestaurant.Cuisine);
+            connection.Open();
+            command.ExecuteNonQuery();
+
+            return newRestaurant;
         }
     }
 }

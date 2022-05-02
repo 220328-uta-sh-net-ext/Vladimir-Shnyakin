@@ -14,5 +14,6 @@ namespace RateAppDL
         List<Restaurant> SeeAllRestaurants();
         UserAccount AddUser(UserAccount newUser);
         List<UserAccount> SeeAllUsers();
+        Restaurant AddRestaurant(Restaurant newRestaurant);
     }
 }

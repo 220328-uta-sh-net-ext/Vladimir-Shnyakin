@@ -47,5 +47,15 @@
             if (toBeRated.OverallRating == 0)
                 toBeRated.OverallRating = 1;
         }
+        public static string NotEmpty(string empty)
+        {
+            while (String.IsNullOrEmpty(empty))
+            {
+                Console.WriteLine("This field can not be empty");
+                Console.Write("Please enter information: ");
+                empty = Convert.ToString(Console.ReadLine());
+            }
+            return empty.Trim();
+        }
     }
 }

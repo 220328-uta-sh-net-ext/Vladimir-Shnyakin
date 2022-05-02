@@ -99,7 +99,7 @@
         {
             UserAccount newUser = new UserAccount();
             Console.WriteLine("Welcome! Please enter name: ");
-            newUser.UserName = Convert.ToString(Console.ReadLine());
+            newUser.UserName = ValidRating.NotEmpty(Console.ReadLine());
             Console.WriteLine($"Please enter password: ");
             ILogic logic = new Operations();
             newUser.Password = logic.GetPassword();
@@ -156,7 +156,7 @@
                     Console.Write("*");
                 }
             }
-            return input.ToString();
+            return ValidRating.NotEmpty(input.ToString());
         }
         /// <summary>
         /// Can be accessed by admin only
@@ -216,6 +216,20 @@
                 else
                     return false;
             }
+        }
+        /// <summary>
+        /// Can be accessed from AdminMenu only
+        /// </summary>
+        /// <returns></returns>
+        public Restaurant AddRestaurant()
+        {
+            Restaurant newRestaurant = new Restaurant();
+            Console.Write("New restaurant name will be: ");
+            newRestaurant.RestaurantName = ValidRating.NotEmpty(Console.ReadLine());
+            Console.Write("New restaurant cuisine type will be: ");
+            newRestaurant.Cuisine = ValidRating.NotEmpty(Console.ReadLine());
+            return repo.AddRestaurant(newRestaurant);
+
         }
     }
 }

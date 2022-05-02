@@ -14,19 +14,16 @@
             Console.WriteLine("Press <2> By Cuisine");
             Console.WriteLine("Press <0> Go Back");
         }
-
         public string UserChoice()
         {
             string userInput = Console.ReadLine();
-
             switch (userInput)
             {
                 case "0":
                     return "MainMenu";
                 case "1":
                     Console.Write("Please enter the name: ");
-                    string name = Console.ReadLine();
-                    name = name.Trim();
+                    string name = Console.ReadLine().Trim();
                     var results = repo.SearchRestaurant(name);
                     if (results.Count() > 0)
                     {

@@ -3,29 +3,20 @@
     internal class AddReviewMenu : IMenu
     {
         private ILogic repo = new Operations();
-        IRepository repos = new SqlRepository();
+        //IRepository repos = new SqlRepository();
         public void Display()
         {
             Console.WriteLine("ADD REVIEW MENU");
             Console.WriteLine("\nPick a restaurant to review");
             Console.WriteLine("\n--------------List of all restaurants---------------");
-            //repo.SeeAllRestaurants();
-            repo.SeeAllRestaurants();
-            //foreach (var restaurant in restaurants)
-      //      for (int i = 0; i < restaurants.Count; i++)
-      //      {
-      //          Console.WriteLine($"{restaurants[i].RestaurantName}");
-      //      }
-            Console.WriteLine("------------End of list------------\n");
-            //Console.WriteLine("Choose a restaurant to review from the above list\n");
             
-            //Console.WriteLine("<1> " + Operations.SeeAllRestaurants(0));
-            //Console.WriteLine("<2> " + Operations.SeeAllRestaurants(1));
-            //Console.WriteLine("<3> " + Operations.SeeAllRestaurants(2));
+            repo.SeeAllRestaurants();
+   
+            Console.WriteLine("------------End of list------------\n");
+         
             Console.WriteLine("Press <0> to go to Main Menu");
             Console.WriteLine("Press <1> to review a restaurant");
         }
-
         public string UserChoice()
         {
             string userInput = Console.ReadLine();
@@ -34,11 +25,12 @@
                 case "0":
                     return "MainMenu";
                 case "1":
+
                     Console.Write("Please enter your username: ");
                     
-                    string username = Console.ReadLine();
+                    string username = ValidRating.NotEmpty(Console.ReadLine());
+                   
                     Log.Information($"User name entered: {username}");
-                    username = username.Trim();
                     var result = repo.UserExists(username);
 
                     if (result == true)
@@ -78,7 +70,6 @@
                                 repo.SeeAllReviews(results[0].RestaurantName);
                             }
                         }
-                        //Console.WriteLine($"Press <1> if you like to review \"{results[0].RestaurantName}\"");
                         else
                         {
                             Console.WriteLine($"No restaurant has {name} in it's name");
@@ -96,8 +87,7 @@
     internal class ReviewThisRestaurantMenu : IMenu
     {
         private static Review newReview = new Review();
-        private IRepository _repository = new Repository();
-
+       // private IRepository _repository = new Repository();
         void IMenu.Display()
         {
             Console.WriteLine("Rate THIS RESTAURANT from 1 to 5");
@@ -109,7 +99,6 @@
             Console.WriteLine("<1> Go Back");
             Console.WriteLine("<0> Go to Main Menu");
         }
-
         string IMenu.UserChoice()
         {
             string userInput = Console.ReadLine();
@@ -120,12 +109,10 @@
                 case "1":
                     return "AddReview";
                 case "2":
-                    //_repository.AddReview(newReview);
                     Console.WriteLine("Review saved");
                     return "MainMenu";
                 case "3":
                     Console.Write("Please rate taste of food ");
-                    //newReview.StarsTaste = Convert.ToInt32(Console.ReadLine());
                     newReview.StarsTaste = ValidRating.FiveStars();
                     return "ReviewMenu";
                 case "4":

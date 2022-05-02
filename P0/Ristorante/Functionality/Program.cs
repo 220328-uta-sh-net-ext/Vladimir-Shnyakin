@@ -1,6 +1,5 @@
 ﻿Log.Logger = new LoggerConfiguration()
-   // .WriteTo.Console().MinimumLevel.Debug()
-    .WriteTo.File("../../../../Reviews/user.txt").MinimumLevel.Debug().MinimumLevel.Information()// we want to save the ;ogs in this file
+    .WriteTo.File("../../../../Reviews/user.txt").MinimumLevel.Debug().MinimumLevel.Information()
     .CreateLogger();
 
 bool repeat = true;

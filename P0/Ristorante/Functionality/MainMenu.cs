@@ -14,7 +14,6 @@
             Console.WriteLine("Press <1> to review a restaurant");
             Console.WriteLine("Press <0> to exit\n");
         }
-
         public string UserChoice()
         {
             string userInput = Console.ReadLine();
