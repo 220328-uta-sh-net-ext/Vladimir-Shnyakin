@@ -30,8 +30,9 @@
                         for (int i = 0; i < results.Count(); i++)
                         {
                             ValidRating.OverallRating(results[i]);
-                            Console.WriteLine("=================");
+                            Console.WriteLine("+++++++++++++++++");
                             Console.WriteLine(results[i].ToString());
+                            Console.WriteLine("+++++++++++++++++");
                             repo.SeeAllReviews(results[i].RestaurantName);
                         }
                     }

@@ -28,7 +28,7 @@
         }
         public override string ToString()
         {
-            return $"Name: {RestaurantName}\nCuisine: {Cuisine}\nRating: {OverallRating}";
+            return $"Restaurant: {RestaurantName}\nCuisine: {Cuisine}\nRating: {OverallRating}";
         }
     }
 }
