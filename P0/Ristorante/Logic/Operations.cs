@@ -45,7 +45,7 @@
             
             if (answer == "1")
                 newReview.Note = Console.ReadLine();
-            if (newReview.Note.Length > 140)
+            if (newReview.Note !=null && newReview.Note.Length > 140)
             {
                 Console.WriteLine("Please! No more than 140 characters.");
                 goto noteAgain;

@@ -34,16 +34,18 @@
             double averageMood = 0;
             double averageService = 0;
             double averagePrice = 0;
-
-            foreach (Review r in list)
+            if (list.Count > 0)
             {
-                averageTaste += r.StarsTaste;
-                averageMood += r.StarsMood;
-                averageService += r.StarsService;
-                averagePrice += r.StarsPrice;
-                n++;
-            } 
-            toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (n*4),1);
+                foreach (Review r in list)
+                {
+                    averageTaste += r.StarsTaste;
+                    averageMood += r.StarsMood;
+                    averageService += r.StarsService;
+                    averagePrice += r.StarsPrice;
+                    n++;
+                }
+                toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (n * 4), 1);
+            }
             if (toBeRated.OverallRating == 0)
                 toBeRated.OverallRating = 1;
         }
