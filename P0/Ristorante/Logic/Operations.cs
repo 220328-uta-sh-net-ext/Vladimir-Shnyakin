@@ -40,14 +40,12 @@
             Console.Write($"Please rate price at \"{restaurantName}\" ");
             newReview.StarsPrice = ValidRating.FiveStars();
             noteAgain:
-            Console.WriteLine("Enter <1> to add a note (no more than 140 characters)");
-            string answer = Console.ReadLine();
-            
-            if (answer == "1")
-                newReview.Note = Console.ReadLine();
-            if (newReview.Note !=null && newReview.Note.Length > 140)
+            Console.WriteLine("Please add a note (no more than 140 characters) or hit <Enter> to skip");
+            // string answer = Console.ReadLine();
+            newReview.Note = Console.ReadLine();
+            if (newReview.Note.Length > 140)
             {
-                Console.WriteLine("Please! No more than 140 characters.");
+                Console.WriteLine("Character limit (140) ecxeeded!!");
                 goto noteAgain;
             }
             // Console.WriteLine("\nReview saved!\n");
@@ -64,6 +62,7 @@
             {
                 ValidRating.OverallRating(restaurant);
                 Console.WriteLine(restaurant.ToString());
+                Console.WriteLine("++++++++++++++++++++");
             }
         }
         /// <summary>

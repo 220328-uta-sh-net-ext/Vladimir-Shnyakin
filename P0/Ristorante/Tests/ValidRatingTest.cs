@@ -8,6 +8,24 @@ using Xunit;
 
 namespace Tests
 {
+    public class OperationsTests
+    {
+        /*[Fact]
+        public void AddReviewToList()
+        {
+
+            string Note = null,
+             userName = "Koti4",
+             restaurantName = "Crusty Crab";
+            int StarsTaste = 5,
+              StarsMood = 4,
+              StarsService = 3,
+              StarsPrice = 1;
+
+            // Review newReview = Operations.AddReview(restaurantName, userName);
+        }*/
+    }
+
     public class ValidRatingTest
     {
         /*

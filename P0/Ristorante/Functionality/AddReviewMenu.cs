@@ -8,11 +8,11 @@
         {
             Console.WriteLine("ADD REVIEW MENU");
             Console.WriteLine("\nPick a restaurant to review");
-            Console.WriteLine("\n--------------List of all restaurants---------------");
+            Console.WriteLine("\n---------List of all restaurants-----------\n");
             
             repo.SeeAllRestaurants();
    
-            Console.WriteLine("------------End of list------------\n");
+            Console.WriteLine("\n--------------End of list------------------\n");
          
             Console.WriteLine("Press <0> to go to Main Menu");
             Console.WriteLine("Press <1> to review a restaurant");
