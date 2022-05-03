@@ -24,6 +24,7 @@
                 case "1":
                     Console.Write("Please enter the name: ");
                     string name = Console.ReadLine().Trim();
+                    Log.Information($"String, entered by user to search restaurant by name: {name}");
                     var results = repo.SearchRestaurant(name);
                     if (results.Count() > 0)
                     {
@@ -44,6 +45,7 @@
                 case "2":
                     Console.Write("Please enter the cuisine type: ");
                     string cuisine = Console.ReadLine().Trim();
+                    Log.Information($"String, entered by user to search restaurant by cuisine type: {cuisine}");
                     var cuisines = repo.SearchRestaurantType(cuisine);
                     if (cuisines.Count() > 0)
                     {

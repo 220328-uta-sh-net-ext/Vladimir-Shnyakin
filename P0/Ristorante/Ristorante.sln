@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "ReviewModel\Model
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic", "Logic\Logic.csproj", "{08533E58-2002-49DA-9E75-1776CAB678C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{881D06B3-8465-48CD-8FBA-6EBE5DB76906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "Tests\Tests.csproj", "{881D06B3-8465-48CD-8FBA-6EBE5DB76906}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
