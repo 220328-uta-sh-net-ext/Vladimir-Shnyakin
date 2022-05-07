@@ -1,0 +1,199 @@
+[
+  {
+    "RestaurantName": "Hell\u0027s Kitchen",
+    "Cuisine": null,
+    "OverallRating": 0,
+    "Reviews": [
+      {
+        "StarsTaste": 1,
+        "StarsMood": 1,
+        "StarsService": 1,
+        "StarsPrice": 1,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 2,
+        "StarsMood": 2,
+        "StarsService": 2,
+        "StarsPrice": 2,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 1,
+        "StarsMood": 2,
+        "StarsService": 2,
+        "StarsPrice": 2,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 3,
+        "StarsMood": 3,
+        "StarsService": 3,
+        "StarsPrice": 3,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 5,
+        "StarsMood": 4,
+        "StarsService": 3,
+        "StarsPrice": 5,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 3,
+        "StarsMood": 4,
+        "StarsService": 5,
+        "StarsPrice": 5,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 2,
+        "StarsMood": 3,
+        "StarsService": 4,
+        "StarsPrice": 4,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 5,
+        "StarsMood": 5,
+        "StarsService": 5,
+        "StarsPrice": 5,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 5,
+        "StarsMood": 4,
+        "StarsService": 5,
+        "StarsPrice": 4,
+        "Note": null,
+        "ReviewId": null
+      }
+    ]
+  },
+  {
+    "RestaurantName": "McDuck",
+    "Cuisine": "American",
+    "OverallRating": 0,
+    "Reviews": [
+      {
+        "StarsTaste": 4,
+        "StarsMood": 3,
+        "StarsService": 3,
+        "StarsPrice": 2,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 1,
+        "StarsMood": 1,
+        "StarsService": 1,
+        "StarsPrice": 1,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 4,
+        "StarsMood": 3,
+        "StarsService": 3,
+        "StarsPrice": 3,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 3,
+        "StarsMood": 2,
+        "StarsService": 2,
+        "StarsPrice": 3,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 3,
+        "StarsMood": 4,
+        "StarsService": 3,
+        "StarsPrice": 3,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 3,
+        "StarsMood": 3,
+        "StarsService": 2,
+        "StarsPrice": 3,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 3,
+        "StarsMood": 3,
+        "StarsService": 1,
+        "StarsPrice": 2,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 3,
+        "StarsMood": 3,
+        "StarsService": 3,
+        "StarsPrice": 3,
+        "Note": null,
+        "ReviewId": null
+      }
+    ]
+  },
+  {
+    "RestaurantName": "Chicken House",
+    "Cuisine": "American",
+    "OverallRating": 0,
+    "Reviews": [
+      {
+        "StarsTaste": 5,
+        "StarsMood": 5,
+        "StarsService": 5,
+        "StarsPrice": 5,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 5,
+        "StarsMood": 4,
+        "StarsService": 4,
+        "StarsPrice": 5,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 4,
+        "StarsMood": 4,
+        "StarsService": 4,
+        "StarsPrice": 4,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 4,
+        "StarsMood": 5,
+        "StarsService": 4,
+        "StarsPrice": 4,
+        "Note": null,
+        "ReviewId": null
+      },
+      {
+        "StarsTaste": 2,
+        "StarsMood": 3,
+        "StarsService": 4,
+        "StarsPrice": 5,
+        "Note": null,
+        "ReviewId": null
+      }
+    ]
+  }
+]

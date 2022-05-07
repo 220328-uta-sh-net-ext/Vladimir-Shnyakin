@@ -1,0 +1,29 @@
+[
+  {
+    "StarsTaste": 0,
+    "StarsMood": 0,
+    "StarsService": 0,
+    "StarsPrice": 0,
+    "Note": null,
+    "RestaurantName": "Hell\u0027s Kitchen",
+    "ReviewId": null
+  },
+  {
+    "StarsTaste": 0,
+    "StarsMood": 0,
+    "StarsService": 0,
+    "StarsPrice": 0,
+    "Note": null,
+    "RestaurantName": "McDuck",
+    "ReviewId": null
+  },
+  {
+    "StarsTaste": 0,
+    "StarsMood": 0,
+    "StarsService": 0,
+    "StarsPrice": 0,
+    "Note": null,
+    "RestaurantName": "Chicken House",
+    "ReviewId": null
+  }
+]

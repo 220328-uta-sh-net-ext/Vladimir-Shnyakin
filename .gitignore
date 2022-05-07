@@ -607,3 +607,4 @@ obj/
 
 # End of https://www.toptal.com/developers/gitignore/api/dotnetcore,csharp,visualstudio,visualstudiocode
 /P0/Ristorante/Reviews/user.txt
+/P1/Ristorante/DL/user.txt
