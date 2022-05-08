@@ -52,4 +52,69 @@ namespace Tests
             Assert.Equal("22Star!", newUser.Password);
         }
     }
+    public class LogicTest
+    {
+        [Fact]
+        public void TestOverallRating()
+        {
+            double expected = 4.5;
+            Review review = new Review
+            {
+                restaurantName = "BBQ",
+                Note = "Still remember the taste!",
+                starsMood = 4,
+                starsPrice = 4,
+                starsService = 5,
+                starsTaste = 5,
+                userName = "vas",
+            };
+            Restaurant restaurantForTest = new Restaurant
+            {
+                RestaurantName = "BBQ",
+                Cuisine = "American",
+                OverallRating = 0,
+                Reviews = new List<Review> { review }
+            };
+            double actual = restaurantForTest.OverallRating= ValidRating.OverallRating(restaurantForTest);
+            
+            Assert.Equal(expected, actual);
+        }
+        [Fact]
+        public void TestIncludeReviews()
+        {
+            Review review = new Review
+            {
+                RestaurantName = "BBQ",
+                Note = "Still remember the taste!",
+                StarsMood = 4,
+                StarsPrice = 4,
+                StarsService = 5,
+                StarsTaste = 5,
+                UserName = "vas",
+            };
+         
+            Restaurant restaurant = new Restaurant
+            {
+                RestaurantName = "BBQ",
+                Cuisine = "American",
+                OverallRating = 0,
+                Reviews = new List<Review> { review }
+            };
+
+            List<Review> expected = new List<Review>();
+            //foreach (Review r in restaurant.Reviews)
+                expected.Add(review);
+
+            List<Review> actual = restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
+
+            Assert.Equal(expected[0].StarsTaste, actual[0].StarsTaste);
+            Assert.Equal(expected[0].UserName, actual[0].UserName);
+            Assert.Equal(expected[0].Note, actual[0].Note);
+            Assert.Equal(expected[0].StarsMood, actual[0].StarsMood);
+            Assert.Equal(expected[0].StarsPrice, actual[0].StarsPrice);
+            Assert.Equal(expected[0].StarsService, actual[0].StarsService);
+            Assert.Equal(expected[0].RestaurantName, actual[0].RestaurantName);
+            //Assert.True(expected.SequenceEqual(actual));
+        }
+    }
 }

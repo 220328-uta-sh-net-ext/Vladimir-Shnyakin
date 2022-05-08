@@ -53,8 +53,18 @@ namespace RistoranteAPI.Controllers
             var users = _ristoBL.SeeAllUsers();
             return Ok(users);
         }
+        [HttpGet("Users/Search")]
+        [ProducesResponseType(200, Type = typeof(List<UserAccount>))]
+        [ProducesResponseType(404)]
+        public ActionResult<UserAccount> SearchUser(string userName)
+        {
+            var users = _ristoBL.SearchUser(userName);
+            if (users.Count <= 0)
+                return NotFound($"UserAccount containing \"{userName}\" doesn't exist");
+            return Ok(users);
+        }
 
-        [HttpGet("Restaurant/Reviews")]
+            [HttpGet("Restaurant/Reviews")]
         [ProducesResponseType(200, Type = typeof(List<Review>))]
         public ActionResult<List<Review>> SeeAllReviews(string restaurantName)
         {

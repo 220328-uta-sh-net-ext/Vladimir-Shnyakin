@@ -2,7 +2,7 @@
 {
     public class ValidRating
     {
-        public static bool FiveStars(string stars)
+        /*public static bool FiveStars(string stars)
         {
             if (stars == null)
                 return false;
@@ -16,7 +16,7 @@
             }
             else
                 return false;
-        }
+        }*/
         public static double OverallRating(Restaurant toBeRated)
         {
             IRepository repo = new SqlRepository();

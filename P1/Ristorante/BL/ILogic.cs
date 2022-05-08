@@ -11,6 +11,7 @@
         List<UserAccount> SearchUser(string name);
      
         List<UserAccount> SeeAllUsers();
+
         List<Review> SeeAllReviews(string restaurantName);
 
         List<Restaurant> SeeAllRestaurants();

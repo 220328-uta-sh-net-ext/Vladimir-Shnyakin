@@ -27,16 +27,6 @@
             } 
             return restaurants;
         }
-
-        /// <summary>
-        /// Asks user to share their experience of a restaurant visited.
-        /// </summary>
-        /// <param name="restaurantName"></param>
-        /// <param name="userName"></param>
-        /// <returns>Calls repository method with the same name to store an object
-        /// of Review class</returns>
-     
-
         /// <summary>
         /// Finds restaurant in a list, taken from repository, by checking if 
         /// restaurant name contains given string
@@ -72,20 +62,6 @@
             return filteredRestaurants;
         }
         /// <summary>
-        /// Registers user by asking them to input preferred userName
-        /// and password
-        /// </summary>
-        /// <returns>New object of UserAccount class is stored in database</returns>
-  
-        /// <summary>
-        /// Overload of AddUser in case user decided to register not through register but
-        /// login menu
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <returns>New object of UserAccount class is stored in database</returns>
-
-   
-        /// <summary>
         /// Can be accessed by admin only
         /// </summary>
         public List<UserAccount> SeeAllUsers()
@@ -93,23 +69,14 @@
             var users = database.GetAllUsers();
             return users;
         }
-        /// <summary>
-        /// Find user as admin. UserName must be matched exactly
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns>List with only one item which is an object of UserAccount class</returns>
+
         public List<UserAccount> SearchUser(string name)
         {
             var users = database.GetAllUsers();
             var filteredUsers = users.Where(r => r.UserName.ToLower().Contains(name)).ToList();
             return filteredUsers;
         }
-        /// <summary>
-        /// Matches UserName to the database. If one is found, offers to login or 
-        /// register
-        /// </summary>
-        /// <param name="userName"></param>
-        /// <returns></returns>
+
         public bool UserMatch(string userName, string password)
         {
             ILogic logic = new Operations();
