@@ -87,6 +87,40 @@
             }
             return restaurants;
         }
+        public async Task<List<Restaurant>> GetAllRestaurantsAsync()
+        {
+            string commandString = "SELECT * FROM Restaurants;";
+
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            IDataAdapter adapter = new SqlDataAdapter(command);
+            DataSet dataSet = new();
+            try
+            {
+                await connection.OpenAsync();
+                adapter.Fill(dataSet);
+            }
+            catch (SqlException ex)
+            {
+                System.Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                connection.Close();
+            }
+            var restaurants = new List<Restaurant>();
+
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                restaurants.Add(new Restaurant
+                {
+                    RestaurantName = (string)row[0],
+                    Cuisine = (string)row["Cuisine"],
+                    OverallRating = (double)row["OverallRating"]
+                });
+            }
+            return restaurants;
+        }
         public UserAccount AddUser(UserAccount newUser)
         {
             string commandString = "INSERT INTO Users (UserName, Password)" +
@@ -151,5 +185,6 @@
             }
             return newRestaurant;
         }
+        
     }
 }

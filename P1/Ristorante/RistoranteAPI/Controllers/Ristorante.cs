@@ -3,25 +3,38 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Logic;
 using Accounts;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using RistoranteAPI.Repository;
 
 namespace RistoranteAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class RistoranteController : ControllerBase
     {
         private ILogic _ristoBL;
+        private readonly IJWTManagerRepository repository;
 
-        public RistoranteController(ILogic _ristoBL)//Constructor dependency
+        public RistoranteController(ILogic _ristoBL, IJWTManagerRepository repository)//Constructor dependency
         {
             this._ristoBL = _ristoBL;
+            this.repository = repository;
         }
-
+        [Authorize]
         [HttpGet("All/Restaurants")]
         [ProducesResponseType(200, Type = typeof(List<Restaurant>))]
         public ActionResult<List<Restaurant>> SeeAllRestaurants()
         {
             var restaurants = _ristoBL.SeeAllRestaurants();
+            return Ok(restaurants);
+        }
+        [HttpGet("All/RestaurantsAsync")]
+        [ProducesResponseType(200, Type = typeof(List<Restaurant>))]
+        public async Task<ActionResult<List<Restaurant>>> SeeAllRestaurantsAsync()
+        {
+            var restaurants = await _ristoBL.SeeAllRestaurantsAsync();
             return Ok(restaurants);
         }
 
@@ -31,6 +44,16 @@ namespace RistoranteAPI.Controllers
         public ActionResult<Restaurant> SearchRestaurant(string name)
         {
             var restaurant = _ristoBL.SearchRestaurant(name);
+            if (restaurant.Count <= 0)
+                return NotFound($"Restaurant name containing \"{name}\" doesn't exist");
+            return Ok(restaurant);
+        }
+        [HttpGet("SearchbyNameAsync")]
+        [ProducesResponseType(200, Type = typeof(Restaurant))]
+        [ProducesResponseType(404)]
+        public async Task<ActionResult<Restaurant>> SearchRestaurantAsync(string name)
+        {
+            var restaurant = await _ristoBL.SearchRestaurantAsync(name);
             if (restaurant.Count <= 0)
                 return NotFound($"Restaurant name containing \"{name}\" doesn't exist");
             return Ok(restaurant);
@@ -108,5 +131,6 @@ namespace RistoranteAPI.Controllers
             _ristoBL.AddReview(newReview, restaurantName, userName);
             return CreatedAtAction("SeeAllReviews", newReview);
         }
+        
     }
 }

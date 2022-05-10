@@ -27,6 +27,16 @@
             } 
             return restaurants;
         }
+        public async Task<List<Restaurant>> SeeAllRestaurantsAsync()
+        {
+            var restaurants = await database.GetAllRestaurantsAsync();
+            foreach (var restaurant in restaurants)
+            {
+                restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
+                restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+            }
+            return restaurants;
+        }
         /// <summary>
         /// Finds restaurant in a list, taken from repository, by checking if 
         /// restaurant name contains given string
@@ -36,6 +46,17 @@
         public List<Restaurant> SearchRestaurant(string name)
         {
             var restaurants = database.GetAllRestaurants();
+            var filteredRestaurants = restaurants.Where(r => r.RestaurantName.ToLower().Contains(name.ToLower())).ToList();
+            foreach (var restaurant in restaurants)
+            {
+                restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
+                restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+            }
+            return filteredRestaurants;
+        }
+        public async Task<List<Restaurant>> SearchRestaurantAsync(string name)
+        {
+            var restaurants = await database.GetAllRestaurantsAsync();
             var filteredRestaurants = restaurants.Where(r => r.RestaurantName.ToLower().Contains(name.ToLower())).ToList();
             foreach (var restaurant in restaurants)
             {
@@ -117,5 +138,6 @@
         {
             return database.AddReview(restaurantName, newReview, userName);
         }
+        
     }
 }

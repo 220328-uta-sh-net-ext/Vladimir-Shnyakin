@@ -7,6 +7,7 @@
     {
         //Review AddReview(string restaurantName, string userName);
         List<Restaurant> SearchRestaurant(string name);
+        Task<List<Restaurant>> SearchRestaurantAsync(string name);
         List<Restaurant> SearchRestaurantType(string cuisine);
         List<UserAccount> SearchUser(string name);
      
@@ -15,6 +16,7 @@
         List<Review> SeeAllReviews(string restaurantName);
 
         List<Restaurant> SeeAllRestaurants();
+        Task<List<Restaurant>> SeeAllRestaurantsAsync();
         bool UserMatch(string userName, string password);
         bool UserNameMatch(string userName);
         Restaurant AddRestaurant(Restaurant newRestaurant);
