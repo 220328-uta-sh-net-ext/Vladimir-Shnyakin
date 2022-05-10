@@ -4,23 +4,26 @@ using System.Text;
 using Accounts;
 using Microsoft.IdentityModel.Tokens;
 using Models;
+using Logic;
 
 namespace RistoranteAPI.Repository
 {
     public class JWTManagerRepository : IJWTManagerRepository
     {
+        private ILogic logic = new Operations();
         private IConfiguration _configuration;
         public JWTManagerRepository(IConfiguration configuration)
         {
             _configuration = configuration;
         }
-        Dictionary<string, string> UserRecords = new Dictionary<string, string>
+        /*Dictionary<string, string> UserRecords = new Dictionary<string, string>
         {
             {"user1" , "password1" }
-        };
+        };*/
         public Tokens Authenticate(UserAccount user)
         {
-            if (UserRecords.Any(a=>a.Key==user.UserName && a.Value == user.Password))
+            List<UserAccount> users = logic.SeeAllUsers();
+            if (!users.Exists(a=>a.UserName==user.UserName && a.Password == user.Password))
                 return null;
             var tokenhandler = new JwtSecurityTokenHandler();
             var tokenKey = Encoding.UTF8.GetBytes(_configuration["JWT:Key"]);

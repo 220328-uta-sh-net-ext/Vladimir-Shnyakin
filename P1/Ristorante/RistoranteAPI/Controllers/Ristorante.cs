@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Models;
 using Logic;
 using Accounts;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using RistoranteAPI.Repository;
+using System.Security.Claims;
+using Microsoft.Data.SqlClient;
+using Serilog;
 
 namespace RistoranteAPI.Controllers
 {
@@ -87,7 +88,7 @@ namespace RistoranteAPI.Controllers
             return Ok(users);
         }
 
-            [HttpGet("Restaurant/Reviews")]
+        [HttpGet("Restaurant/Reviews")]
         [ProducesResponseType(200, Type = typeof(List<Review>))]
         public ActionResult<List<Review>> SeeAllReviews(string restaurantName)
         {
@@ -119,18 +120,46 @@ namespace RistoranteAPI.Controllers
             _ristoBL.AddUser(newUser);
             return CreatedAtAction("SeeAllUsers", newUser);
         }
+        [Authorize]
         [HttpPost("Restaurant/Add/Review")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddReview([FromQuery]Review newReview,[FromBody] string Note)
+        public ActionResult AddReview([FromQuery]string restaurantName, double taste, double mood, double service, double price)
         {
-            newReview = new Review();
-            string restaurantName = newReview.RestaurantName;
-            string userName = newReview.UserName;
-            Note = newReview.Note;
-            _ristoBL.AddReview(newReview, restaurantName, userName);
-            return CreatedAtAction("SeeAllReviews", newReview);
+
+            //var claimsIdentity = this.User.Identity as ClaimsIdentity;
+            var userId = User.Identity.Name;
+               // claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
+
+            Review newReview = new Review();
+            //string restaurantName = newReview.RestaurantName;
+            //string userName = newReview.UserName;
+            newReview.UserName = userId;
+            newReview.StarsTaste = taste;
+            newReview.StarsMood = mood;
+            newReview.StarsService = service;
+            newReview.StarsPrice = price;
+            newReview.RestaurantName = restaurantName;
+            newReview.Note = "";
+
+            //var userN = SubjectId()
+            try
+            {
+                _ristoBL.AddReview(newReview, newReview.restaurantName, newReview.UserName);
+                return CreatedAtAction("SeeAllReviews", newReview);
+            }
+            catch(SqlException ex)
+            {
+                Log.Error($"SqlException catched in ADD REVIEW method: {ex}");
+                Console.WriteLine($"{newReview.UserName} cannot add another review to this restaurant.\n");
+                return BadRequest(ex.Message);
+            }
+            
+            
         }
+       // public static string SubjectId(this ClaimsPrincipal user) { return user?.Claims?.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))?.Value; }
+
+       // public IDictionary<string, string> Properties { get; }
         
     }
 }

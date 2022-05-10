@@ -57,8 +57,7 @@
             }
             catch (SqlException ex) 
             {
-                Log.Error($"SqlException catched in ADD REVIEW method: {ex}");
-                Console.WriteLine($"{newReview.UserName} cannot add another review to this restaurant.\n");
+                throw;
             }
             return newReview;
         }

@@ -18,7 +18,7 @@ namespace RistoranteAPI.Controllers
         [AllowAnonymous]
         [HttpPost]
         [Route("authenticate")]
-        public IActionResult Authenticate(UserAccount user)
+        public IActionResult Authenticate([FromQuery]UserAccount user)
         {
             var token = repository.Authenticate(user);
             if (token == null)
