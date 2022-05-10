@@ -12,8 +12,8 @@
         public UserAccount()
         {
             //Email = email;
-            Password = password;
             UserName = userName;
+            Password = password;
         }
     }
     public class AdminAccount

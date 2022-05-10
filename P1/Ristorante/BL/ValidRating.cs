@@ -2,21 +2,15 @@
 {
     public class ValidRating
     {
-        /*public static bool FiveStars(string stars)
+        public static bool FiveStars(double stars)
         {
             if (stars == null)
                 return false;
-            int validStars;
-            if (int.TryParse(stars, out validStars))
-            {
-                if (validStars >= 1 && validStars <= 5)
-                    return true;
-                else
-                    return false;
-            }
+            if (stars >= 1 && stars <= 5)
+                return true;
             else
                 return false;
-        }*/
+        }
         public static double OverallRating(Restaurant toBeRated)
         {
             IRepository repo = new SqlRepository();

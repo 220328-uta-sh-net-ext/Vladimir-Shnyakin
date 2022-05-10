@@ -21,6 +21,6 @@
         bool UserNameMatch(string userName);
         Restaurant AddRestaurant(Restaurant newRestaurant);
         UserAccount AddUser(UserAccount newUser);
-        Review AddReview(Review newReview, string restaurantName, string userName);
+        Review AddReview(Review newReview);
     }
 }

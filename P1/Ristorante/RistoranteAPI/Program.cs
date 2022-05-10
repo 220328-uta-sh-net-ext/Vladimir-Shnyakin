@@ -6,8 +6,11 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using RateAppDL;
 using RistoranteAPI.Repository;
+using Serilog;
 
-
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("../../../../DL/user.txt").MinimumLevel.Debug().MinimumLevel.Information()
+    .CreateLogger();
 
 //const string connectionStringFilePath = "../../../../DL/connection-string.txt";
 //string connectionString;

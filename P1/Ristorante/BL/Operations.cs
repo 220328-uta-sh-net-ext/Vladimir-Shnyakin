@@ -134,9 +134,18 @@
         {
             return database.AddUser(newUser);
         }
-        public Review AddReview(Review newReview, string restaurantName, string userName)
+        public Review AddReview(Review newReview)
         {
-            return database.AddReview(restaurantName, newReview, userName);
+            if (ValidRating.FiveStars(newReview.StarsTaste) == false)
+                throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
+            if (ValidRating.FiveStars(newReview.StarsMood) == false)
+                throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
+            if (ValidRating.FiveStars(newReview.StarsService) == false)
+                throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
+            if (ValidRating.FiveStars(newReview.StarsPrice) == false)
+                throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
+            
+            return database.AddReview(newReview);
         }
         
     }

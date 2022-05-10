@@ -35,7 +35,7 @@
             }
             return reviews;
         }
-        public Review AddReview(string restaurantName, Review newReview, string userName)
+        public Review AddReview(Review newReview)
         {
             string commandString = "INSERT INTO Reviews (StarsTaste, StarsMood, StarsService, StarsPrice, Note, UserName, RestaurantName) " +
                 "VALUES (@StarsTaste, @StarsMood, @StarsService, @StarsPrice, @Note, @UserName, @RestaurantName);";

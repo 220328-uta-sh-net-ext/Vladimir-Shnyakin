@@ -145,17 +145,21 @@ namespace RistoranteAPI.Controllers
             //var userN = SubjectId()
             try
             {
-                _ristoBL.AddReview(newReview, newReview.restaurantName, newReview.UserName);
+                _ristoBL.AddReview(newReview);
                 return CreatedAtAction("SeeAllReviews", newReview);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Log.Error($"ArgumentOutOfRangeException catched in ADD REVIEW method");
+                //string exeption = $"User \"{newReview.UserName}\" cannot add another review to \"{newReview.RestaurantName}\" restaurant.\n";
+                return BadRequest("ArgumentOutOfRangeException: Please rate from 1 to 5 only");
             }
             catch(SqlException ex)
             {
                 Log.Error($"SqlException catched in ADD REVIEW method: {ex}");
-                Console.WriteLine($"{newReview.UserName} cannot add another review to this restaurant.\n");
-                return BadRequest(ex.Message);
-            }
-            
-            
+                string exeption = $"User \"{newReview.UserName}\" cannot add another review to \"{newReview.RestaurantName}\" restaurant.\n";
+                return BadRequest(exeption);
+            } 
         }
        // public static string SubjectId(this ClaimsPrincipal user) { return user?.Claims?.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))?.Value; }
 
