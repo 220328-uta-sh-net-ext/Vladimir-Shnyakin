@@ -34,6 +34,7 @@ namespace RistoranteAPI.Repository
                     new Claim[]
                     {
                         new Claim(ClaimTypes.Name, user.UserName),
+                        new Claim(ClaimTypes.Role, Convert.ToString(user.UserName))
                     }),
                 Expires = DateTime.UtcNow.AddMinutes(5),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)

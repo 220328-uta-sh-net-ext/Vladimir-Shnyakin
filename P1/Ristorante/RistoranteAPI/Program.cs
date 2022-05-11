@@ -8,8 +8,10 @@ using RateAppDL;
 using RistoranteAPI.Repository;
 using Serilog;
 
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.File("../../../../DL/user.txt").MinimumLevel.Debug().MinimumLevel.Information()
+
+
+  Log.Logger = new LoggerConfiguration()
+    .WriteTo.File("../DL/user.txt").MinimumLevel.Debug().MinimumLevel.Information()
     .CreateLogger();
 
 //const string connectionStringFilePath = "../../../../DL/connection-string.txt";
@@ -58,7 +60,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
                 c =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your Api", Version = "v1" });
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ristorante", Version = "v1" });
                     //other options
 
                     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
@@ -89,6 +91,20 @@ builder.Services.AddSwaggerGen(
 builder.Services.AddScoped<IRepository>(repo => new SqlRepository());
 builder.Services.AddScoped<ILogic, Operations>();
 builder.Services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+/*builder.Services.AddIdentity(options => {
+    options.ClaimIdentity.UserIdClaimType = "UserID";
+});*/
+
+builder.Services.AddAuthorization(options =>
+{
+
+    options.AddPolicy("admin",
+        authBuilder =>
+        {
+            authBuilder.RequireRole("admin");
+        });
+
+});
 
 var app = builder.Build();
 app.Logger.LogInformation("App Started");

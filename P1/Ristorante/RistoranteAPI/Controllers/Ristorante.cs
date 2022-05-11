@@ -16,14 +16,14 @@ namespace RistoranteAPI.Controllers
     public class RistoranteController : ControllerBase
     {
         private ILogic _ristoBL;
-        private readonly IJWTManagerRepository repository;
+        //private readonly IJWTManagerRepository repository;
 
         public RistoranteController(ILogic _ristoBL, IJWTManagerRepository repository)//Constructor dependency
         {
             this._ristoBL = _ristoBL;
-            this.repository = repository;
+            //this.repository = repository;
         }
-        [Authorize]
+        
         [HttpGet("All/Restaurants")]
         [ProducesResponseType(200, Type = typeof(List<Restaurant>))]
         public ActionResult<List<Restaurant>> SeeAllRestaurants()
@@ -69,24 +69,7 @@ namespace RistoranteAPI.Controllers
                 return NotFound($"Restaurant name containing \"{cuisine}\" doesn't exist");
             return Ok(restaurant);
         }
-       
-        [HttpGet("All/Users")]
-        [ProducesResponseType(200, Type = typeof(List<UserAccount>))]
-        public ActionResult<List<UserAccount>> SeeAllUsers()
-        {
-            var users = _ristoBL.SeeAllUsers();
-            return Ok(users);
-        }
-        [HttpGet("Users/Search")]
-        [ProducesResponseType(200, Type = typeof(List<UserAccount>))]
-        [ProducesResponseType(404)]
-        public ActionResult<UserAccount> SearchUser(string userName)
-        {
-            var users = _ristoBL.SearchUser(userName);
-            if (users.Count <= 0)
-                return NotFound($"UserAccount containing \"{userName}\" doesn't exist");
-            return Ok(users);
-        }
+        
 
         [HttpGet("Restaurant/Reviews")]
         [ProducesResponseType(200, Type = typeof(List<Review>))]
@@ -96,30 +79,9 @@ namespace RistoranteAPI.Controllers
            // foreach (Review review in reviews)
             return Ok(reviews);
         }
-
-        [HttpPost("Add/Restaurant")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddRestaurant([FromQuery] string restaurantName, string cuisine)
-        {
-            Restaurant newRestaurant = new Restaurant();
-            newRestaurant.RestaurantName = restaurantName;
-            newRestaurant.Cuisine = cuisine;
-            _ristoBL.AddRestaurant(newRestaurant);
-            return CreatedAtAction("SearchRestaurant", newRestaurant);
-        }
-
-        [HttpPost("Add/User")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddUser([FromQuery] string newUserName, string password)
-        {
-            UserAccount newUser = new UserAccount();
-            newUser.UserName = newUserName;
-            newUser.Password = password;
-            _ristoBL.AddUser(newUser);
-            return CreatedAtAction("SeeAllUsers", newUser);
-        }
+        
+        
+        
         [Authorize]
         [HttpPost("Restaurant/Add/Review")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -157,7 +119,7 @@ namespace RistoranteAPI.Controllers
             catch(SqlException ex)
             {
                 Log.Error($"SqlException catched in ADD REVIEW method: {ex}");
-                string exeption = $"User \"{newReview.UserName}\" cannot add another review to \"{newReview.RestaurantName}\" restaurant.\n";
+                string exeption = $"User \"{newReview.UserName}\" cannot add review to \"{newReview.RestaurantName}\" restaurant.\n";
                 return BadRequest(exeption);
             } 
         }
