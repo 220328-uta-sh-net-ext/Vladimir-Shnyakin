@@ -15,7 +15,11 @@
                 foreach (var review in restaurant.Reviews)
                     reviews.Add(review);
             return reviews;*/
-            return database.GetAllReviews(restaurantName);
+
+            var reviews = database.GetAllReviews();
+            var filteredReviews = reviews.Where(r => r.RestaurantName.ToLower().Contains(restaurantName.ToLower())).ToList();
+
+            return filteredReviews;//database.GetAllReviews(restaurantName);
         }
         public List<Restaurant> SeeAllRestaurants()
         {
@@ -97,7 +101,6 @@
             var filteredUsers = users.Where(r => r.UserName.ToLower().Contains(name)).ToList();
             return filteredUsers;
         }
-
         public bool UserMatch(string userName, string password)
         {
             ILogic logic = new Operations();

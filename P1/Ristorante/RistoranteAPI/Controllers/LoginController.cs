@@ -29,7 +29,8 @@ namespace RistoranteAPI.Controllers
                 return Unauthorized();
             return Ok(token);
         }
-        [HttpPost("register")]
+        [HttpPost]
+        [Route("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult AddUser([FromQuery] string newUserName, string password)
@@ -38,7 +39,7 @@ namespace RistoranteAPI.Controllers
             newUser.UserName = newUserName;
             newUser.Password = password;
             _ristoBL.AddUser(newUser);
-            return CreatedAtAction("SeeAllUsers", newUser);
+            return CreatedAtAction("AddUser", newUser);
         }
     }
 }

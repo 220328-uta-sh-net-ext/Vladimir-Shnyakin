@@ -69,8 +69,6 @@ namespace RistoranteAPI.Controllers
                 return NotFound($"Restaurant name containing \"{cuisine}\" doesn't exist");
             return Ok(restaurant);
         }
-        
-
         [HttpGet("Restaurant/Reviews")]
         [ProducesResponseType(200, Type = typeof(List<Review>))]
         public ActionResult<List<Review>> SeeAllReviews(string restaurantName)

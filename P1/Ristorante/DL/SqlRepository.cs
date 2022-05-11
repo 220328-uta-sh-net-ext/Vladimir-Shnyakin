@@ -8,6 +8,33 @@
         {
             connectionString = File.ReadAllText(connectionStringFilePath);
         }
+        public List<Review> GetAllReviews()
+        {
+            string commandString = $"SELECT * FROM Reviews;";
+
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            IDataAdapter adapter = new SqlDataAdapter(command);
+            DataSet dataSet = new();
+            connection.Open();
+            adapter.Fill(dataSet);
+            connection.Close();
+            var reviews = new List<Review>();
+            foreach (DataRow row in dataSet.Tables[0].Rows)
+            {
+                reviews.Add(new Review
+                {
+                    StarsTaste = (int)row["StarsTaste"],
+                    StarsMood = (int)row["StarsMood"],
+                    StarsService = (int)row["StarsService"],
+                    StarsPrice = (int)row["StarsPrice"],
+                    Note = (string)row["Note"],
+                    UserName = (string)row["UserName"],
+                    RestaurantName = (string)row["RestaurantName"]
+                });
+            }
+            return reviews;
+        }
         public List<Review> GetAllReviews(string restaurantName)
         {
             string commandString = $"SELECT * FROM Reviews WHERE RestaurantName = '{restaurantName}'";
