@@ -3,8 +3,10 @@ using Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Models;
 using RistoranteAPI.Repository;
+using Serilog;
 
 namespace RistoranteAPI.Controllers
 {
@@ -49,8 +51,17 @@ namespace RistoranteAPI.Controllers
             Restaurant newRestaurant = new Restaurant();
             newRestaurant.RestaurantName = restaurantName;
             newRestaurant.Cuisine = cuisine;
-            _ristoBL.AddRestaurant(newRestaurant);
-            return CreatedAtAction("SearchRestaurant", newRestaurant);
+            try
+            {
+                _ristoBL.AddRestaurant(newRestaurant);
+                return CreatedAtAction("SearchRestaurant", newRestaurant);
+            }
+            catch (SqlException ex)
+            {
+                Log.Error($"SqlException in ADD RESTAURANT method catched: {ex}");
+                string exeption = $"Can not add restaurant! Restaurant \"{newRestaurant.RestaurantName}\" already exists.\n";
+                return BadRequest(exeption);
+            }
         }
     }
 }

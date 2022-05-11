@@ -66,7 +66,7 @@ namespace RistoranteAPI.Controllers
         {
             var restaurant = _ristoBL.SearchRestaurantType(cuisine);
             if (restaurant.Count <= 0)
-                return NotFound($"Restaurant name containing \"{cuisine}\" doesn't exist");
+                return NotFound($"Restaurant type containing \"{cuisine}\" doesn't exist");
             return Ok(restaurant);
         }
         [HttpGet("Restaurant/Reviews")]
@@ -78,31 +78,26 @@ namespace RistoranteAPI.Controllers
             return Ok(reviews);
         }
         
-        
-        
         [Authorize]
         [HttpPost("Restaurant/Add/Review")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddReview([FromQuery]string restaurantName, double taste, double mood, double service, double price)
+        public ActionResult AddReview([FromQuery]string restaurantName, double taste, double mood, double service, double price, string? note)
         {
-
-            //var claimsIdentity = this.User.Identity as ClaimsIdentity;
             var userId = User.Identity.Name;
-               // claimsIdentity.FindFirst(ClaimTypes.Name)?.Value;
-
+          
             Review newReview = new Review();
-            //string restaurantName = newReview.RestaurantName;
-            //string userName = newReview.UserName;
+         
             newReview.UserName = userId;
             newReview.StarsTaste = taste;
             newReview.StarsMood = mood;
             newReview.StarsService = service;
             newReview.StarsPrice = price;
             newReview.RestaurantName = restaurantName;
-            newReview.Note = "";
+            newReview.Note = note;
+            if (newReview.Note == null)
+                newReview.Note = "";
 
-            //var userN = SubjectId()
             try
             {
                 _ristoBL.AddReview(newReview);
@@ -121,9 +116,5 @@ namespace RistoranteAPI.Controllers
                 return BadRequest(exeption);
             } 
         }
-       // public static string SubjectId(this ClaimsPrincipal user) { return user?.Claims?.FirstOrDefault(c => c.Type.Equals(ClaimTypes.NameIdentifier, StringComparison.OrdinalIgnoreCase))?.Value; }
-
-       // public IDictionary<string, string> Properties { get; }
-        
     }
 }

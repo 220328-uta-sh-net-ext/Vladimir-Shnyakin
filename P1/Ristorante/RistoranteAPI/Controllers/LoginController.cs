@@ -3,7 +3,9 @@ using Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using RistoranteAPI.Repository;
+using Serilog;
 
 namespace RistoranteAPI.Controllers
 {
@@ -38,8 +40,17 @@ namespace RistoranteAPI.Controllers
             UserAccount newUser = new UserAccount();
             newUser.UserName = newUserName;
             newUser.Password = password;
-            _ristoBL.AddUser(newUser);
-            return CreatedAtAction("AddUser", newUser);
+            try
+            {
+                _ristoBL.AddUser(newUser);
+                return CreatedAtAction("AddUser", newUser);
+            }
+            catch(SqlException ex)
+            {
+                Log.Error($"SqlException in ADD USER method catched: {ex}");
+                string exeption = $"Can not add user! {newUser.UserName} is taken.\n";
+                return BadRequest(exeption);
+            }
         }
     }
 }

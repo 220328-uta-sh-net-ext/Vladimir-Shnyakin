@@ -162,8 +162,7 @@
             }
             catch (SqlException ex)
             {
-                Log.Error($"SqlException in ADD USER method catched: {ex}");
-                Console.WriteLine($"Can not add user! {newUser.UserName} is taken.\n");
+                throw;
             }
             return newUser;
         }
@@ -206,8 +205,7 @@
             }
             catch (SqlException ex)
             {
-                Log.Error($"SqlException in ADD RESTAURANT method catched: {ex}");
-                Console.WriteLine($"Can not add restaurant! Restaurant \"{newRestaurant.RestaurantName}\" already exists.\n");
+                throw;
             }
             return newRestaurant;
         }
