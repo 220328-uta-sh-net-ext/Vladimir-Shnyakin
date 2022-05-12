@@ -158,6 +158,16 @@
                 throw new ArgumentException("No ' (apostrophe) character allowed in Restaurant name. Use ` (tilda) instead ");
             return database.AddRestaurant(newRestaurant);
         }
+        public bool RemoveRestaurant(string restaurantName)
+        {
+            var restaurants = database.GetAllRestaurants();
+            foreach (var item in restaurants)
+                if (item.RestaurantName.Equals(restaurantName))
+                    if (database.RemoveRestaurant(item) == true)
+                        return true;
+                
+            return false;
+        }
         public UserAccount AddUser(UserAccount newUser)
         {
             return database.AddUser(newUser);

@@ -209,6 +209,26 @@
             }
             return newRestaurant;
         }
+        public bool RemoveRestaurant(Restaurant restaurant)
+        {
+            string commandString = $"DELETE FROM Restaurants WHERE RestaurantName = '{restaurant.RestaurantName}';";
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            try
+            {
+                
+               // command.Parameters.AddWithValue("@RestaurantName", restaurant.RestaurantName);
+               // command.Parameters.AddWithValue("@Cuisine", restaurant.Cuisine);
+                connection.Open();
+                command.ExecuteNonQuery();
+               return true;
+            }
+            catch(SqlException ex)
+            {
+                throw;
+                return false;
+            }
+        }
         
     }
 }

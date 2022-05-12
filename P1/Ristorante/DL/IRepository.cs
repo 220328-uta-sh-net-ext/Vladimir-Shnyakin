@@ -16,6 +16,7 @@ namespace RateAppDL
         UserAccount AddUser(UserAccount newUser);
         List<UserAccount> GetAllUsers();
         Restaurant AddRestaurant(Restaurant newRestaurant);
+        bool RemoveRestaurant(Restaurant restaurant);
         Task<List<Restaurant>> GetAllRestaurantsAsync();
     }
 }

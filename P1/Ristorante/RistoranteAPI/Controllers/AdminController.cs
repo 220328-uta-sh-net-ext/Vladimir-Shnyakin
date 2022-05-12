@@ -69,5 +69,25 @@ namespace RistoranteAPI.Controllers
                 return BadRequest(exception);
             }
         }
+        [Authorize(Roles = "admin")]
+        [HttpDelete("Remove/Restaurant")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult RemoveRestaurant([FromQuery] string restauranrName)
+        {
+            try
+            {
+                if (_ristoBL.RemoveRestaurant(restauranrName) == true)
+                    return Ok($"{restauranrName} deleted!");
+                else
+                    return BadRequest("No such restaurant!");
+            }
+            catch(SqlException ex)
+            {
+                Log.Error($"SqlException in ADD RESTAURANT method catched: {ex}");
+                string exception = $"Can not remove restaurant! Restaurant \"{restauranrName}\" does not exist.\n";
+                return BadRequest(exception);
+            }
+        }
     }
 }

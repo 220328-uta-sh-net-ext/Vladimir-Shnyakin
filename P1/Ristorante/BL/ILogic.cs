@@ -21,6 +21,7 @@
         bool UserMatch(string userName, string password);
         bool UserNameMatch(string userName);
         Restaurant AddRestaurant(Restaurant newRestaurant);
+        bool RemoveRestaurant(string restaurantName);
         UserAccount AddUser(UserAccount newUser);
         Review AddReview(Review newReview);
     }
