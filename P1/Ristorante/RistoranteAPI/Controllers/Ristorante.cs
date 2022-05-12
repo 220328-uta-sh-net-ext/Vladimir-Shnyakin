@@ -46,7 +46,7 @@ namespace RistoranteAPI.Controllers
         {
             var restaurant = _ristoBL.SearchRestaurant(name);
             if (restaurant.Count <= 0)
-                return NotFound($"Restaurant name containing \"{name}\" doesn't exist");
+                return NotFound($"Restaurant name containing \"{name}\" does not exist");
             return Ok(restaurant);
         }
         [HttpGet("SearchbyNameAsync")]
@@ -56,7 +56,7 @@ namespace RistoranteAPI.Controllers
         {
             var restaurant = await _ristoBL.SearchRestaurantAsync(name);
             if (restaurant.Count <= 0)
-                return NotFound($"Restaurant name containing \"{name}\" doesn't exist");
+                return NotFound($"Restaurant name containing \"{name}\" does not exist");
             return Ok(restaurant);
         }
         [HttpGet("SearchbyType")]
@@ -66,7 +66,7 @@ namespace RistoranteAPI.Controllers
         {
             var restaurant = _ristoBL.SearchRestaurantType(cuisine);
             if (restaurant.Count <= 0)
-                return NotFound($"Restaurant type containing \"{cuisine}\" doesn't exist");
+                return NotFound($"Restaurant type containing \"{cuisine}\" does not exist");
             return Ok(restaurant);
         }
         [HttpGet("Restaurant/Reviews")]

@@ -54,13 +54,19 @@ namespace RistoranteAPI.Controllers
             try
             {
                 _ristoBL.AddRestaurant(newRestaurant);
-                return CreatedAtAction("SearchRestaurant", newRestaurant);
+                return CreatedAtAction("AddRestaurant", newRestaurant);
+            }
+            catch (ArgumentException ex)
+            {
+                Log.Error($"SqlException in ADD RESTAURANT method catched: {ex}");
+                string exception = ex.Message;
+                return BadRequest(exception);
             }
             catch (SqlException ex)
             {
                 Log.Error($"SqlException in ADD RESTAURANT method catched: {ex}");
-                string exeption = $"Can not add restaurant! Restaurant \"{newRestaurant.RestaurantName}\" already exists.\n";
-                return BadRequest(exeption);
+                string exception = $"Can not add restaurant! Restaurant \"{newRestaurant.RestaurantName}\" already exists.\n";
+                return BadRequest(exception);
             }
         }
     }

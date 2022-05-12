@@ -51,10 +51,13 @@
         {
             var restaurants = database.GetAllRestaurants();
             var filteredRestaurants = restaurants.Where(r => r.RestaurantName.ToLower().Contains(name.ToLower())).ToList();
-            foreach (var restaurant in restaurants)
+            if (filteredRestaurants.Count > 0)
             {
-                restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
-                restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                foreach (var restaurant in filteredRestaurants)
+                {
+                    restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
+                    restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                }
             }
             return filteredRestaurants;
         }
@@ -62,11 +65,14 @@
         {
             var restaurants = await database.GetAllRestaurantsAsync();
             var filteredRestaurants = restaurants.Where(r => r.RestaurantName.ToLower().Contains(name.ToLower())).ToList();
-            foreach (var restaurant in restaurants)
+            if (filteredRestaurants.Count > 0)
             {
-                restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
-                restaurant.OverallRating = ValidRating.OverallRating(restaurant);
-            }
+                foreach (var restaurant in filteredRestaurants)
+                {
+                    restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
+                    restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                }
+            } 
             return filteredRestaurants;
         }
         /// <summary>
@@ -79,11 +85,15 @@
         {
             var restaurants = database.GetAllRestaurants();
             var filteredRestaurants = restaurants.Where(r => r.Cuisine.ToLower().Contains(cuisine)).ToList();
-            foreach (var restaurant in restaurants)
+            if(filteredRestaurants.Count > 0)
             {
-                restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
-                restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                foreach (var restaurant in filteredRestaurants)
+                {
+                    restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
+                    restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                }
             }
+            
             return filteredRestaurants;
         }
         /// <summary>
@@ -103,7 +113,7 @@
         public List<UserAccount> SearchUser(string name)
         {
             var users = database.GetAllUsers();
-            var filteredUsers = users.Where(r => r.UserName.ToLower().Contains(name)).ToList();
+            var filteredUsers = users.Where(r => r.UserName.ToLower().Contains(name.Trim().ToLower())).ToList();
             return filteredUsers;
         }
         public bool UserMatch(string userName, string password)
@@ -144,7 +154,9 @@
         }
         public Restaurant AddRestaurant(Restaurant newRestaurant)
         {
-          return database.AddRestaurant(newRestaurant);
+            if (newRestaurant.RestaurantName.Contains('\''))
+                throw new ArgumentException("No ' (apostrophe) character allowed in Restaurant name. Use ` (tilda) instead ");
+            return database.AddRestaurant(newRestaurant);
         }
         public UserAccount AddUser(UserAccount newUser)
         {
