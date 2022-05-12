@@ -89,12 +89,17 @@
         /// <summary>
         /// Can be accessed by admin only
         /// </summary>
+        /// <returns>List of users</returns>
         public List<UserAccount> SeeAllUsers()
         {
             var users = database.GetAllUsers();
             return users;
         }
-
+        /// <summary>
+        /// Can be accessed by admin only. Finds user by checking if user name contains given string
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns>Lis</returns>
         public List<UserAccount> SearchUser(string name)
         {
             var users = database.GetAllUsers();
@@ -128,6 +133,14 @@
             if (foundUser.Any() == true)
                 return true;
             else return false;
+        }
+        public bool AuthenticateUser(UserAccount user)
+        {
+            List<UserAccount> users = database.GetAllUsers();
+            if (users.Exists(a => a.UserName == user.UserName && a.Password == user.Password))
+                return true;
+            else
+                return false;
         }
         public Restaurant AddRestaurant(Restaurant newRestaurant)
         {

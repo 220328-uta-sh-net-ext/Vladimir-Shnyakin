@@ -17,6 +17,7 @@
 
         List<Restaurant> SeeAllRestaurants();
         Task<List<Restaurant>> SeeAllRestaurantsAsync();
+        bool AuthenticateUser(UserAccount user);
         bool UserMatch(string userName, string password);
         bool UserNameMatch(string userName);
         Restaurant AddRestaurant(Restaurant newRestaurant);

@@ -28,7 +28,8 @@ namespace RistoranteAPI.Controllers
         {
             var token = repository.Authenticate(user);
             if (token == null)
-                return Unauthorized();
+                return BadRequest("Wrong credentials. Please make sure you entered correct" +
+                    " username and password.");
             return Ok(token);
         }
         [HttpPost]

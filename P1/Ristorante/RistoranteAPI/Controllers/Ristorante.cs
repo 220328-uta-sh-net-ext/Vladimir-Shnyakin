@@ -112,8 +112,14 @@ namespace RistoranteAPI.Controllers
             catch(SqlException ex)
             {
                 Log.Error($"SqlException catched in ADD REVIEW method: {ex}");
-                string exeption = $"User \"{newReview.UserName}\" cannot add review to \"{newReview.RestaurantName}\" restaurant.\n";
-                return BadRequest(exeption);
+                string exception = ex.ToString();
+                if (exception.Contains("PRIMARY"))
+                    exception = $"User \"{newReview.UserName}\" cannot add another review to \"{newReview.RestaurantName}\" restaurant.\n";
+                else if (exception.Contains("Note"))
+                    exception = "Note cannot be more than 140 characters!";
+                else
+                    exception = $"User \"{newReview.UserName}\" cannot add review to \"{newReview.RestaurantName}\" restaurant.\n";
+                return BadRequest(exception);
             } 
         }
     }

@@ -2,6 +2,11 @@
 {
     public class ValidRating
     {
+        /// <summary>
+        /// Checks if rating for newReview is in required range (1 to 5)
+        /// </summary>
+        /// <param name="stars"></param>
+        /// <returns>True if it is, False if it's not</returns>
         public static bool FiveStars(double stars)
         {
             if (stars == null)
@@ -11,6 +16,11 @@
             else
                 return false;
         }
+        /// <summary>
+        /// Updates overallrating of a restaurant wich is dependent on all reviews for given restaurant.
+        /// </summary>
+        /// <param name="toBeRated"></param>
+        /// <returns>If restaurant has no reviews it's overallraiting is 1</returns>
         public static double OverallRating(Restaurant toBeRated)
         {
             IRepository repo = new SqlRepository();
@@ -37,6 +47,11 @@
                 toBeRated.OverallRating = 1;
             return toBeRated.OverallRating;
         }
+        /// <summary>
+        /// Connects restaurant obj with reviews that belong to it
+        /// </summary>
+        /// <param name="withReviews"></param>
+        /// <returns></returns>
         public static List<Review> IncludeReviews(Restaurant withReviews)
         {
             IRepository repo = new SqlRepository();
