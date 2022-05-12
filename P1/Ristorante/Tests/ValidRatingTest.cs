@@ -75,7 +75,7 @@ namespace Tests
                 OverallRating = 0,
                 Reviews = new List<Review> { review }
             };
-            double actual = restaurantForTest.OverallRating= ValidRating.OverallRating(restaurantForTest);
+            double actual = ValidRating.OverallRating(restaurantForTest);
             
             Assert.Equal(expected, actual);
         }
@@ -115,6 +115,68 @@ namespace Tests
             Assert.Equal(expected[0].StarsService, actual[0].StarsService);
             Assert.Equal(expected[0].RestaurantName, actual[0].RestaurantName);
             //Assert.True(expected.SequenceEqual(actual));
+        }
+        [Theory]
+        [InlineData(-1, false)]
+        [InlineData(0, false)]
+        [InlineData(1, true)]
+        [InlineData(2, true)]
+        [InlineData(3, true)]
+        [InlineData(3.6, true)]
+        [InlineData(4, true)]
+        [InlineData(5, true)]
+        [InlineData(6, false)]
+        public void TestFiveStars(double stars, bool expected)
+        {
+            bool actual = ValidRating.FiveStars(stars);
+
+            Assert.Equal(expected, actual);
+        }
+    }
+    public class OperationsTest
+    {
+        private ILogic _ristoBL = new Operations();
+        [Fact]
+        public void TestSeeAllReviews()
+        {
+            int expected = 1;
+            Review review = new()
+            {
+                RestaurantName = "BBQ",
+                Note = "Still remember the taste!",
+                StarsMood = 4,
+                StarsPrice = 4,
+                StarsService = 5,
+                StarsTaste = 5,
+                UserName = "vas",
+            };
+            Restaurant restaurantForTest = new Restaurant
+            {
+                RestaurantName = "BBQ",
+                Cuisine = "American",
+                OverallRating = 0,
+                Reviews = new List<Review> { review }
+            };
+            var actual = _ristoBL.SeeAllReviews(restaurantForTest.RestaurantName);
+            
+
+            Assert.Equal(review.StarsTaste, actual[0].StarsTaste);
+            Assert.Equal(review.StarsMood, actual[0].StarsMood);
+            Assert.Equal(review.StarsService, actual[0].StarsService);
+            Assert.Equal(review.StarsPrice, actual[0].StarsPrice);
+            Assert.Equal(review.UserName, actual[0].UserName);
+            Assert.Equal(review.RestaurantName, actual[0].RestaurantName);
+            Assert.Equal(review.Note, actual[0].Note);
+        }
+        [Fact]
+        public void TestSeeAllRestaurants()
+        {
+            int expected = 10;
+
+            int actual = _ristoBL.SeeAllRestaurants().Count();
+
+            Assert.Equal(expected, actual);
+            //Assert.
         }
     }
 }

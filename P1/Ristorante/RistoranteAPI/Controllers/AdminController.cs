@@ -10,7 +10,7 @@ using Serilog;
 
 namespace RistoranteAPI.Controllers
 {
-    [Route("api/[controller]")]
+   // [Route("api/[controller]")]
     [ApiController]
     public class AdminController : ControllerBase
     {

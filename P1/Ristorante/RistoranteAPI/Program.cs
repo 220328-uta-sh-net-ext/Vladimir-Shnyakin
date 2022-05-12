@@ -60,7 +60,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(
                 c =>
                 {
-                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ristorante", Version = "v1" });
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Ristorante", Version = "v1",
+                        Description = "App to review restaurants" });
                     //other options
 
                     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()

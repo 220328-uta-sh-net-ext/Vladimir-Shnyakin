@@ -16,7 +16,7 @@
             Password = password;
         }
     }
-    public class AdminAccount
+   /* public class AdminAccount
     {
         private string adminName = "admin", password = "123";
         private string AdminName { get; }
@@ -26,5 +26,5 @@
             AdminName = adminName;
             Password = password;
         }
-    }
+    }*/
 }
