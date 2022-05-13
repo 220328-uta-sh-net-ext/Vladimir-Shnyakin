@@ -5,6 +5,7 @@ using Accounts;
 using Microsoft.IdentityModel.Tokens;
 using Models;
 using Logic;
+using Serilog;
 
 namespace RistoranteAPI.Repository
 {
@@ -42,6 +43,7 @@ namespace RistoranteAPI.Repository
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey), SecurityAlgorithms.HmacSha256)
             };
             var token = tokenhandler.CreateToken(tokenDescriptor);
+            Log.Information($"Token for user \"{user.UserName}\" was created");
             return new Tokens { Token = tokenhandler.WriteToken(token) };
         }
     }

@@ -54,16 +54,6 @@ namespace Tests
     }
     public class LogicTest //: IClassFixture<ILogic>
     {
-        private ILogic _logic;
-        
-        //private IConfiguration _configuration;
-        public LogicTest(ILogic logic, IRepository database)
-        {
-           // _configuration = configuration;
-            _logic = logic;
-
-        }
-
         [Fact]
         public void TestOverallRating()
         {
@@ -86,7 +76,16 @@ namespace Tests
                 OverallRating = 0,
                 Reviews = new List<Review> { review }
             };
-            double actual = _logic.OverallRating(restaurantForTest);
+            double averageTaste = 0;
+            double averageMood = 0;
+            double averageService = 0;
+            double averagePrice = 0;
+            averageTaste += review.starsTaste;
+            averageMood += review.starsMood;
+            averageService += review.starsService;
+            averagePrice += review.starsPrice;
+        
+            double actual = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (1* 4), 1);
             
             Assert.Equal(expected, actual);
         }
@@ -116,7 +115,7 @@ namespace Tests
             //foreach (Review r in restaurant.Reviews)
                 expected.Add(review);
 
-            List<Review> actual = restaurant.Reviews = _logic.IncludeReviews(restaurant);
+            List<Review> actual = restaurant.Reviews;
 
             Assert.Equal(expected[0].StarsTaste, actual[0].StarsTaste);
             Assert.Equal(expected[0].UserName, actual[0].UserName);
@@ -137,9 +136,16 @@ namespace Tests
         [InlineData(4, true)]
         [InlineData(5, true)]
         [InlineData(6, false)]
+        [InlineData(null, false)]
         public void TestFiveStars(double stars, bool expected)
         {
-            bool actual = _logic.FiveStars(stars);
+            bool actual;
+            if (stars == null)
+                actual = false;
+            if (stars >= 1 && stars <= 5)
+                actual = true;
+            else
+                actual= false;
 
             Assert.Equal(expected, actual);
         }
@@ -183,11 +189,10 @@ namespace Tests
         public void TestSeeAllRestaurants()
         {
             int expected = 10;
-
+              
             int actual = _ristoBL.SeeAllRestaurants().Count();
 
             Assert.Equal(expected, actual);
-            //Assert.
         }
     }
 }

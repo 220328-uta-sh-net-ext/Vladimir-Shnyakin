@@ -54,11 +54,12 @@ namespace RistoranteAPI.Controllers
             try
             {
                 _ristoBL.AddRestaurant(newRestaurant);
+                Log.Information($"Restaurant named \"{newRestaurant.RestaurantName}\" was added");
                 return CreatedAtAction("AddRestaurant", newRestaurant);
             }
             catch (ArgumentException ex)
             {
-                Log.Error($"SqlException in ADD RESTAURANT method catched: {ex}");
+                Log.Error($"ArgumentException in ADD RESTAURANT method catched: {ex}");
                 string exception = ex.Message;
                 return BadRequest(exception);
             }

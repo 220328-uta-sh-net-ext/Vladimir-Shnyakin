@@ -8,9 +8,7 @@ using RateAppDL;
 using RistoranteAPI.Repository;
 using Serilog;
 
-
-
-  Log.Logger = new LoggerConfiguration()
+Log.Logger = new LoggerConfiguration()
     .WriteTo.File("../DL/user.txt").MinimumLevel.Debug().MinimumLevel.Information()
     .CreateLogger();
 

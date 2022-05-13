@@ -39,6 +39,7 @@ namespace RistoranteAPI.Controllers
         {
             if (!_memoryCache.TryGetValue("restaurantsList", out List<Restaurant> restaurants))
             {
+                Log.Information("Restaurant list was cached");
                 restaurants = await _ristoBL.SeeAllRestaurantsAsync();
                 _memoryCache.Set("restaurantsList", restaurants, new TimeSpan(0, 1, 0));
             }
@@ -51,6 +52,7 @@ namespace RistoranteAPI.Controllers
         public ActionResult<Restaurant> SearchRestaurant(string name)
         {
             var restaurant = _ristoBL.SearchRestaurant(name);
+            Log.Information($"{name} was typed to search a restaurant by name");
             if (restaurant.Count <= 0)
                 return NotFound($"Restaurant name containing \"{name}\" does not exist");
             return Ok(restaurant);
@@ -61,6 +63,7 @@ namespace RistoranteAPI.Controllers
         public async Task<ActionResult<Restaurant>> SearchRestaurantAsync(string name)
         {
             var restaurant = await _ristoBL.SearchRestaurantAsync(name);
+            Log.Information($"{name} was typed to search a restaurant by name");
             if (restaurant.Count <= 0)
                 return NotFound($"Restaurant name containing \"{name}\" does not exist");
             return Ok(restaurant);
@@ -71,6 +74,7 @@ namespace RistoranteAPI.Controllers
         public ActionResult<Restaurant> SearchRestaurantType(string cuisine)
         {
             var restaurant = _ristoBL.SearchRestaurantType(cuisine);
+            Log.Information($"{cuisine} was typed to search a restaurant by cuisine");
             if (restaurant.Count <= 0)
                 return NotFound($"Restaurant type containing \"{cuisine}\" does not exist");
             return Ok(restaurant);

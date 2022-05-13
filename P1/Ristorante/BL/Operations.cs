@@ -12,17 +12,10 @@
         }
         public List<Review> SeeAllReviews(string restaurantName)
         {
-            /*var restaurants = SearchRestaurant(restaurantName);
-            List<Review> reviews = new List<Review>();
-            foreach (var restaurant in restaurants)
-                foreach (var review in restaurant.Reviews)
-                    reviews.Add(review);
-            return reviews;*/
-
             var reviews = database.GetAllReviews();
             var filteredReviews = reviews.Where(r => r.RestaurantName.ToLower().Contains(restaurantName.ToLower())).ToList();
 
-            return filteredReviews;//database.GetAllReviews(restaurantName);
+            return filteredReviews;
         }
         public List<Restaurant> SeeAllRestaurants()
         {
