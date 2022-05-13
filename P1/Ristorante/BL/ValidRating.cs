@@ -1,6 +1,6 @@
 ﻿namespace Logic
 {
-    public class ValidRating
+    /*public class ValidRating
     {
         /// <summary>
         /// Checks if rating for newReview is in required range (1 to 5)
@@ -64,5 +64,5 @@
             }
             return withReviews.Reviews;
         }
-    }
+    }*/
 }

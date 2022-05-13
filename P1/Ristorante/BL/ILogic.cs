@@ -24,5 +24,8 @@
         bool RemoveRestaurant(string restaurantName);
         UserAccount AddUser(UserAccount newUser);
         Review AddReview(Review newReview);
+        bool FiveStars(double stars);
+        double OverallRating(Restaurant toBeRated);
+        List<Review> IncludeReviews(Restaurant withReviews);
     }
 }

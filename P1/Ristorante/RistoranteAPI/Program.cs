@@ -53,7 +53,7 @@ builder.Services.AddAuthentication(options =>
     options.DefaultPolicy = defaultAuthorizationPolicyBuilder.Build();
 });*/
 
-
+builder.Services.AddMemoryCache();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -88,10 +88,10 @@ builder.Services.AddSwaggerGen(
                         }
                     });
                 });
-
-builder.Services.AddScoped<IRepository>(repo => new SqlRepository());
+// Config.GetConnectionString("Ristorante")
+builder.Services.AddScoped<IRepository>(repo => new SqlRepository(Config.GetConnectionString("Ristorante")));
 builder.Services.AddScoped<ILogic, Operations>();
-builder.Services.AddSingleton<IJWTManagerRepository, JWTManagerRepository>();
+builder.Services.AddScoped<IJWTManagerRepository, JWTManagerRepository>();
 /*builder.Services.AddIdentity(options => {
     options.ClaimIdentity.UserIdClaimType = "UserID";
 });*/
@@ -111,7 +111,7 @@ var app = builder.Build();
 app.Logger.LogInformation("App Started");
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

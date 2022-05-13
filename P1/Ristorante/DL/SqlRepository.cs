@@ -2,11 +2,11 @@
 {
     public class SqlRepository : IRepository
     {
-        private const string connectionStringFilePath = "../DL/connection-string.txt";
+        //private const string connectionStringFilePath = "../DL/connection-string.txt";
         private readonly string connectionString;
-        public SqlRepository()
+        public SqlRepository(string connectionString)
         {
-            connectionString = File.ReadAllText(connectionStringFilePath);
+         this.connectionString = connectionString;
         }
         public List<Review> GetAllReviews()
         {

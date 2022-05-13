@@ -52,11 +52,22 @@ namespace Tests
             Assert.Equal("22Star!", newUser.Password);
         }
     }
-    public class LogicTest
+    public class LogicTest //: IClassFixture<ILogic>
     {
+        private ILogic _logic;
+        
+        //private IConfiguration _configuration;
+        public LogicTest(ILogic logic, IRepository database)
+        {
+           // _configuration = configuration;
+            _logic = logic;
+
+        }
+
         [Fact]
         public void TestOverallRating()
         {
+            
             double expected = 4.5;
             Review review = new Review
             {
@@ -75,7 +86,7 @@ namespace Tests
                 OverallRating = 0,
                 Reviews = new List<Review> { review }
             };
-            double actual = ValidRating.OverallRating(restaurantForTest);
+            double actual = _logic.OverallRating(restaurantForTest);
             
             Assert.Equal(expected, actual);
         }
@@ -105,7 +116,7 @@ namespace Tests
             //foreach (Review r in restaurant.Reviews)
                 expected.Add(review);
 
-            List<Review> actual = restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
+            List<Review> actual = restaurant.Reviews = _logic.IncludeReviews(restaurant);
 
             Assert.Equal(expected[0].StarsTaste, actual[0].StarsTaste);
             Assert.Equal(expected[0].UserName, actual[0].UserName);
@@ -128,18 +139,18 @@ namespace Tests
         [InlineData(6, false)]
         public void TestFiveStars(double stars, bool expected)
         {
-            bool actual = ValidRating.FiveStars(stars);
+            bool actual = _logic.FiveStars(stars);
 
             Assert.Equal(expected, actual);
         }
     }
     public class OperationsTest
     {
-        private ILogic _ristoBL = new Operations();
+        private ILogic _ristoBL;
         [Fact]
         public void TestSeeAllReviews()
         {
-            int expected = 1;
+            //int expected = 1;
             Review review = new()
             {
                 RestaurantName = "BBQ",

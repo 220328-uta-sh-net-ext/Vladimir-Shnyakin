@@ -7,6 +7,7 @@ using RistoranteAPI.Repository;
 using System.Security.Claims;
 using Microsoft.Data.SqlClient;
 using Serilog;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace RistoranteAPI.Controllers
 {
@@ -17,10 +18,11 @@ namespace RistoranteAPI.Controllers
     {
         private ILogic _ristoBL;
         //private readonly IJWTManagerRepository repository;
-
-        public RistoranteController(ILogic _ristoBL, IJWTManagerRepository repository)//Constructor dependency
+        private readonly IMemoryCache _memoryCache;
+        public RistoranteController(ILogic _ristoBL, IMemoryCache memoryCache )//IJWTManagerRepository repository)//Constructor dependency
         {
             this._ristoBL = _ristoBL;
+            this._memoryCache = memoryCache;
             //this.repository = repository;
         }
         
@@ -35,7 +37,11 @@ namespace RistoranteAPI.Controllers
         [ProducesResponseType(200, Type = typeof(List<Restaurant>))]
         public async Task<ActionResult<List<Restaurant>>> SeeAllRestaurantsAsync()
         {
-            var restaurants = await _ristoBL.SeeAllRestaurantsAsync();
+            if (!_memoryCache.TryGetValue("restaurantsList", out List<Restaurant> restaurants))
+            {
+                restaurants = await _ristoBL.SeeAllRestaurantsAsync();
+                _memoryCache.Set("restaurantsList", restaurants, new TimeSpan(0, 1, 0));
+            }
             return Ok(restaurants);
         }
 
@@ -74,7 +80,9 @@ namespace RistoranteAPI.Controllers
         public ActionResult<List<Review>> SeeAllReviews(string restaurantName)
         {
             var reviews = _ristoBL.SeeAllReviews(restaurantName);
-           // foreach (Review review in reviews)
+            if (reviews.Count <= 0)
+                return NotFound($"Restaurant name containing \"{restaurantName}\" does not exist");
+            // foreach (Review review in reviews)
             return Ok(reviews);
         }
         

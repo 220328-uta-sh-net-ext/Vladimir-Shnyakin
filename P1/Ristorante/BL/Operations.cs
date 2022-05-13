@@ -5,8 +5,11 @@
     /// </summary>
     public class Operations : ILogic
     {
-        IRepository database = new SqlRepository();
-
+        readonly IRepository database;// = new SqlRepository();
+        public Operations(IRepository database)
+        {
+            this.database = database;
+        }
         public List<Review> SeeAllReviews(string restaurantName)
         {
             /*var restaurants = SearchRestaurant(restaurantName);
@@ -26,8 +29,8 @@
             var restaurants = database.GetAllRestaurants();
             foreach (var restaurant in restaurants)
             {
-                restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
-                restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                restaurant.Reviews = IncludeReviews(restaurant);
+                restaurant.OverallRating = OverallRating(restaurant);
             } 
             return restaurants;
         }
@@ -36,8 +39,8 @@
             var restaurants = await database.GetAllRestaurantsAsync();
             foreach (var restaurant in restaurants)
             {
-                restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
-                restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                restaurant.Reviews = IncludeReviews(restaurant);
+                restaurant.OverallRating = OverallRating(restaurant);
             }
             return restaurants;
         }
@@ -55,8 +58,8 @@
             {
                 foreach (var restaurant in filteredRestaurants)
                 {
-                    restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
-                    restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                    restaurant.Reviews = IncludeReviews(restaurant);
+                    restaurant.OverallRating = OverallRating(restaurant);
                 }
             }
             return filteredRestaurants;
@@ -69,8 +72,8 @@
             {
                 foreach (var restaurant in filteredRestaurants)
                 {
-                    restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
-                    restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                    restaurant.Reviews = IncludeReviews(restaurant);
+                    restaurant.OverallRating = OverallRating(restaurant);
                 }
             } 
             return filteredRestaurants;
@@ -89,8 +92,8 @@
             {
                 foreach (var restaurant in filteredRestaurants)
                 {
-                    restaurant.Reviews = ValidRating.IncludeReviews(restaurant);
-                    restaurant.OverallRating = ValidRating.OverallRating(restaurant);
+                    restaurant.Reviews = IncludeReviews(restaurant);
+                    restaurant.OverallRating = OverallRating(restaurant);
                 }
             }
             
@@ -118,7 +121,7 @@
         }
         public bool UserMatch(string userName, string password)
         {
-            ILogic logic = new Operations();
+            //ILogic logic = new Operations();
             var users = database.GetAllUsers();
 
             var foundUser = users.Where(r => r.UserName.Equals(userName)).ToList();
@@ -174,17 +177,78 @@
         }
         public Review AddReview(Review newReview)
         {
-            if (ValidRating.FiveStars(newReview.StarsTaste) == false)
+            if (FiveStars(newReview.StarsTaste) == false)
                 throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
-            if (ValidRating.FiveStars(newReview.StarsMood) == false)
+            if (FiveStars(newReview.StarsMood) == false)
                 throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
-            if (ValidRating.FiveStars(newReview.StarsService) == false)
+            if (FiveStars(newReview.StarsService) == false)
                 throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
-            if (ValidRating.FiveStars(newReview.StarsPrice) == false)
+            if (FiveStars(newReview.StarsPrice) == false)
                 throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
             
             return database.AddReview(newReview);
         }
-        
+        /// <summary>
+        /// Checks if rating for newReview is in required range (1 to 5)
+        /// </summary>
+        /// <param name="stars"></param>
+        /// <returns>True if it is, False if it's not</returns>
+        public bool FiveStars(double stars)
+        {
+            if (stars == null)
+                return false;
+            if (stars >= 1 && stars <= 5)
+                return true;
+            else
+                return false;
+        }
+        /// <summary>
+        /// Updates overallrating of a restaurant wich is dependent on all reviews for given restaurant.
+        /// </summary>
+        /// <param name="toBeRated"></param>
+        /// <returns>If restaurant has no reviews it's overallraiting is 1</returns>
+        public double OverallRating(Restaurant toBeRated)
+        {
+            //IRepository repo = new SqlRepository();
+            //repo.GetAllReviews(toBeRated.RestaurantName).Count();
+            List<Review> list = database.GetAllReviews(toBeRated.RestaurantName);
+            int n = 0;
+            double averageTaste = 0;
+            double averageMood = 0;
+            double averageService = 0;
+            double averagePrice = 0;
+            if (list.Count > 0)
+            {
+                foreach (Review r in list)
+                {
+                    averageTaste += r.StarsTaste;
+                    averageMood += r.StarsMood;
+                    averageService += r.StarsService;
+                    averagePrice += r.StarsPrice;
+                    n++;
+                }
+                toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (n * 4), 1);
+            }
+            if (toBeRated.OverallRating == 0)
+                toBeRated.OverallRating = 1;
+            return toBeRated.OverallRating;
+        }
+        /// <summary>
+        /// Connects restaurant obj with reviews that belong to it
+        /// </summary>
+        /// <param name="withReviews"></param>
+        /// <returns></returns>
+        public List<Review> IncludeReviews(Restaurant withReviews)
+        {
+            //IRepository repo = new SqlRepository();
+            List<Review> list = database.GetAllReviews(withReviews.RestaurantName);
+            if (list.Count > 0)
+            {
+                withReviews.Reviews = new List<Review>();
+                foreach (Review r in list)
+                    withReviews.Reviews.Add(r);
+            }
+            return withReviews.Reviews;
+        }
     }
 }
