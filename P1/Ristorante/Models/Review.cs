@@ -2,13 +2,13 @@
 {
     public class Review
     {
+        public string RestaurantName { get; set; }
         public double StarsTaste { get; set; }
         public double StarsMood { get; set; }
         public double StarsService { get; set; }
         public double StarsPrice { get; set; }
         public string Note { get; set; }
         public string UserName { get; set; }
-        public string RestaurantName { get; set; }
         public string userName, restaurantName;
         public double starsTaste, starsMood, starsService, starsPrice;
         

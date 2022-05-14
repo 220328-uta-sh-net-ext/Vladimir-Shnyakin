@@ -22,7 +22,7 @@ namespace RistoranteAPI.Controllers
         public RistoranteController(ILogic _ristoBL, IMemoryCache memoryCache )//IJWTManagerRepository repository)//Constructor dependency
         {
             this._ristoBL = _ristoBL;
-            this._memoryCache = memoryCache;
+            _memoryCache = memoryCache;
             //this.repository = repository;
         }
         
@@ -30,19 +30,41 @@ namespace RistoranteAPI.Controllers
         [ProducesResponseType(200, Type = typeof(List<Restaurant>))]
         public ActionResult<List<Restaurant>> SeeAllRestaurants()
         {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             var restaurants = _ristoBL.SeeAllRestaurants();
+            watch.Stop();
+            var elapsedMs = watch.ElapsedMilliseconds;
+            Log.Information("It took " + elapsedMs + "ms to read from DB, using \"SeeAllRestaurants\" method");
             return Ok(restaurants);
         }
+        /// <summary>
+        /// Asynchronous method to get list of all restaurants. Cashes the result for 1 minute
+        /// </summary>
+        /// <returns>List of all restaurants</returns>
         [HttpGet("All/RestaurantsAsync")]
         [ProducesResponseType(200, Type = typeof(List<Restaurant>))]
         public async Task<ActionResult<List<Restaurant>>> SeeAllRestaurantsAsync()
         {
+            var watch = System.Diagnostics.Stopwatch.StartNew();
             if (!_memoryCache.TryGetValue("restaurantsList", out List<Restaurant> restaurants))
             {
-                Log.Information("Restaurant list was cached");
-                restaurants = await _ristoBL.SeeAllRestaurantsAsync();
-                _memoryCache.Set("restaurantsList", restaurants, new TimeSpan(0, 1, 0));
+                try
+                {
+                    Log.Information("Restaurant list was cached");
+                    restaurants = await _ristoBL.SeeAllRestaurantsAsync();
+                    _memoryCache.Set("restaurantsList", restaurants, new TimeSpan(0, 1, 0));
+                    watch.Stop();
+                    var elapsedMs = watch.ElapsedMilliseconds;
+                    Log.Information("It took " + elapsedMs + "ms to read from DB, using \"SeeAllRestaurantsAsync\" method");
+                    return Ok(restaurants);
+                }
+                catch (SqlException ex)
+                {
+                    Log.Error($"SqlException catched in SeeAllRestaurantsAsync method: {ex}");
+                    return StatusCode(StatusCodes.Status503ServiceUnavailable,"Connection problem detected");
+                }
             }
+            Log.Information("It took 0ms to read from DB, because it was saved in memory cache");
             return Ok(restaurants);
         }
 
@@ -57,6 +79,11 @@ namespace RistoranteAPI.Controllers
                 return NotFound($"Restaurant name containing \"{name}\" does not exist");
             return Ok(restaurant);
         }
+        /// <summary>
+        /// Asynchronous method to search restaurant by name
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet("SearchbyNameAsync")]
         [ProducesResponseType(200, Type = typeof(Restaurant))]
         [ProducesResponseType(404)]
@@ -89,7 +116,17 @@ namespace RistoranteAPI.Controllers
             // foreach (Review review in reviews)
             return Ok(reviews);
         }
-        
+        /// <summary>
+        /// Adds review to the restaurant, chosen by passing it's exact name. User must be authorized first. Username is taken from
+        /// ClaimsPrincipal
+        /// </summary>
+        /// <param name="restaurantName"></param>
+        /// <param name="taste"></param>
+        /// <param name="mood"></param>
+        /// <param name="service"></param>
+        /// <param name="price"></param>
+        /// <param name="note"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPost("Restaurant/Add/Review")]
         [ProducesResponseType(StatusCodes.Status201Created)]

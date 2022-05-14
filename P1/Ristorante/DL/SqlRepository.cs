@@ -16,6 +16,7 @@
             using SqlCommand command = new(commandString, connection);
             IDataAdapter adapter = new SqlDataAdapter(command);
             DataSet dataSet = new();
+            Log.Information($"SQL command \"{commandString}\" was used");
             connection.Open();
             adapter.Fill(dataSet);
             connection.Close();
@@ -43,6 +44,7 @@
             using SqlCommand command = new(commandString, connection);
             IDataAdapter adapter = new SqlDataAdapter(command);
             DataSet dataSet = new();
+            Log.Information($"SQL command \"{commandString}\" was used");
             connection.Open();
             adapter.Fill(dataSet);
             connection.Close();
@@ -78,6 +80,7 @@
                 command.Parameters.AddWithValue("@Note", newReview.Note);
                 command.Parameters.AddWithValue("@UserName", newReview.UserName);
                 command.Parameters.AddWithValue("@RestaurantName", newReview.RestaurantName);
+                Log.Information($"SQL command \"{commandString}\" was used");
                 connection.Open();
                 command.ExecuteNonQuery();
                 Console.WriteLine("\nReview saved!\n");
@@ -96,6 +99,7 @@
             using SqlCommand command = new(commandString, connection);
             IDataAdapter adapter = new SqlDataAdapter(command);
             DataSet dataSet = new();
+            Log.Information($"SQL command \"{commandString}\" was used");
             connection.Open();
             adapter.Fill(dataSet); // this sends the query. DataAdapter uses a DataReader to read.
             connection.Close();
@@ -121,6 +125,7 @@
             using SqlCommand command = new(commandString, connection);
             IDataAdapter adapter = new SqlDataAdapter(command);
             DataSet dataSet = new();
+            Log.Information($"SQL command \"{commandString}\" was used");
             try
             {
                 await connection.OpenAsync();
@@ -128,7 +133,7 @@
             }
             catch (SqlException ex)
             {
-                System.Console.WriteLine(ex.Message);
+                throw;
             }
             finally
             {
@@ -153,6 +158,7 @@
                 "VALUES (@UserName, @Password);";
             using SqlConnection connection = new(connectionString);
             using SqlCommand command = new(commandString, connection);
+            Log.Information($"SQL command \"{commandString}\" was used");
             try
             {
                 command.Parameters.AddWithValue("@UserName", newUser.UserName);

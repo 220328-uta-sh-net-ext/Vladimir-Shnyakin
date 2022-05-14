@@ -150,9 +150,13 @@ namespace Tests
             Assert.Equal(expected, actual);
         }
     }
-    public class OperationsTest
+    /*public class OperationsTest
     {
-        private ILogic _ristoBL;
+        //private ILogic _ristoBL;
+      
+        static string connection;
+        static IRepository _repository = new SqlRepository(connection);
+        ILogic _ristoBL = new Operations(_repository);
         [Fact]
         public void TestSeeAllReviews()
         {
@@ -188,11 +192,11 @@ namespace Tests
         [Fact]
         public void TestSeeAllRestaurants()
         {
-            int expected = 10;
+            int expected = 11;
               
             int actual = _ristoBL.SeeAllRestaurants().Count();
 
             Assert.Equal(expected, actual);
         }
-    }
+    }*/
 }

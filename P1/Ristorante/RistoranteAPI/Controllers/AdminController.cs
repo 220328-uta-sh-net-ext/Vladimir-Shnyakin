@@ -70,6 +70,11 @@ namespace RistoranteAPI.Controllers
                 return BadRequest(exception);
             }
         }
+        /// <summary>
+        /// Restaurant name must be matched exactly
+        /// </summary>
+        /// <param name="restauranrName"></param>
+        /// <returns></returns>
         [Authorize(Roles = "admin")]
         [HttpDelete("Remove/Restaurant")]
         [ProducesResponseType(StatusCodes.Status200OK)]

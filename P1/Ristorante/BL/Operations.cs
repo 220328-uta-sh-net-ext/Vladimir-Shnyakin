@@ -17,22 +17,30 @@
 
             return filteredReviews;
         }
+        /// <summary>
+        /// See all restaurants
+        /// </summary>
+        /// <returns>List of restaurants</returns>
         public List<Restaurant> SeeAllRestaurants()
         {
             var restaurants = database.GetAllRestaurants();
             foreach (var restaurant in restaurants)
             {
-                restaurant.Reviews = IncludeReviews(restaurant);
+               // restaurant.Reviews = IncludeReviews(restaurant);
                 restaurant.OverallRating = OverallRating(restaurant);
             } 
             return restaurants;
         }
+        /// <summary>
+        /// Asynchronous way to get restaurant list
+        /// </summary>
+        /// <returns>List of restaurants</returns>
         public async Task<List<Restaurant>> SeeAllRestaurantsAsync()
         {
             var restaurants = await database.GetAllRestaurantsAsync();
             foreach (var restaurant in restaurants)
             {
-                restaurant.Reviews = IncludeReviews(restaurant);
+               // restaurant.Reviews = IncludeReviews(restaurant);
                 restaurant.OverallRating = OverallRating(restaurant);
             }
             return restaurants;
@@ -51,12 +59,17 @@
             {
                 foreach (var restaurant in filteredRestaurants)
                 {
-                    restaurant.Reviews = IncludeReviews(restaurant);
+                    //restaurant.Reviews = IncludeReviews(restaurant);
                     restaurant.OverallRating = OverallRating(restaurant);
                 }
             }
             return filteredRestaurants;
         }
+        /// <summary>
+        /// Asynchronous way to call SearchRestaurant
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public async Task<List<Restaurant>> SearchRestaurantAsync(string name)
         {
             var restaurants = await database.GetAllRestaurantsAsync();
@@ -65,7 +78,7 @@
             {
                 foreach (var restaurant in filteredRestaurants)
                 {
-                    restaurant.Reviews = IncludeReviews(restaurant);
+                    //restaurant.Reviews = IncludeReviews(restaurant);
                     restaurant.OverallRating = OverallRating(restaurant);
                 }
             } 
@@ -85,7 +98,7 @@
             {
                 foreach (var restaurant in filteredRestaurants)
                 {
-                    restaurant.Reviews = IncludeReviews(restaurant);
+                    //restaurant.Reviews = IncludeReviews(restaurant);
                     restaurant.OverallRating = OverallRating(restaurant);
                 }
             }
@@ -105,14 +118,14 @@
         /// Can be accessed by admin only. Finds user by checking if user name contains given string
         /// </summary>
         /// <param name="name"></param>
-        /// <returns>Lis</returns>
+        /// <returns>List of users</returns>
         public List<UserAccount> SearchUser(string name)
         {
             var users = database.GetAllUsers();
             var filteredUsers = users.Where(r => r.UserName.ToLower().Contains(name.Trim().ToLower())).ToList();
             return filteredUsers;
         }
-        public bool UserMatch(string userName, string password)
+        /*public bool UserMatch(string userName, string password)
         {
             //ILogic logic = new Operations();
             var users = database.GetAllUsers();
@@ -129,8 +142,8 @@
             } 
             else
                 return false;
-        }
-        public bool UserNameMatch(string userName)
+        }*/
+       /* public bool UserNameMatch(string userName)
         {
             var users = database.GetAllUsers();
 
@@ -139,7 +152,7 @@
             if (foundUser.Any() == true)
                 return true;
             else return false;
-        }
+        }*/
         public bool AuthenticateUser(UserAccount user)
         {
             List<UserAccount> users = database.GetAllUsers();
@@ -202,36 +215,44 @@
         /// <returns>If restaurant has no reviews it's overallraiting is 1</returns>
         public double OverallRating(Restaurant toBeRated)
         {
-            //IRepository repo = new SqlRepository();
-            //repo.GetAllReviews(toBeRated.RestaurantName).Count();
             List<Review> list = database.GetAllReviews(toBeRated.RestaurantName);
             int n = 0;
             double averageTaste = 0;
             double averageMood = 0;
             double averageService = 0;
             double averagePrice = 0;
-            if (list.Count > 0)
+
+            toBeRated.Reviews = new List<Review>();
+            
+            foreach (Review r in list)
             {
-                foreach (Review r in list)
+                if (r.RestaurantName == toBeRated.RestaurantName)
                 {
                     averageTaste += r.StarsTaste;
                     averageMood += r.StarsMood;
                     averageService += r.StarsService;
                     averagePrice += r.StarsPrice;
+
+                    toBeRated.Reviews.Add(r);
+
                     n++;
                 }
-                toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (n * 4), 1);
             }
+            if (n > 0)
+                toBeRated.OverallRating = Math.Round((averageTaste + averageMood + averageService + averagePrice) / (n * 4), 1);
+            else
+                toBeRated.Reviews = null;
             if (toBeRated.OverallRating == 0)
                 toBeRated.OverallRating = 1;
             return toBeRated.OverallRating;
         }
+       
         /// <summary>
         /// Connects restaurant obj with reviews that belong to it
         /// </summary>
         /// <param name="withReviews"></param>
         /// <returns></returns>
-        public List<Review> IncludeReviews(Restaurant withReviews)
+        /*public List<Review> IncludeReviews(Restaurant withReviews)
         {
             //IRepository repo = new SqlRepository();
             List<Review> list = database.GetAllReviews(withReviews.RestaurantName);
@@ -242,6 +263,6 @@
                     withReviews.Reviews.Add(r);
             }
             return withReviews.Reviews;
-        }
+        }*/
     }
 }

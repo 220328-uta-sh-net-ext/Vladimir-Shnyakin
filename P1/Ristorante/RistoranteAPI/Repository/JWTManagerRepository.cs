@@ -22,6 +22,11 @@ namespace RistoranteAPI.Repository
         {
             {"user1" , "password1" }
         };*/
+        /// <summary>
+        /// ClaimTypes will hold authenticated username and role (for admin purposes only)
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         public Tokens Authenticate(UserAccount user)
         {
            // List<UserAccount> users = logic.SeeAllUsers();

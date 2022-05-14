@@ -21,7 +21,11 @@ namespace RistoranteAPI.Controllers
             this._ristoBL = _ristoBL;
             this.repository = repository;
         }
-        //[AllowAnonymous]
+        /// <summary>
+        /// Gives token authentication to registered user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("authenticate")]
         public IActionResult Authenticate([FromQuery]UserAccount user)
@@ -32,6 +36,12 @@ namespace RistoranteAPI.Controllers
                     " username and password.");
             return Ok(token);
         }
+        /// <summary>
+        /// Registers new user
+        /// </summary>
+        /// <param name="newUserName"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]

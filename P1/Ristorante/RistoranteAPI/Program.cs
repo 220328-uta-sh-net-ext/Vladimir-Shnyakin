@@ -106,7 +106,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 var app = builder.Build();
-app.Logger.LogInformation("App Started");
+//app.Logger.LogInformation("App Started");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
@@ -117,6 +117,7 @@ if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 
 app.UseHttpsRedirection();
 //app.UseRouting();
+app.Logger.LogInformation("App Started");
 app.UseAuthentication();
 app.UseAuthorization();
 

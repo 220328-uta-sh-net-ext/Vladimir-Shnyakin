@@ -5,8 +5,8 @@
     /// </summary>
     public class UserAccount
     {
-        public string Password { get; set; }
         public string UserName { get; set; }
+        public string Password { get; set; }
         public string userName;
         private string password;
         public UserAccount()
