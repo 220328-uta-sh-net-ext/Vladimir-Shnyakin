@@ -38,7 +38,7 @@
         }
         public List<Review> GetAllReviews(string restaurantName)
         {
-            string commandString = "SELECT * FROM Reviews WHERE RestaurantName = @RrestaurantName;";
+            string commandString = "SELECT * FROM Reviews WHERE RestaurantName = @RestaurantName;";
 
             using SqlConnection connection = new(connectionString);
             using SqlCommand command = new(commandString, connection);
