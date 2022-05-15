@@ -10,18 +10,27 @@ using Serilog;
 
 namespace RistoranteAPI.Controllers
 {
-   // [Route("api/[controller]")]
+    /// <summary>
+    /// Holds Admin tools
+    /// </summary>
     [ApiController]
+    //[Produces("application/json")]
     public class AdminController : ControllerBase
     {
         private ILogic _ristoBL;
         //private readonly IJWTManagerRepository repository;
-
+        /// <summary>
+        /// Holds Admin tools
+        /// </summary>
         public AdminController(ILogic _ristoBL, IJWTManagerRepository repository)//Constructor dependency
         {
             this._ristoBL = _ristoBL;
             //this.repository = repository;
         }
+        /// <summary>
+        /// See all registered users
+        /// </summary>
+        /// <returns>List of UserAccount objects</returns>
         [Authorize(Roles = "admin")]
         [HttpGet("All/Users")]
         [ProducesResponseType(200, Type = typeof(List<UserAccount>))]
@@ -30,6 +39,11 @@ namespace RistoranteAPI.Controllers
             var users = _ristoBL.SeeAllUsers();
             return Ok(users);
         }
+        /// <summary>
+        /// Pass a string. All user accounts containing it will be displayed
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         [Authorize(Roles = "admin")]
         [HttpGet("Users/Search")]
         [ProducesResponseType(200, Type = typeof(List<UserAccount>))]
@@ -42,6 +56,12 @@ namespace RistoranteAPI.Controllers
                 return NotFound($"UserAccount containing \"{userName}\" doesn't exist");
             return Ok(users);
         }
+        /// <summary>
+        /// No restaurant with the same name allowed
+        /// </summary>
+        /// <param name="restaurantName"></param>
+        /// <param name="cuisine"></param>
+        /// <returns></returns>
         [Authorize(Roles = "admin")]
         [HttpPost("Add/Restaurant")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -71,7 +91,7 @@ namespace RistoranteAPI.Controllers
             }
         }
         /// <summary>
-        /// Restaurant name must be matched exactly
+        /// Restaurant name must be matched exactly. It's reviews will be removed as well
         /// </summary>
         /// <param name="restauranrName"></param>
         /// <returns></returns>
@@ -95,6 +115,11 @@ namespace RistoranteAPI.Controllers
                 return BadRequest(exception);
             }
         }
+        /// <summary>
+        /// Delete UserAccount. Reviews by that user are intact
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         [Authorize(Roles = "admin")]
         [HttpDelete("Remove/User")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -115,6 +140,12 @@ namespace RistoranteAPI.Controllers
                 return BadRequest(exception);
             }
         }
+        /// <summary>
+        /// Restaurant and user names must be matched exactly
+        /// </summary>
+        /// <param name="restaurantName"></param>
+        /// <param name="userName"></param>
+        /// <returns></returns>
         [Authorize(Roles = "admin")]
         [HttpDelete("Remove/Review")]
         [ProducesResponseType(StatusCodes.Status200OK)]

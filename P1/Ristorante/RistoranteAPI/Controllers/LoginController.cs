@@ -22,7 +22,8 @@ namespace RistoranteAPI.Controllers
             this.repository = repository;
         }
         /// <summary>
-        /// Gives token authentication to registered user
+        /// Gives token authentication to registered user. Copy the token to authorize.
+        /// Token is good for 5 minutes.
         /// </summary>
         /// <param name="user"></param>
         /// <returns></returns>

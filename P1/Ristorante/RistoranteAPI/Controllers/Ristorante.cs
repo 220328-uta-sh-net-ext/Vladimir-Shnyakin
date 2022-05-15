@@ -25,7 +25,10 @@ namespace RistoranteAPI.Controllers
             _memoryCache = memoryCache;
             //this.repository = repository;
         }
-        
+        /// <summary>
+        /// Standard method. No cache. Logs time of execution in log file
+        /// </summary>
+        /// <returns></returns>
         [HttpGet("All/Restaurants")]
         [ProducesResponseType(200, Type = typeof(List<Restaurant>))]
         public ActionResult<List<Restaurant>> SeeAllRestaurants()
@@ -39,6 +42,7 @@ namespace RistoranteAPI.Controllers
         }
         /// <summary>
         /// Asynchronous method to get list of all restaurants. Cashes the result for 1 minute
+        /// Logs time of execution in log file
         /// </summary>
         /// <returns>List of all restaurants</returns>
         [HttpGet("All/RestaurantsAsync")]
@@ -67,7 +71,11 @@ namespace RistoranteAPI.Controllers
             Log.Information("It took 0ms to read from DB, because it was saved in memory cache");
             return Ok(restaurants);
         }
-
+        /// <summary>
+        /// Simple search using "contains"
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         [HttpGet("SearchbyName")]
         [ProducesResponseType(200, Type = typeof(Restaurant))]
         [ProducesResponseType(404)]
@@ -95,6 +103,11 @@ namespace RistoranteAPI.Controllers
                 return NotFound($"Restaurant name containing \"{name}\" does not exist");
             return Ok(restaurant);
         }
+        /// <summary>
+        /// Simple search using "contains"
+        /// </summary>
+        /// <param name="cuisine"></param>
+        /// <returns></returns>
         [HttpGet("SearchbyType")]
         [ProducesResponseType(200, Type = typeof(Restaurant))]
         [ProducesResponseType(404)]
@@ -106,6 +119,11 @@ namespace RistoranteAPI.Controllers
                 return NotFound($"Restaurant type containing \"{cuisine}\" does not exist");
             return Ok(restaurant);
         }
+        /// <summary>
+        /// Pass a string. Shows all reviews with restaurant names that contain given string
+        /// </summary>
+        /// <param name="restaurantName"></param>
+        /// <returns></returns>
         [HttpGet("Restaurant/Reviews")]
         [ProducesResponseType(200, Type = typeof(List<Review>))]
         public ActionResult<List<Review>> SeeAllReviews(string restaurantName)
@@ -171,6 +189,11 @@ namespace RistoranteAPI.Controllers
                 return BadRequest(exception);
             } 
         }
+        /// <summary>
+        /// Remove review that you left. You can only have 1 review per restaurant. Restaurant name must be matched exactly
+        /// </summary>
+        /// <param name="restaurantName"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpDelete("Restaurant/RemoveMyReview")]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -192,6 +215,16 @@ namespace RistoranteAPI.Controllers
                 return BadRequest(exception);
             }
         }
+        /// <summary>
+        /// Edit your review after you have submitted it. Restaurant name must be matched exactly
+        /// </summary>
+        /// <param name="restaurantName"></param>
+        /// <param name="taste"></param>
+        /// <param name="mood"></param>
+        /// <param name="service"></param>
+        /// <param name="price"></param>
+        /// <param name="note"></param>
+        /// <returns></returns>
         [Authorize]
         [HttpPut("Restaurant/ChangeMyReview")]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -222,6 +255,11 @@ namespace RistoranteAPI.Controllers
                 Log.Error($"ArgumentOutOfRangeException catched in CHANGE REVIEW method");
                 //string exeption = $"User \"{newReview.UserName}\" cannot add another review to \"{newReview.RestaurantName}\" restaurant.\n";
                 return BadRequest("ArgumentOutOfRangeException: Please rate from 1 to 5 only");
+            }
+            catch (ArgumentException ex)
+            {
+                Log.Error($"ArgumentException catched in CHANGE REVIEW method");
+                return BadRequest(ex.Message);
             }
             catch (SqlException ex)
             {

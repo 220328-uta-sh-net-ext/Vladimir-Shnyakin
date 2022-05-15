@@ -233,7 +233,13 @@ namespace Logic
             if (FiveStars(newReview.StarsPrice) == false)
                 throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
 
-            return database.ChangeReview(newReview);
+            var restaurants = database.GetAllRestaurants();
+            foreach (var item in restaurants)
+                if (item.RestaurantName.Equals(newReview.RestaurantName))
+                    return database.ChangeReview(newReview);
+                else
+                    continue;
+            throw new ArgumentException("Restaurant name must be matched exactly!");
         }
         /// <summary>
         /// Checks if rating for newReview is in required range (1 to 5)

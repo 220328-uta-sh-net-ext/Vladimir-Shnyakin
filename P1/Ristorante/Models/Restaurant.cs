@@ -1,7 +1,10 @@
-﻿namespace Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Models
 {
     public class Restaurant
     {
+       // [Required]
         public string RestaurantName { get; set; }
         public string Cuisine { get; set; }
         public double OverallRating { get; set; }
