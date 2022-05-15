@@ -4,7 +4,7 @@ namespace Models
 {
     public class Restaurant
     {
-       // [Required]
+        [Required]
         public string RestaurantName { get; set; }
         public string Cuisine { get; set; }
         public double OverallRating { get; set; }

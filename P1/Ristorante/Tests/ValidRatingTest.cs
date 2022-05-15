@@ -14,14 +14,16 @@ namespace Tests
         [Fact]
         public void ReviewTest()
         {
-            Review newReview = new Review();
-            newReview.Note = null;
-            newReview.UserName = "Koti4";
-            newReview.RestaurantName = "Crusty Crab";
-            newReview.StarsTaste = 5;
-            newReview.StarsMood = 4;
-            newReview.StarsService = 3;
-            newReview.StarsPrice = 1;
+            Review newReview = new()
+            {
+                Note = null,
+                UserName = "Koti4",
+                RestaurantName = "Crusty Crab",
+                StarsTaste = 5,
+                StarsMood = 4,
+                StarsService = 3,
+                StarsPrice = 1
+            };
 
             Assert.Equal(5, newReview.StarsTaste);
             Assert.Equal(4, newReview.StarsMood);
@@ -34,9 +36,11 @@ namespace Tests
         [Fact]
         public void RestaurantTest()
         {
-            Restaurant newRestaurant = new Restaurant();
-            newRestaurant.RestaurantName = "Happy bread";
-            newRestaurant.Cuisine = "Breakfast";
+            Restaurant newRestaurant = new()
+            {
+                RestaurantName = "Happy bread",
+                Cuisine = "Breakfast"
+            };
 
             Assert.Equal("Happy bread", newRestaurant.RestaurantName);
             Assert.Equal("Breakfast", newRestaurant.Cuisine);
@@ -44,9 +48,11 @@ namespace Tests
         [Fact]
         public void UserAccountTest()
         {
-            UserAccount newUser = new UserAccount();
-            newUser.UserName = "Demigod";
-            newUser.Password = "22Star!";
+            UserAccount newUser = new()
+            {
+                UserName = "Demigod",
+                Password = "22Star!"
+            };
 
             Assert.Equal("Demigod", newUser.UserName);
             Assert.Equal("22Star!", newUser.Password);
@@ -59,7 +65,7 @@ namespace Tests
         {
             
             double expected = 4.5;
-            Review review = new Review
+            Review review = new()
             {
                 restaurantName = "BBQ",
                 Note = "Still remember the taste!",
@@ -69,7 +75,7 @@ namespace Tests
                 starsTaste = 5,
                 userName = "vas",
             };
-            Restaurant restaurantForTest = new Restaurant
+            Restaurant restaurantForTest = new()
             {
                 RestaurantName = "BBQ",
                 Cuisine = "American",
@@ -92,7 +98,7 @@ namespace Tests
         [Fact]
         public void TestIncludeReviews()
         {
-            Review review = new Review
+            Review review = new()
             {
                 RestaurantName = "BBQ",
                 Note = "Still remember the taste!",
@@ -103,7 +109,7 @@ namespace Tests
                 UserName = "vas",
             };
          
-            Restaurant restaurant = new Restaurant
+            Restaurant restaurant = new()
             {
                 RestaurantName = "BBQ",
                 Cuisine = "American",
@@ -111,9 +117,11 @@ namespace Tests
                 Reviews = new List<Review> { review }
             };
 
-            List<Review> expected = new List<Review>();
-            //foreach (Review r in restaurant.Reviews)
-                expected.Add(review);
+            List<Review> expected = new()
+            {
+                //foreach (Review r in restaurant.Reviews)
+                review
+            };
 
             List<Review> actual = restaurant.Reviews;
 

@@ -8,6 +8,7 @@ using System.Security.Claims;
 using Microsoft.Data.SqlClient;
 using Serilog;
 using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace RistoranteAPI.Controllers
 {
@@ -16,7 +17,7 @@ namespace RistoranteAPI.Controllers
     
     public class RistoranteController : ControllerBase
     {
-        private ILogic _ristoBL;
+        private readonly ILogic _ristoBL;
         //private readonly IJWTManagerRepository repository;
         private readonly IMemoryCache _memoryCache;
         public RistoranteController(ILogic _ristoBL, IMemoryCache memoryCache )//IJWTManagerRepository repository)//Constructor dependency
@@ -41,7 +42,7 @@ namespace RistoranteAPI.Controllers
             return Ok(restaurants);
         }
         /// <summary>
-        /// Asynchronous method to get list of all restaurants. Cashes the result for 1 minute
+        /// Asynchronous method to get list of all restaurants. Cashes the result for 1 minute.
         /// Logs time of execution in log file
         /// </summary>
         /// <returns>List of all restaurants</returns>
@@ -79,7 +80,7 @@ namespace RistoranteAPI.Controllers
         [HttpGet("SearchbyName")]
         [ProducesResponseType(200, Type = typeof(Restaurant))]
         [ProducesResponseType(404)]
-        public ActionResult<Restaurant> SearchRestaurant(string name)
+        public ActionResult<Restaurant> SearchRestaurant([BindRequired]string name)
         {
             var restaurant = _ristoBL.SearchRestaurant(name);
             Log.Information($"{name} was typed to search a restaurant by name");
@@ -95,7 +96,7 @@ namespace RistoranteAPI.Controllers
         [HttpGet("SearchbyNameAsync")]
         [ProducesResponseType(200, Type = typeof(Restaurant))]
         [ProducesResponseType(404)]
-        public async Task<ActionResult<Restaurant>> SearchRestaurantAsync(string name)
+        public async Task<ActionResult<Restaurant>> SearchRestaurantAsync([BindRequired] string name)
         {
             var restaurant = await _ristoBL.SearchRestaurantAsync(name);
             Log.Information($"{name} was typed to search a restaurant by name");
@@ -111,7 +112,7 @@ namespace RistoranteAPI.Controllers
         [HttpGet("SearchbyType")]
         [ProducesResponseType(200, Type = typeof(Restaurant))]
         [ProducesResponseType(404)]
-        public ActionResult<Restaurant> SearchRestaurantType(string cuisine)
+        public ActionResult<Restaurant> SearchRestaurantType([BindRequired] string cuisine)
         {
             var restaurant = _ristoBL.SearchRestaurantType(cuisine);
             Log.Information($"{cuisine} was typed to search a restaurant by cuisine");
@@ -120,13 +121,14 @@ namespace RistoranteAPI.Controllers
             return Ok(restaurant);
         }
         /// <summary>
-        /// Pass a string. Shows all reviews with restaurant names that contain given string
+        /// Shows all reviews with restaurant names that contain given string
         /// </summary>
         /// <param name="restaurantName"></param>
         /// <returns></returns>
+        /// <remarks>Pass a string</remarks>
         [HttpGet("Restaurant/Reviews")]
         [ProducesResponseType(200, Type = typeof(List<Review>))]
-        public ActionResult<List<Review>> SeeAllReviews(string restaurantName)
+        public ActionResult<List<Review>> SeeAllReviews([BindRequired] string restaurantName)
         {
             var reviews = _ristoBL.SeeAllReviews(restaurantName);
             if (reviews.Count <= 0)
@@ -135,8 +137,7 @@ namespace RistoranteAPI.Controllers
             return Ok(reviews);
         }
         /// <summary>
-        /// Adds review to the restaurant, chosen by passing it's exact name. User must be authorized first. Username is taken from
-        /// ClaimsPrincipal
+        /// Adds review to the restaurant, chosen by passing it's exact name. User must be authorized first
         /// </summary>
         /// <param name="restaurantName"></param>
         /// <param name="taste"></param>
@@ -145,23 +146,26 @@ namespace RistoranteAPI.Controllers
         /// <param name="price"></param>
         /// <param name="note"></param>
         /// <returns></returns>
+        /// <remarks>Username is taken from ClaimsPrincipal</remarks>
         [Authorize]
         [HttpPost("Restaurant/AddReview")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddReview([FromQuery]string restaurantName, double taste, double mood, double service, double price, string? note)
+        public ActionResult AddReview([FromQuery, BindRequired]string restaurantName, [BindRequired] double taste, 
+            [BindRequired] double mood, [BindRequired] double service, [BindRequired] double price, string? note)
         {
             var userId = User.Identity.Name;
-          
-            Review newReview = new Review();
-         
-            newReview.UserName = userId;
-            newReview.StarsTaste = taste;
-            newReview.StarsMood = mood;
-            newReview.StarsService = service;
-            newReview.StarsPrice = price;
-            newReview.RestaurantName = restaurantName;
-            newReview.Note = note;
+
+            Review newReview = new()
+            {
+                UserName = userId,
+                StarsTaste = taste,
+                StarsMood = mood,
+                StarsService = service,
+                StarsPrice = price,
+                RestaurantName = restaurantName,
+                Note = note
+            };
             if (newReview.Note == null)
                 newReview.Note = "";
 
@@ -198,7 +202,7 @@ namespace RistoranteAPI.Controllers
         [HttpDelete("Restaurant/RemoveMyReview")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult RemoveReview([FromQuery] string restaurantName)
+        public ActionResult RemoveReview([FromQuery, BindRequired] string restaurantName)
         {
             var userId = User.Identity.Name;
             try
@@ -229,19 +233,21 @@ namespace RistoranteAPI.Controllers
         [HttpPut("Restaurant/ChangeMyReview")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult ChangeReview([FromQuery] string restaurantName, double taste, double mood, double service, double price, string? note)
+        public ActionResult ChangeReview([FromQuery, BindRequired] string restaurantName, [BindRequired] double taste,
+            [BindRequired] double mood, [BindRequired] double service, [BindRequired] double price, string? note)
         {
             var userId = User.Identity.Name;
 
-            Review newReview = new Review();
-
-            newReview.UserName = userId;
-            newReview.StarsTaste = taste;
-            newReview.StarsMood = mood;
-            newReview.StarsService = service;
-            newReview.StarsPrice = price;
-            newReview.RestaurantName = restaurantName;
-            newReview.Note = note;
+            Review newReview = new()
+            {
+                UserName = userId,
+                StarsTaste = taste,
+                StarsMood = mood,
+                StarsService = service,
+                StarsPrice = price,
+                RestaurantName = restaurantName,
+                Note = note
+            };
             if (newReview.Note == null)
                 newReview.Note = "";
 
@@ -254,7 +260,7 @@ namespace RistoranteAPI.Controllers
             {
                 Log.Error($"ArgumentOutOfRangeException catched in CHANGE REVIEW method");
                 //string exeption = $"User \"{newReview.UserName}\" cannot add another review to \"{newReview.RestaurantName}\" restaurant.\n";
-                return BadRequest("ArgumentOutOfRangeException: Please rate from 1 to 5 only");
+                return BadRequest(ex.Message);
             }
             catch (ArgumentException ex)
             {

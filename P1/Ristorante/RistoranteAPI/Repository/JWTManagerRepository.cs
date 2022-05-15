@@ -11,8 +11,8 @@ namespace RistoranteAPI.Repository
 {
     public class JWTManagerRepository : IJWTManagerRepository
     {
-        private ILogic _logic;
-        private IConfiguration _configuration;
+        private readonly ILogic _logic;
+        private readonly IConfiguration _configuration;
         public JWTManagerRepository(IConfiguration configuration, ILogic logic)
         {
             _configuration = configuration;

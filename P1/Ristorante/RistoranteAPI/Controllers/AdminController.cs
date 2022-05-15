@@ -3,6 +3,7 @@ using Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Data.SqlClient;
 using Models;
 using RistoranteAPI.Repository;
@@ -17,12 +18,12 @@ namespace RistoranteAPI.Controllers
     //[Produces("application/json")]
     public class AdminController : ControllerBase
     {
-        private ILogic _ristoBL;
+        private readonly ILogic _ristoBL;
         //private readonly IJWTManagerRepository repository;
         /// <summary>
         /// Holds Admin tools
         /// </summary>
-        public AdminController(ILogic _ristoBL, IJWTManagerRepository repository)//Constructor dependency
+        public AdminController(ILogic _ristoBL)//, IJWTManagerRepository repository)//Constructor dependency
         {
             this._ristoBL = _ristoBL;
             //this.repository = repository;
@@ -49,7 +50,7 @@ namespace RistoranteAPI.Controllers
         [ProducesResponseType(200, Type = typeof(List<UserAccount>))]
         [ProducesResponseType(404)]
         //[ProducesResponseType(403)]
-        public ActionResult<UserAccount> SearchUser(string userName)
+        public ActionResult<UserAccount> SearchUser([BindRequired]string userName)
         {
             var users = _ristoBL.SearchUser(userName);
             if (users.Count <= 0)
@@ -66,11 +67,13 @@ namespace RistoranteAPI.Controllers
         [HttpPost("Add/Restaurant")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddRestaurant([FromQuery] string restaurantName, string cuisine)
+        public ActionResult AddRestaurant([FromQuery, BindRequired] string restaurantName, [BindRequired]string cuisine)
         {
-            Restaurant newRestaurant = new Restaurant();
-            newRestaurant.RestaurantName = restaurantName;
-            newRestaurant.Cuisine = cuisine;
+            Restaurant newRestaurant = new()
+            {
+                RestaurantName = restaurantName,
+                Cuisine = cuisine
+            };
             try
             {
                 _ristoBL.AddRestaurant(newRestaurant);
@@ -99,7 +102,7 @@ namespace RistoranteAPI.Controllers
         [HttpDelete("Remove/Restaurant")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult RemoveRestaurant([FromQuery] string restauranrName)
+        public ActionResult RemoveRestaurant([FromQuery, BindRequired] string restauranrName)
         {
             try
             {
@@ -120,11 +123,12 @@ namespace RistoranteAPI.Controllers
         /// </summary>
         /// <param name="userName"></param>
         /// <returns></returns>
+        /// <remarks>UserName must be matched exactly</remarks>
         [Authorize(Roles = "admin")]
         [HttpDelete("Remove/User")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult RemoveUser([FromQuery] string userName)
+        public ActionResult RemoveUser([FromQuery, BindRequired] string userName)
         {
             try
             {
@@ -150,7 +154,7 @@ namespace RistoranteAPI.Controllers
         [HttpDelete("Remove/Review")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult RemoveReview([FromQuery] string restaurantName, string userName)
+        public ActionResult RemoveReview([FromQuery, BindRequired] string restaurantName, [BindRequired] string userName)
         {
             try
             {

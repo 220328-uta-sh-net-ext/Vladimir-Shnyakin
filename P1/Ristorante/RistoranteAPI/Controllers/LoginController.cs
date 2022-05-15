@@ -1,8 +1,10 @@
-﻿using Accounts;
+﻿using System.ComponentModel.DataAnnotations;
+using Accounts;
 using Logic;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Data.SqlClient;
 using RistoranteAPI.Repository;
 using Serilog;
@@ -13,7 +15,7 @@ namespace RistoranteAPI.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private ILogic _ristoBL;
+        private readonly ILogic _ristoBL;
         private readonly IJWTManagerRepository repository;
 
         public LoginController(ILogic _ristoBL, IJWTManagerRepository repository)//Constructor dependency
@@ -22,15 +24,21 @@ namespace RistoranteAPI.Controllers
             this.repository = repository;
         }
         /// <summary>
-        /// Gives token authentication to registered user. Copy the token to authorize.
-        /// Token is good for 5 minutes.
+        /// Gives token authentication to registered user. Token is good for 5 minutes
         /// </summary>
-        /// <param name="user"></param>
+        /// <param name="UserName"></param>
+        /// <param name="password"></param>
         /// <returns></returns>
+        /// <remarks>Copy the token. Press authorize. Using keyboard type: Bearer /paste token/</remarks>
         [HttpPost]
         [Route("authenticate")]
-        public IActionResult Authenticate([FromQuery]UserAccount user)
+        public IActionResult Authenticate([FromQuery, BindRequired] string UserName, [BindRequired, DataType(DataType.Password)] string password)
         {
+            UserAccount user = new()
+            {
+                UserName = UserName,
+                Password = password
+            };
             var token = repository.Authenticate(user);
             if (token == null)
                 return BadRequest("Wrong credentials. Please make sure you entered correct" +
@@ -47,11 +55,13 @@ namespace RistoranteAPI.Controllers
         [Route("register")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public ActionResult AddUser([FromQuery] string newUserName, string password)
+        public ActionResult AddUser([FromQuery, BindRequired] string newUserName, [BindRequired, DataType(DataType.Password)] string password)
         {
-            UserAccount newUser = new UserAccount();
-            newUser.UserName = newUserName;
-            newUser.Password = password;
+            UserAccount newUser = new()
+            {
+                UserName = newUserName,
+                Password = password
+            };
             try
             {
                 _ristoBL.AddUser(newUser);
