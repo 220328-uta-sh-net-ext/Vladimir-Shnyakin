@@ -38,13 +38,14 @@
         }
         public List<Review> GetAllReviews(string restaurantName)
         {
-            string commandString = $"SELECT * FROM Reviews WHERE RestaurantName = '{restaurantName}'";
+            string commandString = "SELECT * FROM Reviews WHERE RestaurantName = @RrestaurantName;";
 
             using SqlConnection connection = new(connectionString);
             using SqlCommand command = new(commandString, connection);
             IDataAdapter adapter = new SqlDataAdapter(command);
             DataSet dataSet = new();
             Log.Information($"SQL command \"{commandString}\" was used");
+            command.Parameters.AddWithValue("@RestaurantName", restaurantName);
             connection.Open();
             adapter.Fill(dataSet);
             connection.Close();
@@ -83,9 +84,35 @@
                 Log.Information($"SQL command \"{commandString}\" was used");
                 connection.Open();
                 command.ExecuteNonQuery();
-                Console.WriteLine("\nReview saved!\n");
             }
             catch (SqlException ex) 
+            {
+                throw;
+            }
+            return newReview;
+        }
+        public Review ChangeReview(Review newReview)
+        {
+            string commandString = "UPDATE Reviews SET StarsTaste = @StarsTaste, StarsMood = @StarsMood," +
+                " StarsService = @StarsService, StarsPrice = @StarsPrice, Note = @Note " +
+                "WHERE UserName = @UserName AND RestaurantName = @RestaurantName;";
+
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            try
+            {
+                command.Parameters.AddWithValue("@StarsTaste", newReview.StarsTaste);
+                command.Parameters.AddWithValue("@StarsMood", newReview.StarsMood);
+                command.Parameters.AddWithValue("@StarsService", newReview.StarsService);
+                command.Parameters.AddWithValue("@StarsPrice", newReview.StarsPrice);
+                command.Parameters.AddWithValue("@Note", newReview.Note);
+                command.Parameters.AddWithValue("@UserName", newReview.UserName);
+                command.Parameters.AddWithValue("@RestaurantName", newReview.RestaurantName);
+                Log.Information($"SQL command \"{commandString}\" was used");
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
             {
                 throw;
             }
@@ -172,6 +199,27 @@
             }
             return newUser;
         }
+        public UserAccount ChangeUser(UserAccount newUser, string userId)
+        {
+            string commandString = "UPDATE Users SET UserName = @newUserName, Password = @newPassword " +
+                "WHERE UserName = @UserName;";
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            Log.Information($"SQL command \"{commandString}\" was used");
+            try
+            {
+                command.Parameters.AddWithValue("@UserName", userId);
+                command.Parameters.AddWithValue("@newUserName", newUser.UserName);
+                command.Parameters.AddWithValue("@newPassword", newUser.Password);
+                connection.Open();
+                command.ExecuteNonQuery();
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+            return newUser;
+        }
         public List<UserAccount> GetAllUsers()
         {
             string commandString = "SELECT * FROM Users;";
@@ -217,24 +265,55 @@
         }
         public bool RemoveRestaurant(Restaurant restaurant)
         {
-            string commandString = $"DELETE FROM Restaurants WHERE RestaurantName = '{restaurant.RestaurantName}';";
+            string commandString = "DELETE FROM Restaurants WHERE RestaurantName = @RestaurantName;";
             using SqlConnection connection = new(connectionString);
             using SqlCommand command = new(commandString, connection);
             try
             {
-                
-               // command.Parameters.AddWithValue("@RestaurantName", restaurant.RestaurantName);
-               // command.Parameters.AddWithValue("@Cuisine", restaurant.Cuisine);
-                connection.Open();
-                command.ExecuteNonQuery();
+               command.Parameters.AddWithValue("@RestaurantName", restaurant.RestaurantName);
+               connection.Open();
+               command.ExecuteNonQuery();
                return true;
             }
             catch(SqlException ex)
             {
                 throw;
-                return false;
             }
         }
-        
+        public bool RemoveUser(UserAccount user)
+        {
+            string commandString = $"DELETE FROM Users WHERE UserName = @UserName;";
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            try
+            {
+                command.Parameters.AddWithValue("@UserName", user.UserName);
+                connection.Open();
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
+        public bool RemoveReview(Review review)
+        {
+            string commandString = "DELETE FROM Reviews WHERE UserName = @UserName AND RestaurantName = @RestaurantName;";
+            using SqlConnection connection = new(connectionString);
+            using SqlCommand command = new(commandString, connection);
+            try
+            {
+                command.Parameters.AddWithValue("@UserName", review.UserName);
+                command.Parameters.AddWithValue("@RestaurantName", review.RestaurantName);
+                connection.Open();
+                command.ExecuteNonQuery();
+                return true;
+            }
+            catch (SqlException ex)
+            {
+                throw;
+            }
+        }
     }
 }

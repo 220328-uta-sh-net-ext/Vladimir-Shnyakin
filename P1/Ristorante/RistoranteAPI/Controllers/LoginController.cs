@@ -63,5 +63,34 @@ namespace RistoranteAPI.Controllers
                 return BadRequest(exeption);
             }
         }
+        /*[Authorize]
+        [HttpPut]
+        [Route("ChangeMyCredentials")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult ChangeUser([FromQuery] string newUserName, string newPassword)
+        {
+            var userId = User.Identity.Name;
+            UserAccount newUser = new UserAccount();
+            newUser.UserName = newUserName;
+            newUser.Password = newPassword;
+            try
+            {
+                _ristoBL.ChangeUser(newUser, userId);
+                return CreatedAtAction("ChangeUser", newUser);
+            }
+            catch (System.Data.DuplicateNameException ex)
+            {
+                Log.Error($"DuplicateNameException in CHANGE USER method catched: {ex}");
+                string exeption = $"Please choose another user name!\n";
+                return BadRequest(exeption);
+            }
+            catch (SqlException ex)
+            {
+                Log.Error($"SqlException in CHANGE USER method catched: {ex}");
+                string exeption = $"User name\"{newUser.UserName}\" is taken!";
+                return BadRequest(exeption);
+            }
+        }*/
     }
 }

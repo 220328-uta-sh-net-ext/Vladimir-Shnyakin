@@ -1,4 +1,6 @@
-﻿namespace Logic
+﻿using System.Data;
+
+namespace Logic
 {
     /// <summary>
     /// Buiseness logic itself.
@@ -174,12 +176,38 @@
                 if (item.RestaurantName.Equals(restaurantName))
                     if (database.RemoveRestaurant(item) == true)
                         return true;
-                
+            return false;
+        }
+        public bool RemoveUser(string userName)
+        {
+            var users = database.GetAllUsers();
+            foreach (var item in users)
+                if (item.UserName.Equals(userName))
+                    if (database.RemoveUser(item) == true)
+                        return true;
+            return false;
+        }
+        public bool RemoveReview(string restaurantName, string userName)
+        {
+            var reviews = database.GetAllReviews();
+            foreach (var item in reviews)
+                if (item.UserName.Equals(userName) && item.RestaurantName.Equals(restaurantName))
+                    if (database.RemoveReview(item) == true)
+                        return true;
             return false;
         }
         public UserAccount AddUser(UserAccount newUser)
         {
-            return database.AddUser(newUser);
+            if (AuthenticateUser(newUser) == false)
+                return database.AddUser(newUser);
+            else
+                throw new DuplicateNameException($"User \"{newUser.UserName}\" is already registered!");
+        }
+        public UserAccount ChangeUser (UserAccount newUser, string userId)
+        {
+            if (userId == newUser.UserName)
+                throw new DuplicateNameException($"Please choose new user name!");
+            return database.ChangeUser(newUser, userId);
         }
         public Review AddReview(Review newReview)
         {
@@ -193,6 +221,19 @@
                 throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
             
             return database.AddReview(newReview);
+        }
+        public Review ChangeReview(Review newReview)
+        {
+            if (FiveStars(newReview.StarsTaste) == false)
+                throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
+            if (FiveStars(newReview.StarsMood) == false)
+                throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
+            if (FiveStars(newReview.StarsService) == false)
+                throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
+            if (FiveStars(newReview.StarsPrice) == false)
+                throw new ArgumentOutOfRangeException("Please rate from 1 to 5");
+
+            return database.ChangeReview(newReview);
         }
         /// <summary>
         /// Checks if rating for newReview is in required range (1 to 5)

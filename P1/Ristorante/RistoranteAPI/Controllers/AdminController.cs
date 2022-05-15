@@ -84,14 +84,54 @@ namespace RistoranteAPI.Controllers
             try
             {
                 if (_ristoBL.RemoveRestaurant(restauranrName) == true)
-                    return Ok($"{restauranrName} deleted!");
+                    return Ok($"Restaurant \"{restauranrName}\" deleted!");
                 else
                     return BadRequest("No such restaurant!");
             }
             catch(SqlException ex)
             {
-                Log.Error($"SqlException in ADD RESTAURANT method catched: {ex}");
+                Log.Error($"SqlException in REMOVE RESTAURANT method catched: {ex}");
                 string exception = $"Can not remove restaurant! Restaurant \"{restauranrName}\" does not exist.\n";
+                return BadRequest(exception);
+            }
+        }
+        [Authorize(Roles = "admin")]
+        [HttpDelete("Remove/User")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult RemoveUser([FromQuery] string userName)
+        {
+            try
+            {
+                if (_ristoBL.RemoveUser(userName) == true)
+                    return Ok($"User \"{userName}\" deleted!");
+                else
+                    return BadRequest("No such user!");
+            }
+            catch (SqlException ex)
+            {
+                Log.Error($"SqlException in REMOVE USER method catched: {ex}");
+                string exception = $"Can not remove user! User \"{userName}\" does not exist.\n";
+                return BadRequest(exception);
+            }
+        }
+        [Authorize(Roles = "admin")]
+        [HttpDelete("Remove/Review")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult RemoveReview([FromQuery] string restaurantName, string userName)
+        {
+            try
+            {
+                if (_ristoBL.RemoveReview(restaurantName, userName) == true)
+                    return Ok($"Review by \"{userName}\" for \"{restaurantName}\" was deleted!");
+                else
+                    return BadRequest("No such review!");
+            }
+            catch (SqlException ex)
+            {
+                Log.Error($"SqlException in REMOVE REVIEW method catched: {ex}");
+                string exception = $"Can not remove review! User \"{userName}\" did not leave a review for \"{restaurantName}\".\n";
                 return BadRequest(exception);
             }
         }

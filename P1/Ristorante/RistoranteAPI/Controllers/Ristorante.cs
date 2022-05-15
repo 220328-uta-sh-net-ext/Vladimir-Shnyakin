@@ -128,7 +128,7 @@ namespace RistoranteAPI.Controllers
         /// <param name="note"></param>
         /// <returns></returns>
         [Authorize]
-        [HttpPost("Restaurant/Add/Review")]
+        [HttpPost("Restaurant/AddReview")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult AddReview([FromQuery]string restaurantName, double taste, double mood, double service, double price, string? note)
@@ -170,6 +170,71 @@ namespace RistoranteAPI.Controllers
                     exception = $"User \"{newReview.UserName}\" cannot add review to \"{newReview.RestaurantName}\" restaurant.\n";
                 return BadRequest(exception);
             } 
+        }
+        [Authorize]
+        [HttpDelete("Restaurant/RemoveMyReview")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult RemoveReview([FromQuery] string restaurantName)
+        {
+            var userId = User.Identity.Name;
+            try
+            {
+                if (_ristoBL.RemoveReview(restaurantName, userId) == true)
+                    return Ok($"Your review for \"{restaurantName}\" was deleted!");
+                else
+                    return BadRequest($"You did not leave a review for \"{restaurantName}\".\n");
+            }
+            catch (SqlException ex)
+            {
+                Log.Error($"SqlException in REMOVE REVIEW method catched: {ex}");
+                string exception = $"Something went wrong";
+                return BadRequest(exception);
+            }
+        }
+        [Authorize]
+        [HttpPut("Restaurant/ChangeMyReview")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public ActionResult ChangeReview([FromQuery] string restaurantName, double taste, double mood, double service, double price, string? note)
+        {
+            var userId = User.Identity.Name;
+
+            Review newReview = new Review();
+
+            newReview.UserName = userId;
+            newReview.StarsTaste = taste;
+            newReview.StarsMood = mood;
+            newReview.StarsService = service;
+            newReview.StarsPrice = price;
+            newReview.RestaurantName = restaurantName;
+            newReview.Note = note;
+            if (newReview.Note == null)
+                newReview.Note = "";
+
+            try
+            {
+                _ristoBL.ChangeReview(newReview);
+                return CreatedAtAction("SeeAllReviews", newReview);
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                Log.Error($"ArgumentOutOfRangeException catched in CHANGE REVIEW method");
+                //string exeption = $"User \"{newReview.UserName}\" cannot add another review to \"{newReview.RestaurantName}\" restaurant.\n";
+                return BadRequest("ArgumentOutOfRangeException: Please rate from 1 to 5 only");
+            }
+            catch (SqlException ex)
+            {
+                Log.Error($"SqlException catched in CHANGE REVIEW method: {ex}");
+                string exception = ex.ToString();
+                if (exception.Contains("PRIMARY"))
+                    exception = $"User \"{newReview.UserName}\" cannot add another review to \"{newReview.RestaurantName}\" restaurant.\n";
+                else if (exception.Contains("Note"))
+                    exception = "Note cannot be more than 140 characters!";
+                else
+                    exception = $"User \"{newReview.UserName}\" cannot change review to \"{newReview.RestaurantName}\" restaurant.\n";
+                return BadRequest(exception);
+            }
         }
     }
 }
