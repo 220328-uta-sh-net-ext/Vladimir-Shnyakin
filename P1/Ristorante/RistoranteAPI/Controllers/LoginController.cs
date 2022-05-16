@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Data;
 using Accounts;
 using Logic;
 using Microsoft.AspNetCore.Authorization;
@@ -72,6 +73,11 @@ namespace RistoranteAPI.Controllers
                 Log.Error($"SqlException in ADD USER method catched: {ex}");
                 string exeption = $"Can not add user! {newUser.UserName} is taken.\n";
                 return BadRequest(exeption);
+            }
+            catch (DuplicateNameException ex)
+            {
+                Log.Error($"SqlException in ADD USER method catched: {ex}");
+                return BadRequest(ex.Message);
             }
         }
         /*[Authorize]
